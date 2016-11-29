@@ -23,7 +23,6 @@ public class MessageActivity extends BaseActivity implements MyRecyclerView.Load
     private ActivityMessageBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private MessageViewModel messageViewModel;
 
     @Override
@@ -37,11 +36,11 @@ public class MessageActivity extends BaseActivity implements MyRecyclerView.Load
     }
 
     private void ininData() {
-        mRoot = binding.root;
+
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        messageViewModel = new MessageViewModel(this, mRecyclerView, mRoot);
+        messageViewModel = new MessageViewModel(this, mRecyclerView);
         binding.setViewModel(messageViewModel);
         messageViewModel.requestData();
     }

@@ -23,7 +23,6 @@ public class WaitSendProductActivity extends BaseActivity implements MyRecyclerV
     private ActivityWaitSendProductBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private WaitSendProductViewModel waitSendProductViewModel;
 
     @Override
@@ -36,11 +35,10 @@ public class WaitSendProductActivity extends BaseActivity implements MyRecyclerV
     }
 
     private void ininData() {
-        mRoot = binding.root;
-        mRecyclerView = binding.recyclerView;
+         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitSendProductViewModel = new WaitSendProductViewModel(this, mRecyclerView, mRoot);
+        waitSendProductViewModel = new WaitSendProductViewModel(this, mRecyclerView);
         binding.setViewModel(waitSendProductViewModel);
         waitSendProductViewModel.requestData();
     }

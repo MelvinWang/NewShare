@@ -32,8 +32,8 @@ public class SearchViewModel extends BaseRecyclerViewModel<BaseModel> implements
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public SearchViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public SearchViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         gridLayoutManager =  new GridLayoutManager(context,4);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

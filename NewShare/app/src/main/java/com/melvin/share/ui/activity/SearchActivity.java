@@ -31,7 +31,6 @@ public class SearchActivity extends BaseActivity implements MyRecyclerView.Loadi
     private ActivitySearchBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private SearchViewModel searchViewModel;
     private EditText searchEnter;
 
@@ -45,12 +44,11 @@ public class SearchActivity extends BaseActivity implements MyRecyclerView.Loadi
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         searchEnter = binding.searchEnter;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        searchViewModel = new SearchViewModel(this, mRecyclerView, mRoot);
+        searchViewModel = new SearchViewModel(this, mRecyclerView);
         binding.setViewModel(searchViewModel);
         searchViewModel.requestData();
     }

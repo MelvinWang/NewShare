@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
-import com.melvin.share.adapter.OrderCodeAdapter;
 import com.melvin.share.adapter.ShopCodeAdapter;
 import com.melvin.share.databinding.FragmentShopCodeBinding;
 import com.melvin.share.model.BaseModel;

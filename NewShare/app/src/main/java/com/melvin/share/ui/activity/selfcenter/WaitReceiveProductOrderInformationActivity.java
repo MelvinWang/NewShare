@@ -26,7 +26,7 @@ public class WaitReceiveProductOrderInformationActivity extends BaseActivity imp
     private ActivityWaitReceiveProdOrderInfoBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
+
     private WaitReceiveProOrderInfoViewModel waitReceiveProOrderInfoViewModel;
 
     @Override
@@ -40,11 +40,10 @@ public class WaitReceiveProductOrderInformationActivity extends BaseActivity imp
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitReceiveProOrderInfoViewModel = new WaitReceiveProOrderInfoViewModel(this, mRecyclerView, mRoot);
+        waitReceiveProOrderInfoViewModel = new WaitReceiveProOrderInfoViewModel(this, mRecyclerView);
         binding.setViewModel(waitReceiveProOrderInfoViewModel);
         waitReceiveProOrderInfoViewModel.requestData();
     }

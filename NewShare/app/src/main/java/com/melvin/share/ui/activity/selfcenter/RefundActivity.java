@@ -23,7 +23,6 @@ public class RefundActivity extends BaseActivity implements MyRecyclerView.Loadi
     private ActivityRefundBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private RefundViewModel refundViewModel;
 
     @Override
@@ -36,11 +35,10 @@ public class RefundActivity extends BaseActivity implements MyRecyclerView.Loadi
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        refundViewModel = new RefundViewModel(this, mRecyclerView, mRoot);
+        refundViewModel = new RefundViewModel(this, mRecyclerView);
         binding.setViewModel(refundViewModel);
         refundViewModel.requestData();
     }

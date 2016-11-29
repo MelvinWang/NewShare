@@ -23,7 +23,7 @@ public class LogisticsInfoActivity extends BaseActivity implements MyRecyclerVie
     private ActivityLogisticsInfoBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
+
     private LogisticsInfoViewModel logisticsInfoViewModel;
 
     @Override
@@ -37,11 +37,10 @@ public class LogisticsInfoActivity extends BaseActivity implements MyRecyclerVie
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        logisticsInfoViewModel = new LogisticsInfoViewModel(this, mRecyclerView, mRoot);
+        logisticsInfoViewModel = new LogisticsInfoViewModel(this, mRecyclerView);
         binding.setViewModel(logisticsInfoViewModel);
         logisticsInfoViewModel.requestData();
     }

@@ -30,8 +30,8 @@ public class ConfirmOrderViewModel extends BaseRecyclerViewModel<BaseModel> impl
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public ConfirmOrderViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public ConfirmOrderViewModel(Context context, MyRecyclerView mRecyclerView) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new ConfrimOrderAdapter(context, getData());

@@ -34,8 +34,8 @@ public class MarkupViewModel extends BaseRecyclerViewModel<BaseModel> implements
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public MarkupViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public MarkupViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new MarkupAdapter(context, getData());

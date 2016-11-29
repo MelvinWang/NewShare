@@ -29,7 +29,6 @@ public class MarkUpActivity extends BaseActivity implements MyRecyclerView.Loadi
     private ActivityMarkupBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private MarkupViewModel markupViewModel;
     private Map map=new HashMap();
     private Map queryMap=new HashMap();
@@ -80,11 +79,10 @@ public class MarkUpActivity extends BaseActivity implements MyRecyclerView.Loadi
         });
 
 
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        markupViewModel = new MarkupViewModel(this, mRecyclerView, mRoot);
+        markupViewModel = new MarkupViewModel(this, mRecyclerView);
         binding.setViewModel(markupViewModel);
         markupViewModel.requestData(map);
     }

@@ -4,7 +4,7 @@
 
     <data class="FragmentHomeBinding"></data>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/f2f2f2">
@@ -14,66 +14,60 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="121dp"
                 android:background="@color/app_common_red"
-                android:gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/home_scan"
+                    <ImageView
+                        android:id="@+id/scan"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@mipmap/home_scan" />
+                        android:src="@mipmap/scan" />
 
-                    <ImageButton
+                    <ImageView
+                        android:id="@+id/sharecode"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@mipmap/home_scan" />
+                        android:src="@mipmap/sharecode" />
 
-                    <ImageButton
-                        android:id="@+id/home_location"
+                    <ImageView
+                        android:id="@+id/location"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@mipmap/home_location" />
+                        android:src="@mipmap/location" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="分享是一种美德，今天你分享了吗？"
-                    android:textColor="@color/white" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="60dp"
+                android:background="@color/app_common_red"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
-                    android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <TextView
@@ -81,26 +75,32 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="返现总额："
-                        android:textSize="@dimen/page_18" />
+                        android:text="奖励总额(元)"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/page_14" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="760.00元"
-                        android:textColor="@color/app_common_red"
-                        android:textSize="@dimen/page_18" />
+                        android:text="760.00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/page_14" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
-                    android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <TextView
@@ -108,17 +108,18 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="返现总额："
-                        android:textSize="@dimen/page_18" />
+                        android:text="可用奖励(元)"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/page_14" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="760.00元"
-                        android:textColor="@color/app_common_red"
-                        android:textSize="@dimen/page_18" />
+                        android:text="760.00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/page_14" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -126,7 +127,7 @@
             <LinearLayout
                 android:id="@+id/text_line"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:orientation="horizontal">
@@ -158,12 +159,11 @@
                     android:background="@color/black" />
             </LinearLayout>
 
-            <com.melvin.share.view.NoScrollRecyclerView
-                android:id="@+id/shop_recyclerView"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                tools:listitem="@layout/share_shop_item"
-                android:layout_height="120dp"
-                />
+                android:layout_height="match_parent"
+                tools:listitem="@layout/home_item" />
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </layout>

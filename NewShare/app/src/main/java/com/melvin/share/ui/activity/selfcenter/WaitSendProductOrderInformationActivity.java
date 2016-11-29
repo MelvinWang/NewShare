@@ -25,7 +25,6 @@ public class WaitSendProductOrderInformationActivity extends BaseActivity implem
     private ActivityWaitSendProdOrderInfoBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private WaitSendProOrderInfoViewModel waitSendProOrderInfoViewModel;
 
     @Override
@@ -39,11 +38,11 @@ public class WaitSendProductOrderInformationActivity extends BaseActivity implem
     }
 
     private void ininData() {
-        mRoot = binding.root;
+
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitSendProOrderInfoViewModel = new WaitSendProOrderInfoViewModel(this, mRecyclerView, mRoot);
+        waitSendProOrderInfoViewModel = new WaitSendProOrderInfoViewModel(this, mRecyclerView);
         binding.setViewModel(waitSendProOrderInfoViewModel);
         waitSendProOrderInfoViewModel.requestData();
     }

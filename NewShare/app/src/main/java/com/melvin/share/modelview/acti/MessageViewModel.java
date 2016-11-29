@@ -28,8 +28,8 @@ public class MessageViewModel extends BaseRecyclerViewModel<BaseModel> implement
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public MessageViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public MessageViewModel(Context context, MyRecyclerView mRecyclerView) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new MessageAdapter(context, getData());

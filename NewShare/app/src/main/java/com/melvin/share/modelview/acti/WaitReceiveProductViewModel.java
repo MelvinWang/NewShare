@@ -30,8 +30,8 @@ public class WaitReceiveProductViewModel extends BaseRecyclerViewModel<BaseModel
     public List<BaseModel> data = new ArrayList<>();
 
 
-    public WaitReceiveProductViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public WaitReceiveProductViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
 

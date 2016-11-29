@@ -23,7 +23,6 @@ public class WaitPayActivity extends BaseActivity implements MyRecyclerView.Load
     private ActivityWaitPayBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private WaitPayViewModel waitPayViewModel;
 
     @Override
@@ -36,11 +35,10 @@ public class WaitPayActivity extends BaseActivity implements MyRecyclerView.Load
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitPayViewModel = new WaitPayViewModel(this, mRecyclerView, mRoot);
+        waitPayViewModel = new WaitPayViewModel(this, mRecyclerView);
         binding.setViewModel(waitPayViewModel);
         waitPayViewModel.requestData();
     }

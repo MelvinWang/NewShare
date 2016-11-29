@@ -29,7 +29,6 @@ public class DeliciousActivity extends BaseActivity implements MyRecyclerView.Lo
     private ActivityDeliciousBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private DeliciousViewModel deliciousViewModel;
     private Map map = new HashMap();
     private Map queryMap=new HashMap();
@@ -80,11 +79,11 @@ public class DeliciousActivity extends BaseActivity implements MyRecyclerView.Lo
             }
         });
 
-        mRoot = binding.root;
+
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        deliciousViewModel = new DeliciousViewModel(this, mRecyclerView, mRoot);
+        deliciousViewModel = new DeliciousViewModel(this, mRecyclerView);
         binding.setViewModel(deliciousViewModel);
         deliciousViewModel.requestData(map);
     }

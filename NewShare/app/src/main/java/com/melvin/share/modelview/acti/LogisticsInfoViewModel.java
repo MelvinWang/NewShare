@@ -29,8 +29,8 @@ public class LogisticsInfoViewModel extends BaseRecyclerViewModel<BaseModel> imp
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public LogisticsInfoViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public LogisticsInfoViewModel(Context context, MyRecyclerView mRecyclerView) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new LogisticsInfoAdapter(context, getData());

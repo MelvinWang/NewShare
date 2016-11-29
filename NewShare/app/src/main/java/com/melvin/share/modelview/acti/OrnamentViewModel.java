@@ -34,8 +34,8 @@ public class OrnamentViewModel extends BaseRecyclerViewModel<BaseModel> implemen
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public OrnamentViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public OrnamentViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new OrnamentAdapter(context, getData());

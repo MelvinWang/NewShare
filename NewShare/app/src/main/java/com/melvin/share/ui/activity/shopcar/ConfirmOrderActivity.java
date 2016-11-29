@@ -32,7 +32,6 @@ public class ConfirmOrderActivity extends BaseActivity implements CompoundButton
     private ActivityConfirmOrderBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ConfirmOrderViewModel confirmOrderViewModel;
     private ArrayList<Product> products;
     private BigDecimal totalPriceBigcimal = new BigDecimal(0);
@@ -49,13 +48,12 @@ public class ConfirmOrderActivity extends BaseActivity implements CompoundButton
     private void ininData() {
         products = getIntent().getParcelableArrayListExtra("products");
         setTotalFee();
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         binding.aliPay.setOnCheckedChangeListener(this);
         binding.wechatPay.setOnCheckedChangeListener(this);
 
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
-        confirmOrderViewModel = new ConfirmOrderViewModel(this, mRecyclerView, mRoot);
+        confirmOrderViewModel = new ConfirmOrderViewModel(this, mRecyclerView);
         binding.setViewModel(confirmOrderViewModel);
         confirmOrderViewModel.requestData(products);
     }

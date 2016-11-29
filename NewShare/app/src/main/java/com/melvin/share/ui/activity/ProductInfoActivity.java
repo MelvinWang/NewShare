@@ -8,34 +8,24 @@ import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.ProductAttriAdapter;
-import com.melvin.share.adapter.ProductDetailAdapter;
 import com.melvin.share.adapter.ProductInfoAdapter;
-import com.melvin.share.adapter.ProductInformationAdapter;
-import com.melvin.share.adapter.UrlImgAdapter;
 import com.melvin.share.databinding.ActivityProductInfoBinding;
-import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.serverReturn.BaseReturnModel;
-import com.melvin.share.model.serverReturn.ImgUrlBean;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
-import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.common.BaseActivity;
+import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
 import com.melvin.share.ui.activity.shopcar.ConfirmOrderActivity;
 import com.melvin.share.popwindow.PurchasePopupWindow;
-import com.melvin.share.ui.fragment.main.ShoppingCarFragment;
 import com.melvin.share.view.RxSubscribe;
 
 import java.util.ArrayList;
@@ -369,7 +359,7 @@ public class ProductInfoActivity extends BaseActivity {
                                     @Override
                                     protected void myNext(BaseReturnModel baseReturnModel) {
                                         if (baseReturnModel.success) {
-                                            ShoppingCarFragment.updateFlag = true;
+                                            ShoppingCarActivity.updateFlag = true;
                                         }
                                         Utils.showToast(mContext, baseReturnModel.message);
                                     }

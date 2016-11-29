@@ -29,8 +29,8 @@ public class OrderEvaluateViewModel extends BaseRecyclerViewModel<BaseModel> imp
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public OrderEvaluateViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public OrderEvaluateViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new OrderEvaluateAdapter(context, getData());

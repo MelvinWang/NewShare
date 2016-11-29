@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="FragmentAllOrderBinding">
+    <variable
+        name="viewModel"
+        type="com.melvin.share.modelview.acti.WaitEvaluateViewModel"/>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.melvin.share.view.MyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            app:adapter="@{viewModel.adapter}"
+            app:data="@{viewModel.data}"
+            app:layoutManager="@{viewModel.linearLayoutManager}"
+            tools:listitem="@layout/wait_evaluate_item" />
+
+    </LinearLayout>
+</layout>

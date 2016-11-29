@@ -79,11 +79,10 @@ public class FurnitureActivity extends BaseActivity implements MyRecyclerView.Lo
             }
         });
 
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        furnitureViewModel = new FurnitureViewModel(this, mRecyclerView, mRoot);
+        furnitureViewModel = new FurnitureViewModel(this, mRecyclerView);
         binding.setViewModel(furnitureViewModel);
         furnitureViewModel.requestData(map);
     }

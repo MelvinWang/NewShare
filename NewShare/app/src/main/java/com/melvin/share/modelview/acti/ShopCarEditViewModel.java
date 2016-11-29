@@ -2,22 +2,16 @@ package com.melvin.share.modelview.acti;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.melvin.share.Utils.RxCarBus;
-import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.ShopCarEditAdapter;
-import com.melvin.share.adapter.ShopCollectionAdapter;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
 import com.melvin.share.model.serverReturn.BaseReturnModel;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
-import com.melvin.share.ui.fragment.main.ShoppingCarFragment;
+import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.view.RequestView;
 import com.melvin.share.view.RxSubscribe;
@@ -47,8 +41,8 @@ public class ShopCarEditViewModel extends BaseRecyclerViewModel<BaseModel> imple
     private Map carMap;
     private String cartIds = "";
 
-    public ShopCarEditViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public ShopCarEditViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         carMap = new HashMap();
         this.context = context;
         this.mRecyclerView = mRecyclerView;
@@ -136,7 +130,7 @@ public class ShopCarEditViewModel extends BaseRecyclerViewModel<BaseModel> imple
                             Utils.showToast(context, baseReturnModel.message);
                             data.removeAll(products);
                             onRequestSuccess(data);
-                            ShoppingCarFragment.updateFlag = true;
+                            ShoppingCarActivity.updateFlag = true;
                         }
 
                         @Override

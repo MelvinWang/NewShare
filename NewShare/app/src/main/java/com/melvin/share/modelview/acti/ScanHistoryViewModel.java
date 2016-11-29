@@ -45,8 +45,8 @@ public class ScanHistoryViewModel extends BaseRecyclerViewModel<BaseModel> imple
     public List<BaseModel> data = new ArrayList<>();
     List<Product> listData = new ArrayList<>();
 
-    public ScanHistoryViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot, TextView tvEdit, TextView tvcancel, Button btnDelete) {
-        super(context, mRoot);
+    public ScanHistoryViewModel(Context context, MyRecyclerView mRecyclerView , TextView tvEdit, TextView tvcancel, Button btnDelete) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         this.btnDelete = btnDelete;

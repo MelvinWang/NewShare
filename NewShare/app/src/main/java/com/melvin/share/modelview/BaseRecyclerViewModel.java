@@ -24,7 +24,6 @@ import retrofit.Retrofit;
  */
 public abstract class BaseRecyclerViewModel<T> extends BaseObservable {
     public LinearLayoutManager linearLayoutManager;
-    protected DynamicBox box;
     protected NetworkUtil.FromNetwork fromNetwork;
     protected Retrofit retrofit;
     @Bindable
@@ -32,15 +31,12 @@ public abstract class BaseRecyclerViewModel<T> extends BaseObservable {
 
     /**
      * @param context
-     * @param mRoot   每个view的根布局对象
      */
-    public BaseRecyclerViewModel(Context context, View mRoot) {
+    public BaseRecyclerViewModel(Context context) {
         linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         retrofit = NetworkUtil.getRetrofit();
         fromNetwork = retrofit.create(NetworkUtil.FromNetwork.class);
-        box = new DynamicBox(context, mRoot);
-
     }
 
     @Bindable

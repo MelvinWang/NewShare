@@ -33,8 +33,8 @@ public class WaitPayViewModel extends BaseRecyclerViewModel<BaseModel> implement
     public List<BaseModel> data = new ArrayList<>();
 
 
-    public WaitPayViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public WaitPayViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
 

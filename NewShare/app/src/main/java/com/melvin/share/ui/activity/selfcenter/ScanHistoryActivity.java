@@ -26,7 +26,6 @@ public class ScanHistoryActivity extends BaseActivity implements MyRecyclerView.
     private ActivityScanHistoryBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ScanHistoryViewModel scanHistoryViewModel;
     private Map map;
     @Override
@@ -41,11 +40,10 @@ public class ScanHistoryActivity extends BaseActivity implements MyRecyclerView.
     private void ininData() {
         map=new HashMap();
         map.put("customer.id", "1");
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        scanHistoryViewModel = new ScanHistoryViewModel(this, mRecyclerView, mRoot, binding.edit, binding.cancel, binding.delete);
+        scanHistoryViewModel = new ScanHistoryViewModel(this, mRecyclerView, binding.edit, binding.cancel, binding.delete);
         binding.setViewModel(scanHistoryViewModel);
         scanHistoryViewModel.requestData(map);
     }

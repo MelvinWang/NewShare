@@ -29,7 +29,6 @@ public class DigitalActivity extends BaseActivity implements MyRecyclerView.Load
     private ActivityDigitalBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private DigitalViewModel digitalViewModel;
     private Map map=new HashMap();
     private Map queryMap=new HashMap();
@@ -80,11 +79,11 @@ public class DigitalActivity extends BaseActivity implements MyRecyclerView.Load
         });
 
 
-        mRoot = binding.root;
+
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        digitalViewModel = new DigitalViewModel(this, mRecyclerView, mRoot);
+        digitalViewModel = new DigitalViewModel(this, mRecyclerView);
         binding.setViewModel(digitalViewModel);
         digitalViewModel.requestData(map);
     }

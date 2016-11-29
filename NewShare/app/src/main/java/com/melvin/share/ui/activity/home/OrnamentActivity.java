@@ -29,7 +29,6 @@ public class OrnamentActivity extends BaseActivity implements MyRecyclerView.Loa
     private ActivityOrnamentBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private OrnamentViewModel ornamentViewModel;
     private Map map=new HashMap();
     private Map queryMap=new HashMap();
@@ -78,11 +77,10 @@ public class OrnamentActivity extends BaseActivity implements MyRecyclerView.Loa
                 }
             }
         });
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        ornamentViewModel = new OrnamentViewModel(this, mRecyclerView, mRoot);
+        ornamentViewModel = new OrnamentViewModel(this, mRecyclerView);
         binding.setViewModel(ornamentViewModel);
         ornamentViewModel.requestData(map);
     }

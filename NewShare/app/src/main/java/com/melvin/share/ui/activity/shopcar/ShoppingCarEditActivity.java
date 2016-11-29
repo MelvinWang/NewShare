@@ -27,7 +27,6 @@ public class ShoppingCarEditActivity extends BaseActivity implements MyRecyclerV
     private ActivityShoppingCarEditBinding binding;
     private Context mContext;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ShopCarEditViewModel shopCarEditViewModel;
     private Map map;
     @Override
@@ -42,11 +41,10 @@ public class ShoppingCarEditActivity extends BaseActivity implements MyRecyclerV
     private void ininData() {
         map = new HashMap();
         ShapreUtils.putParamCustomerId(map);
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        shopCarEditViewModel = new ShopCarEditViewModel(this, mRecyclerView, mRoot);
+        shopCarEditViewModel = new ShopCarEditViewModel(this, mRecyclerView);
         binding.setViewModel(shopCarEditViewModel);
         shopCarEditViewModel.requestData(map);
     }

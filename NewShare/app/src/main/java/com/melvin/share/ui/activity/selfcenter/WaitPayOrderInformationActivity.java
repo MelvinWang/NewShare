@@ -27,7 +27,6 @@ public class WaitPayOrderInformationActivity extends BaseActivity implements MyR
     private ActivityWaitPayOrderInfoBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private WaitPayOrderInfoViewModel waitPayOrderInfoViewModel;
 
     @Override
@@ -41,11 +40,10 @@ public class WaitPayOrderInformationActivity extends BaseActivity implements MyR
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitPayOrderInfoViewModel = new WaitPayOrderInfoViewModel(this, mRecyclerView, mRoot);
+        waitPayOrderInfoViewModel = new WaitPayOrderInfoViewModel(this, mRecyclerView);
         binding.setViewModel(waitPayOrderInfoViewModel);
         waitPayOrderInfoViewModel.requestData();
     }

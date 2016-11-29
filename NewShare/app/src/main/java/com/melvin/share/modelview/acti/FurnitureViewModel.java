@@ -34,8 +34,8 @@ public class FurnitureViewModel extends BaseRecyclerViewModel<BaseModel> impleme
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public FurnitureViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public FurnitureViewModel(Context context, MyRecyclerView mRecyclerView) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new FurnitureAdapter(context, getData());

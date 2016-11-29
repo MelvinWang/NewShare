@@ -26,7 +26,6 @@ public class ProductCollectionActivity extends BaseActivity implements MyRecycle
     private ActivityProductCollectionBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ProductCollectionViewModel productCollectionViewModel;
     private Map map;
     @Override
@@ -41,11 +40,10 @@ public class ProductCollectionActivity extends BaseActivity implements MyRecycle
     private void ininData() {
         map=new HashMap();
         map.put("customer.id", "1");
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        productCollectionViewModel = new ProductCollectionViewModel(this, mRecyclerView, mRoot, binding.edit, binding.cancel, binding.delete);
+        productCollectionViewModel = new ProductCollectionViewModel(this, mRecyclerView, binding.edit, binding.cancel, binding.delete);
         binding.setViewModel(productCollectionViewModel);
         productCollectionViewModel.requestData(map);
     }

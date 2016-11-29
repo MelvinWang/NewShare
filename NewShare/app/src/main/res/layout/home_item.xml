@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.melvin.share.modelview.item.RecommendShopItemViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="175dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:onClick="@{viewModel.onItemClick}"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/list_background"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/product_img"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"
+                app:imageUrl="@{viewModel.imgUrl}" />
+
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_img"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@{viewModel.name}"
+                android:textColor="@color/app_common_red"
+                android:textSize="@dimen/page_10"
+                tools:text="商品名称" />
+
+            <TextView
+                android:id="@+id/share_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/product_img"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@{viewModel.shareNumber}"
+                android:textColor="@color/app_common_red"
+                android:textSize="@dimen/page_10"
+                tools:text="分享次数" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_img"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@id/share_number"
+                android:src="@mipmap/home_share" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

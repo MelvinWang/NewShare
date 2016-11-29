@@ -36,8 +36,8 @@ public class ShopCollectionViewModel extends BaseRecyclerViewModel<BaseModel> im
     public List<BaseModel> data = new ArrayList<>();
     List<User> listData = new ArrayList<>();
 
-    public ShopCollectionViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot, TextView tvEdit,TextView tvcancel, Button btnDelete) {
-        super(context, mRoot);
+    public ShopCollectionViewModel(Context context, MyRecyclerView mRecyclerView , TextView tvEdit,TextView tvcancel, Button btnDelete) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         this.btnDelete = btnDelete;

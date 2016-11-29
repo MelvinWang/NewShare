@@ -34,8 +34,8 @@ public class DigitalViewModel extends BaseRecyclerViewModel<BaseModel> implement
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
 
-    public DigitalViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public DigitalViewModel(Context context, MyRecyclerView mRecyclerView) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
         adapter = new DigitalAdapter(context, getData());

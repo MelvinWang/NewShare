@@ -3,6 +3,7 @@ package com.melvin.share.ui.fragment.main;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,29 +12,31 @@ import android.view.ViewGroup;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ViewUtils;
+import com.melvin.share.adapter.RecommendShopAdapter;
 import com.melvin.share.app.BaseApplication;
 import com.melvin.share.databinding.FragmentSelfBinding;
+import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.common.LoginActivity;
 import com.melvin.share.ui.activity.selfcenter.AboutUsActivity;
+import com.melvin.share.ui.activity.selfcenter.AllOrderActivity;
 import com.melvin.share.ui.activity.selfcenter.LocationShopActivity;
 import com.melvin.share.ui.activity.selfcenter.ManageAddressActivity;
-import com.melvin.share.ui.activity.selfcenter.MyRebateActivity;
 import com.melvin.share.ui.activity.selfcenter.OpenshopFirstActivity;
 import com.melvin.share.ui.activity.selfcenter.ProductCollectionActivity;
 import com.melvin.share.ui.activity.selfcenter.QueryHelpActivity;
-import com.melvin.share.ui.activity.selfcenter.RefundActivity;
-import com.melvin.share.ui.activity.selfcenter.ScanHistoryActivity;
 import com.melvin.share.ui.activity.selfcenter.SettingActivity;
 import com.melvin.share.ui.activity.selfcenter.ShopCollectionActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitEvaluateActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitPayActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitReceiveProductActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitSendProductActivity;
+import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
+import com.melvin.share.view.FullyGridLayoutManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Melvin
  * <p/>
- * Data： 2016/7/17
+ * Data： 2016/11/29
  * <p/>
  * 描述：个人中心
  */
@@ -42,6 +45,9 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     private FragmentSelfBinding binding;
     private Context mContext;
     private View root;
+    private RecyclerView recyclerView;
+    private RecommendShopAdapter adpter;
+    private List<BaseModel> dataList = new ArrayList<>();
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -49,32 +55,51 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         if (root == null) {
             mContext = getActivity();
             LogUtils.i("SelfFragment+initView");
-            bingClick();
+            initClick();
+            initData();
+            initAdapter();
             root = binding.getRoot();
-        }else{
+            requestData();
+        } else {
             ViewUtils.removeParent(root);// 移除frameLayout之前的爹
         }
         return root;
     }
 
     /**
+     * 初始化数据
+     */
+    private void initData() {
+        recyclerView = binding.recyclerView;
+    }
+
+    /**
+     * 初始化Adapter
+     */
+    private void initAdapter() {
+        FullyGridLayoutManager gridLayoutManager = new FullyGridLayoutManager(mContext, 2);
+        gridLayoutManager.setOrientation(FullyGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        adpter = new RecommendShopAdapter(mContext, dataList);
+        recyclerView.setAdapter(adpter);
+    }
+
+    /**
      * 绑定点击事件
      */
-    private void bingClick() {
+    private void initClick() {
 
         binding.clickAvatar.setOnClickListener(this);
+        binding.clickShopCar.setOnClickListener(this);
+        binding.clickAllOrder.setOnClickListener(this);
         binding.clickProductCollection.setOnClickListener(this);
         binding.clickShopCollection.setOnClickListener(this);
-        binding.clickScanHistory.setOnClickListener(this);
+//        binding.clickWaitPay.setOnClickListener(this);
+//        binding.clickWaitSendProduct.setOnClickListener(this);
+//        binding.clickWaitReceiveProduct.setOnClickListener(this);
+//        binding.clickWaitEvaluate.setOnClickListener(this);
+//        binding.clickRefund.setOnClickListener(this);
 
-        binding.clickOrderExamine.setOnClickListener(this);
-        binding.clickWaitPay.setOnClickListener(this);
-        binding.clickWaitSendProduct.setOnClickListener(this);
-        binding.clickWaitReceiveProduct.setOnClickListener(this);
-        binding.clickWaitEvaluate.setOnClickListener(this);
-        binding.clickRefund.setOnClickListener(this);
-
-        binding.clickMyRebate.setOnClickListener(this);
         binding.clickOpenShop.setOnClickListener(this);
         binding.clickVip.setOnClickListener(this);
         binding.clickReceiveAddress.setOnClickListener(this);
@@ -99,10 +124,18 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 if (!TextUtils.isEmpty(customerId)) {
                     intent.setClass(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
-                }else{
+                } else {
                     intent.setClass(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
                 }
+                break;
+            case R.id.click_shop_car://购物车
+                intent.setClass(mContext, ShoppingCarActivity.class);
+                mContext.startActivity(intent);
+                break;
+            case R.id.click_all_order://我的订单
+                intent.setClass(mContext, AllOrderActivity.class);
+                mContext.startActivity(intent);
                 break;
             case R.id.click_product_collection://商品收藏
                 intent.setClass(mContext, ProductCollectionActivity.class);
@@ -113,39 +146,29 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 mContext.startActivity(intent);
 
                 break;
-            case R.id.click_scan_history://浏览历史
-                intent.setClass(mContext, ScanHistoryActivity.class);
-                mContext.startActivity(intent);
-                break;
 
-            case R.id.click_order_examine://订单
-                break;
-            case R.id.click_wait_pay://待付款
-                intent.setClass(mContext, WaitPayActivity.class);
-                mContext.startActivity(intent);
-                break;
-            case R.id.click_wait_send_product://待发货
-                intent.setClass(mContext, WaitSendProductActivity.class);
-                mContext.startActivity(intent);
-                break;
-            case R.id.click_wait_receive_product://待收货
-                intent.setClass(mContext, WaitReceiveProductActivity.class);
-                mContext.startActivity(intent);
-                break;
-            case R.id.click_wait_evaluate://待评价
-                intent.setClass(mContext, WaitEvaluateActivity.class);
-                mContext.startActivity(intent);
-                break;
-            case R.id.click_refund://退款
-                intent.setClass(mContext, RefundActivity.class);
-                mContext.startActivity(intent);
-                break;
+//            case R.id.click_wait_pay://待付款
+//                intent.setClass(mContext, WaitPayActivity.class);
+//                mContext.startActivity(intent);
+//                break;
+//            case R.id.click_wait_send_product://待发货
+//                intent.setClass(mContext, WaitSendProductActivity.class);
+//                mContext.startActivity(intent);
+//                break;
+//            case R.id.click_wait_receive_product://待收货
+//                intent.setClass(mContext, WaitReceiveProductActivity.class);
+//                mContext.startActivity(intent);
+//                break;
+//            case R.id.click_wait_evaluate://待评价
+//                intent.setClass(mContext, WaitEvaluateActivity.class);
+//                mContext.startActivity(intent);
+//                break;
+//            case R.id.click_refund://退款
+//                intent.setClass(mContext, RefundActivity.class);
+//                mContext.startActivity(intent);
+//                break;
 
 
-            case R.id.click_my_rebate://我的返现
-                intent.setClass(mContext, MyRebateActivity.class);
-                mContext.startActivity(intent);
-                break;
             case R.id.click_open_shop://申请线上商场
                 intent.setClass(mContext, OpenshopFirstActivity.class);
                 mContext.startActivity(intent);
@@ -175,5 +198,33 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
 
         }
 
+    }
+
+    /**
+     * 请求网络，分享热度商品
+     */
+    private void requestData() {
+        for (int i = 0; i <= 10; i++) {
+            User user = new User();
+            user.username = "username" + i;
+            dataList.add(user);
+        }
+        adpter.notifyDataSetChanged();
+//        fromNetwork.findRecommendedSeller()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new RxSubscribe<ArrayList<ShopBean>>(mContext) {
+//                    @Override
+//                    protected void myNext(ArrayList<ShopBean> list) {
+//                        dataList.addAll(list);
+//                        adpter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    protected void myError(String message) {
+//
+//                    }
+//
+//                });
     }
 }

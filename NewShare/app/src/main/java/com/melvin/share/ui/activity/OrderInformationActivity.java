@@ -23,7 +23,6 @@ public class OrderInformationActivity extends BaseActivity implements MyRecycler
     private ActivityOrderInformationBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private OrderInformationViewModel orderInformationViewModel;
 
     @Override
@@ -37,11 +36,10 @@ public class OrderInformationActivity extends BaseActivity implements MyRecycler
     }
 
     private void ininData() {
-        mRoot=binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        orderInformationViewModel = new OrderInformationViewModel(this, mRecyclerView, mRoot);
+        orderInformationViewModel = new OrderInformationViewModel(this, mRecyclerView);
         binding.setViewModel(orderInformationViewModel);
         orderInformationViewModel.requestData();
     }

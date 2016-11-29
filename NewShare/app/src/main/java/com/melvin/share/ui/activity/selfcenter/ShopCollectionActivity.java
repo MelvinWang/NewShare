@@ -23,7 +23,6 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
     private ActivityShopCollectionBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ShopCollectionViewModel shopCollectionViewModel;
 
     @Override
@@ -36,11 +35,10 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        shopCollectionViewModel = new ShopCollectionViewModel(this, mRecyclerView, mRoot,binding.edit,binding.cancel,binding.delete);
+        shopCollectionViewModel = new ShopCollectionViewModel(this, mRecyclerView,binding.edit,binding.cancel,binding.delete);
         binding.setViewModel(shopCollectionViewModel);
         shopCollectionViewModel.requestData();
     }

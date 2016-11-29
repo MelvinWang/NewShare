@@ -31,7 +31,6 @@ public class SearchProductActivity extends BaseActivity implements MyRecyclerVie
     private ActivitySearchProductBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private SearchProductViewModel searchProductViewModel;
     private EditText searchEnter;
     RadioGroup mRadioGroup;
@@ -72,11 +71,10 @@ public class SearchProductActivity extends BaseActivity implements MyRecyclerVie
                 }
             }
         });
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        searchProductViewModel = new SearchProductViewModel(this, mRecyclerView, mRoot);
+        searchProductViewModel = new SearchProductViewModel(this, mRecyclerView);
         binding.setViewModel(searchProductViewModel);
         searchProductViewModel.requestData();
     }

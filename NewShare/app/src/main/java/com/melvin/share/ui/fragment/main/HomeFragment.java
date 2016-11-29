@@ -7,41 +7,36 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.melvin.share.R;
-import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
-import com.melvin.share.adapter.HomeProductAdapter;
-import com.melvin.share.adapter.ShareShopAdapter;
+import com.melvin.share.adapter.RecommendShopAdapter;
 import com.melvin.share.databinding.FragmentHomeBinding;
 import com.melvin.share.model.BaseModel;
-import com.melvin.share.model.Category;
-import com.melvin.share.model.Product;
+import com.melvin.share.model.User;
 import com.melvin.share.model.serverReturn.ShopBean;
-import com.melvin.share.ui.activity.SearchActivity;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
-import com.melvin.share.view.NoScrollRecyclerView;
-import com.melvin.share.view.RxListSubscribe;
+import com.melvin.share.ui.activity.home.QRcodeActivity;
+import com.melvin.share.view.FullyGridLayoutManager;
 import com.melvin.share.view.RxSubscribe;
 import com.melvin.share.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
- * <p/>
- * Data： 2016/10/1
- * <p/>
+ * <p>
+ * Data： 2016/11/29
+ * <p>
  * 描述：首页
  */
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -49,10 +44,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private FragmentHomeBinding binding;
     private Context mContext;
 
-    private ShareShopAdapter shopAdapter;
-    private List<BaseModel> data3 = new ArrayList<>();
+    private RecommendShopAdapter adpter;
+    private List<BaseModel> dataList = new ArrayList<>();
 
-    private NoScrollRecyclerView shopRecyclerView;
+    private RecyclerView recyclerView;
     private View root;
 
     @Override
@@ -71,13 +66,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         return root;
     }
 
-
     /**
      * 初始化数据
      */
     private void initData() {
-        shopRecyclerView = binding.shopRecyclerView;
-
+        recyclerView = binding.recyclerView;
     }
 
 
@@ -85,20 +78,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 初始化点击事件
      */
     private void initClick() {
-        binding.homeScan.setOnClickListener(this);
-        binding.homeLocation.setOnClickListener(this);
+        binding.scan.setOnClickListener(this);
+        binding.sharecode.setOnClickListener(this);
+        binding.location.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
         switch (v.getId()) {
-            case R.id.home_scan:
+            case R.id.scan:
                 Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
                 startActivityForResult(openCameraIntent, 0);
                 break;
-            case R.id.home_location:
+            case R.id.sharecode:
+                startActivity(new Intent(mContext, QRcodeActivity.class));
+                break;
+            case R.id.location:
                 startActivity(new Intent(mContext, LocationModeSourceActivity.class));
                 break;
         }
@@ -119,39 +115,40 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 初始化Adapter
      */
     private void initAdapter() {
-        GridLayoutManager gridLayoutManager3 = new GridLayoutManager(mContext, 4);
-        gridLayoutManager3.setOrientation(LinearLayoutManager.VERTICAL);
-        shopRecyclerView.setLayoutManager(gridLayoutManager3);
-        shopAdapter = new ShareShopAdapter(mContext, data3);
-        shopRecyclerView.setAdapter(shopAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        gridLayoutManager.setSmoothScrollbarEnabled(true);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        adpter = new RecommendShopAdapter(mContext, dataList);
+        recyclerView.setAdapter(adpter);
     }
 
     /**
-     * 请求网络
+     * 请求网络，分享热度商品
      */
     private void requestData() {
-        requesRecommentShop();
-
-    }
-    /**
-     * 推荐店铺
-     */
-    private void requesRecommentShop() {
-        fromNetwork.findRecommendedSeller()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<ShopBean>>(mContext) {
-                    @Override
-                    protected void myNext(ArrayList<ShopBean> list) {
-                        data3.addAll(list);
-                        shopAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    protected void myError(String message) {
-
-                    }
-
-                });
+        for (int i = 0; i <= 10; i++) {
+            User user = new User();
+            user.username = "username" + i;
+            dataList.add(user);
+        }
+        adpter.notifyDataSetChanged();
+//        fromNetwork.findRecommendedSeller()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new RxSubscribe<ArrayList<ShopBean>>(mContext) {
+//                    @Override
+//                    protected void myNext(ArrayList<ShopBean> list) {
+//                        dataList.addAll(list);
+//                        adpter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    protected void myError(String message) {
+//
+//                    }
+//
+//                });
     }
 }

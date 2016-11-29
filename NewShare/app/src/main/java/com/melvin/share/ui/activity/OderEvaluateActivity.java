@@ -23,7 +23,6 @@ public class OderEvaluateActivity extends BaseActivity implements MyRecyclerView
     private ActivityOrderEvaluateBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private OrderEvaluateViewModel orderEvaluateViewModel;
 
     @Override
@@ -36,11 +35,10 @@ public class OderEvaluateActivity extends BaseActivity implements MyRecyclerView
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        orderEvaluateViewModel = new OrderEvaluateViewModel(this, mRecyclerView, mRoot);
+        orderEvaluateViewModel = new OrderEvaluateViewModel(this, mRecyclerView);
         binding.setViewModel(orderEvaluateViewModel);
         orderEvaluateViewModel.requestData();
     }

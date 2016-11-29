@@ -23,7 +23,6 @@ public class WaitEvaluateActivity extends BaseActivity implements MyRecyclerView
     private ActivityWaitEvaluateBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private WaitEvaluateViewModel waitEvaluateViewModel;
 
     @Override
@@ -36,11 +35,10 @@ public class WaitEvaluateActivity extends BaseActivity implements MyRecyclerView
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitEvaluateViewModel = new WaitEvaluateViewModel(this, mRecyclerView, mRoot);
+        waitEvaluateViewModel = new WaitEvaluateViewModel(this, mRecyclerView);
         binding.setViewModel(waitEvaluateViewModel);
         waitEvaluateViewModel.requestData();
     }

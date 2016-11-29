@@ -30,8 +30,8 @@ public class RefundViewModel extends BaseRecyclerViewModel<BaseModel> implements
     public List<BaseModel> data = new ArrayList<>();
 
 
-    public RefundViewModel(Context context, MyRecyclerView mRecyclerView, LinearLayout mRoot) {
-        super(context, mRoot);
+    public RefundViewModel(Context context, MyRecyclerView mRecyclerView ) {
+        super(context);
         this.context = context;
         this.mRecyclerView = mRecyclerView;
 

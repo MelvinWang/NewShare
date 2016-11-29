@@ -29,7 +29,7 @@ public class ClothActivity extends BaseActivity implements MyRecyclerView.Loadin
     private ActivityClothBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
+
     private ClothViewModel clothViewModel;
     private Map map=new HashMap();
     private Map queryMap=new HashMap();
@@ -78,12 +78,10 @@ public class ClothActivity extends BaseActivity implements MyRecyclerView.Loadin
                 }
             }
         });
-
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        clothViewModel = new ClothViewModel(this, mRecyclerView, mRoot);
+        clothViewModel = new ClothViewModel(this, mRecyclerView);
         binding.setViewModel(clothViewModel);
         clothViewModel.requestData(map);
     }

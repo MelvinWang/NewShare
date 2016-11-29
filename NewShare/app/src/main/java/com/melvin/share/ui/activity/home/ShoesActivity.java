@@ -29,7 +29,6 @@ public class ShoesActivity extends BaseActivity implements MyRecyclerView.Loadin
     private ActivityShoesBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ShoesViewModel shoesViewModel;
     private Map map=new HashMap();
     private Map queryMap=new HashMap();
@@ -79,11 +78,10 @@ public class ShoesActivity extends BaseActivity implements MyRecyclerView.Loadin
             }
         });
 
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        shoesViewModel = new ShoesViewModel(this, mRecyclerView, mRoot);
+        shoesViewModel = new ShoesViewModel(this, mRecyclerView);
         binding.setViewModel(shoesViewModel);
         shoesViewModel.requestData(map);
     }

@@ -32,7 +32,6 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
     private ActivityReceiveAddressBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private ManageAddressViewModel manageAddressViewModel;
     private Map map;
     public static boolean saveOrUpdate = false;
@@ -51,11 +50,11 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
         map = new HashMap();
         //     map.put("currentPage", "1");
         ShapreUtils.putParamCustomerDotId(map);
-        mRoot = binding.root;
+
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        manageAddressViewModel = new ManageAddressViewModel(this, mRecyclerView, mRoot);
+        manageAddressViewModel = new ManageAddressViewModel(this, mRecyclerView);
         binding.setViewModel(manageAddressViewModel);
         manageAddressViewModel.requestData(map);
     }

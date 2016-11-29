@@ -23,7 +23,6 @@ public class WaitEvaluateOrderInformationActivity extends BaseActivity implement
     private ActivityWaitEvaluateOrderInfoBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
-    private LinearLayout mRoot;
     private WaitEvaluateOrderInfoViewModel waitEvaluateOrderInfoViewModel;
 
     @Override
@@ -37,11 +36,10 @@ public class WaitEvaluateOrderInformationActivity extends BaseActivity implement
     }
 
     private void ininData() {
-        mRoot = binding.root;
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitEvaluateOrderInfoViewModel = new WaitEvaluateOrderInfoViewModel(this, mRecyclerView, mRoot);
+        waitEvaluateOrderInfoViewModel = new WaitEvaluateOrderInfoViewModel(this, mRecyclerView);
         binding.setViewModel(waitEvaluateOrderInfoViewModel);
         waitEvaluateOrderInfoViewModel.requestData();
     }

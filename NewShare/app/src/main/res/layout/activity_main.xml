@@ -59,25 +59,25 @@
                 android:id="@+id/waybill"
                 style="@style/BottomTabStyle"
                 android:drawableTop="@drawable/home_select"
-                android:text="首 页" />
+                />
 
             <RadioButton
                 android:id="@+id/query"
                 style="@style/BottomTabStyle"
-                android:drawableTop="@drawable/qrcode_select"
-                android:text="二维码" />
+                android:drawableTop="@drawable/recommend_select"
+                />
 
             <RadioButton
                 android:id="@+id/reporting"
                 style="@style/BottomTabStyle"
-                android:drawableTop="@drawable/shopcar_select"
-                android:text="购物车" />
+                android:drawableTop="@drawable/wallet_select"
+               />
 
             <RadioButton
                 android:id="@+id/friends"
                 style="@style/BottomTabStyle"
-                android:drawableTop="@drawable/selfcenter_select"
-                android:text="我 的" />
+                android:drawableTop="@drawable/self_select"
+                 />
         </RadioGroup>
     </LinearLayout>
 </layout>
