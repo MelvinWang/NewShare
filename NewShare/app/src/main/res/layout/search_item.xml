@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.melvin.share.modelview.item.SearchItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rectangle_normal_white"
+            android:onClick="@{viewModel.onItemClick}"
+            android:text="@{viewModel.searchWord}"
+            android:textColor="#828282"
+            android:textSize="14sp"
+            tools:text="最近搜索" />
+    </LinearLayout>
+
+</layout>

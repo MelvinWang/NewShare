@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.melvin.share"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.jcodecraeer:xrecyclerview:1.2.6'
+    compile 'com.allure0:LMBanners:1.0.2'
+    /*网络请求框架*/
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    compile 'com.squareup.okio:okio:1.6.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    /*时间控件*/
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+    /*事件交互*/
+    compile('com.hwangjr.rxbus:rxbus:1.0.3') {
+        exclude group: 'com.hwangjr.utils', module: 'timber'
+    }
+    /*扫描*/
+    compile files('libs/zbardecoder.jar')
+    compile files('libs/zxing.jar')
+    /*地图*/
+    compile files('libs/AMap_3DMap_V3.4.0_20160809.jar')
+    compile files('libs/AMap_Location_V2.8.0_20160811.jar')
+    compile files('libs/AMap_Search_V3.4.0_20160811.jar')
+}

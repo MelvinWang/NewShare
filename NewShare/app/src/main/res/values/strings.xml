@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">众分享</string>
+    <string name="empty_string">empty</string>
+    <string name="dynamicbox_retry">加载...</string>
+    <string name="scan_text">将二维码放入框内，即可扫描</string>
+    <string name="dynamicbox_loading_title"></string>
+    <string name="dynamicbox_loading_message">加载中...</string>
+
+    <string name="dynamicbox_internet_off_title">错误</string>
+    <string name="dynamicbox_internet_off_message">网络关闭, 请打开网络</string>
+
+    <string name="dynamicbox_exception_title">错误</string>
+    <string name="dynamicbox_exception_message">请重新加载...</string>
+</resources>

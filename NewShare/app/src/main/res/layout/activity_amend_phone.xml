@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ActivityAmendPhoneBinding">
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/f2f2f2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:title=" ">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:text="修改手机号"
+                    android:textColor="@color/color_333"
+                    android:textSize="@dimen/page_18" />
+            </android.support.v7.widget.Toolbar>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar"
+                android:background="@color/f2f2f2">
+
+                <EditText
+                    android:id="@+id/user_password"
+                    style="@style/CircularEditStyle"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="120dp"
+                    android:drawableLeft="@mipmap/phone"
+                    android:drawablePadding="20dp"
+                    android:hint="请输入原手机号码"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/color_999"
+                    android:textColorHint="@color/color_999"
+                    android:textSize="@dimen/page_18" />
+
+
+                <EditText
+                    android:id="@+id/confirm_password"
+                    style="@style/CircularEditStyle"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/user_password"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp"
+                    android:drawableLeft="@mipmap/phone"
+                    android:drawablePadding="20dp"
+                    android:hint="请输入新手机号码"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/color_999"
+                    android:textColorHint="@color/color_999"
+                    android:textSize="@dimen/page_18" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_valinumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/confirm_password"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp">
+
+                    <EditText
+                        android:id="@+id/user_valinumber"
+                        style="@style/CircularEditStyle"
+                        android:layout_height="50dp"
+                        android:drawableLeft="@mipmap/cerification_img"
+                        android:drawablePadding="20dp"
+                        android:hint="验证码"
+                        android:paddingLeft="20dp"
+                        android:textColor="@color/color_999"
+                        android:textColorHint="@color/color_999"
+                        android:textSize="@dimen/page_18" />
+
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:text="获取验证码"
+                        android:textColor="@color/color_999"
+                        android:textSize="@dimen/page_18" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/done"
+                    style="@style/CircularBtnStyle"
+                    android:layout_below="@id/rl_valinumber"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="130dp"
+                    android:background="@drawable/btn_redline_background"
+                    android:drawablePadding="8dp"
+                    android:paddingLeft="12dp"
+                    android:text="确认修改"
+                    android:textColor="@color/app_common_red"
+                    android:textSize="@dimen/page_18" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</layout>

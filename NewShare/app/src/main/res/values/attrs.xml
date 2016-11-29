@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RatingBar">
+        <!--星星大小-->
+        <attr format="dimension" name="starImageSize"/>
+        <!--星星个数-->
+        <attr format="integer" name="starCount"/>
+        <!--星星空图-->
+        <attr format="reference" name="starEmpty"/>
+        <!--星星满图-->
+        <attr format="reference" name="starFill"/>
+        <!--星星半图-->
+        <attr format="reference" name="starHalf"/>
+        <!--是否可以点击评分-->
+        <attr format="boolean" name="clickable"/>
+    </declare-styleable>
+
+</resources>

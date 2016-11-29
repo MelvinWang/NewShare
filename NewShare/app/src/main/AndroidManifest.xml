@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.melvin.share">
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!-- 需要运行时注册的权限 -->
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 更改设置 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 写入外部存储 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 读取外部存储 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 拨打电话 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 震动权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- 使用照相机权限 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!-- 自动聚焦权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.melvin.share.app.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppBaseTheme">
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="3fa6084565879fa47d8b9cb2ae47575f" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService"></service>
+        <activity
+            android:name=".ui.activity.common.MainActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 注册登录，修改手机号码 -->
+        <activity
+            android:name=".ui.activity.common.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.common.PhoneLoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.common.RegisterFirstActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.common.RegisterSecondActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.common.AmendPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.common.AmendPhoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.common.ForgetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name=".ui.activity.common.CommonImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.common.CityTransparentActivity"
+            android:label=""
+            android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name=".ui.activity.common.PictureActivity"
+            android:screenOrientation="portrait" />
+        <!-- 个人中心 ，第一排-->
+        <activity
+            android:name=".ui.activity.selfcenter.ProductCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.ShopCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.ScanHistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 个人中心，4个待发货...及一个退款页面 -->
+        <activity
+            android:name=".ui.activity.selfcenter.WaitPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.WaitSendProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.WaitReceiveProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.WaitEvaluateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.RefundActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 个人中心 ，第三排-->
+        <activity
+            android:name=".ui.activity.selfcenter.MyRebateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.selfcenter.OpenshopFirstActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.OpenshopSecondActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.ManageAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.QueryHelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.NewAddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name=".ui.activity.selfcenter.LocationShopActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
+            android:name=".ui.activity.selfcenter.MessageActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.selfcenter.LogisticsInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.ApplyRefundActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.selfcenter.WaitPayOrderInformationActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.selfcenter.WaitSendProductOrderInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.WaitReceiveProductOrderInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.WaitEvaluateOrderInformationActivity"
+            android:screenOrientation="portrait" />
+
+
+        <!-- 购物车-->
+        <activity
+            android:name=".ui.activity.shopcar.DepositActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.shopcar.ConfirmOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.shopcar.ShoppingCarEditActivity"
+            android:screenOrientation="portrait" />
+        <!-- 其他-->
+        <activity
+            android:name=".ui.activity.ProductInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.OderEvaluateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.SearchProductActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.activity.ShopInformationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+
+        <!-- 扫描页面 -->
+        <activity
+            android:name="com.melvin.share.zxing.activity.CaptureActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 首页的几个大分类 -->
+        <activity
+            android:name=".ui.activity.home.DeliciousActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.ClothActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.DigitalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.MarkUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.FurnitureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.OrnamentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.ShoesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.home.LocationModeSourceActivity"
+            android:screenOrientation="portrait" />
+
+    </application>
+
+</manifest>

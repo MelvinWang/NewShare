@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.common.MainActivity">
+
+    <data class="ActivityMainBinding">
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.melvin.share.view.NoScrollViewPager
+                android:id="@+id/m_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#C8C8D2" />
+
+            <RelativeLayout
+                android:id="@+id/update_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:id="@+id/progress_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="进度显示："
+                    android:textColor="@color/app_common_red" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/m_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/waybill"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/home_select"
+                android:text="首 页" />
+
+            <RadioButton
+                android:id="@+id/query"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/qrcode_select"
+                android:text="二维码" />
+
+            <RadioButton
+                android:id="@+id/reporting"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/shopcar_select"
+                android:text="购物车" />
+
+            <RadioButton
+                android:id="@+id/friends"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/selfcenter_select"
+                android:text="我 的" />
+        </RadioGroup>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,438 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="FragmentSelfBinding">
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/f2f2f2">
+
+        <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/self_center_bg">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:padding="5dp"
+                    android:src="@mipmap/messaged" />
+
+                <RelativeLayout
+                    android:id="@+id/click_avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/self_center_avatar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/self_center_avatar" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/self_center_avatar"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="10dp"
+                        android:text="点击登录"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/click_product_collection"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/self_center_collection_product" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageView
+                    android:id="@+id/click_shop_collection"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/self_center_collection_shop" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageView
+                    android:id="@+id/click_scan_history"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/self_center_scanhi" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/click_order_examine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/order_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_order" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/order_img"
+                    android:text="订单"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/order_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/order_back"
+                    android:text="查看" />
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/click_wait_pay"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/self_center_waitp" />
+
+
+                <ImageView
+                    android:id="@+id/click_wait_send_product"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/self_center_waitsp" />
+
+
+                <ImageView
+                    android:id="@+id/click_wait_receive_product"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/self_center_waitrp" />
+
+                <ImageView
+                    android:id="@+id/click_wait_evaluate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/wait_evaluate" />
+
+                <ImageView
+                    android:id="@+id/click_refund"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:src="@mipmap/refund" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/click_my_rebate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/rebate_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_rebate" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/rebate_img"
+                    android:text="我的返现" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp" />
+
+            <RelativeLayout
+                android:id="@+id/click_open_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/openshop_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_openshop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/openshop_img"
+                    android:text="申请线上商铺"
+
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp" />
+
+
+            <RelativeLayout
+                android:id="@+id/click_vip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/vip_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_vip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/vip_img"
+                    android:text="申请线下体验馆" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp" />
+
+            <RelativeLayout
+                android:id="@+id/click_receive_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/address_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_address" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/address_img"
+                    android:text="收货地址" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/click_query_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/query_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_query" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/query_img"
+                    android:text="咨询与帮助" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp" />
+
+            <RelativeLayout
+                android:id="@+id/click_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/abount_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_about" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/abount_img"
+                    android:text="关于我们" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp" />
+
+            <RelativeLayout
+                android:id="@+id/click_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_rectangle_normal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/setting_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/self_center_setting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/setting_img"
+                    android:text="设置" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/self_center_back" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

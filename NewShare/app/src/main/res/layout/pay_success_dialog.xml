@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_white_normalwithradus"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dialog_w"
+        android:layout_height="@dimen/dialog_h"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="付款成功"
+            android:textColor="@android:color/background_dark"
+            android:textSize="@dimen/page_20" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="获得该产品r二维码，请到二维码中心去查看该二维码。"
+            android:textSize="@dimen/page_18" />
+    </RelativeLayout>
+
+</LinearLayout>

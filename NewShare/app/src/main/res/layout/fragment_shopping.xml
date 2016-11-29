@@ -1,0 +1,239 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="FragmentShoppingBinding"></data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content" />
+
+                <com.allure.lbanners.LMBanners
+                    android:id="@+id/banners"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:auto_play="true"
+                    app:canLoop="true"
+                    app:durtion="3000"
+                    app:horizontal_transitionEffect="defaultEffect"
+                    app:indicator_position="bottom_mid"
+                    app:indicator_select="@drawable/page_indicator_select"
+                    app:indicator_unselect="@drawable/page_indicator_unselect"
+                    app:isVertical="false"
+                    app:scroll_duration="200" />
+
+                <RelativeLayout
+                    android:id="@+id/search_enter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edit_redline_background"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawableLeft="@mipmap/search"
+                        android:drawablePadding="10dp"
+                        android:hint="关键字" />
+                </RelativeLayout>
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <ImageButton
+                    android:id="@+id/home_delicious"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_delicious" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageButton
+                    android:id="@+id/home_cloth"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_cloth" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageButton
+                    android:id="@+id/home_ele"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_ele" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageButton
+                    android:id="@+id/home_markup"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_markup" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginTop="0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/home_furnish"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_furnish" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageButton
+                    android:id="@+id/home_ornament"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_ornament" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageButton
+                    android:id="@+id/home_shoes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_shoes" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:background="@color/color_ddd"
+                    android:textSize="1dp" />
+
+                <ImageButton
+                    android:id="@+id/home_other"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle_normal"
+                    android:padding="10dp"
+                    android:src="@mipmap/home_other" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/f2f2f2"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="新品推荐"
+                android:textColor="@color/color_333" />
+
+            <com.melvin.share.view.NoScrollRecyclerView
+                android:id="@+id/new_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/f2f2f2"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="用户推荐"
+                android:textColor="@color/color_333" />
+
+            <com.melvin.share.view.NoScrollRecyclerView
+                android:id="@+id/user_recommend_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/f2f2f2"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="店铺推荐"
+                android:textColor="@color/color_333" />
+
+            <com.melvin.share.view.NoScrollRecyclerView
+                android:id="@+id/shop_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="20dp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <!--时间控件-->
+    <dimen name="WheelItemSpace">18dp</dimen>
+    <dimen name="MyWheelPadding">20dp</dimen>
+    <dimen name="WheelTextSize">20sp</dimen>
+    <dimen name="WheelLabelTextSize">12sp</dimen>
+    <dimen name="MyTextSizeLarge">20sp</dimen>
+    <dimen name="MyItemSpaceLarge">20dp</dimen>
+
+
+    <!--页面标题-->
+    <dimen name="page_20">20sp</dimen>
+    <dimen name="page_18">18sp</dimen>
+    <dimen name="page_17">17sp</dimen>
+    <dimen name="page_15">15sp</dimen>
+    <dimen name="page_14">14sp</dimen>
+    <dimen name="page_12">12sp</dimen>
+    <dimen name="page_10">10sp</dimen>
+    <!--dialog-->
+    <dimen name="dialog_w">250dp</dimen>
+    <dimen name="dialog_h">130dp</dimen>
+</resources>

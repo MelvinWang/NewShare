@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ActivitySearchProductBinding">
+
+        <variable
+            name="viewModel"
+            type="com.melvin.share.modelview.acti.SearchProductViewModel" />
+
+    </data>
+
+        <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/f2f2f2"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:title=" ">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/search_enter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="6"
+                        android:background="@drawable/edit_redline_background"
+                        android:drawableLeft="@mipmap/search"
+                        android:drawablePadding="10dp"
+                        android:hint="关键字"
+                        android:padding="4dp" />
+
+                    <TextView
+                        android:onClick="search"
+                        android:id="@+id/search_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="搜索" />
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginTop="2dp" />
+
+            <RadioGroup
+                android:id="@+id/m_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
+
+                <RadioButton
+                    android:id="@+id/level"
+                    style="@style/ChoseTabStyle"
+                    android:text="综合" />
+
+                <RadioButton
+                    android:id="@+id/sale_total"
+                    style="@style/ChoseTabStyle"
+                    android:text="销量" />
+
+                <ImageView
+                    android:id="@+id/price"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginTop="1dp"
+                    android:onClick="priceQuery"
+                    android:src="@mipmap/normal_price"
+                    android:text="综合" />
+
+                <RadioButton
+                    android:id="@+id/share_times"
+                    style="@style/ChoseTabStyle"
+                    android:text="分享" />
+            </RadioGroup>
+
+            <com.melvin.share.view.MyRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                app:adapter="@{viewModel.adapter}"
+                app:data="@{viewModel.data}"
+                app:layoutManager="@{viewModel.linearLayoutManager}"
+                tools:listitem="@layout/search_product_item" />
+        </LinearLayout>
+</layout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ActivityScanHistoryBinding">
+
+        <variable
+            name="viewModel"
+            type="com.melvin.share.modelview.acti.ScanHistoryViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/f2f2f2"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:title=" ">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="7"
+                        android:gravity="center"
+                        android:paddingLeft="50dp"
+                        android:text="浏览记录"
+                        android:textColor="@color/color_333"
+                        android:textSize="@dimen/page_18" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2">
+
+                        <TextView
+                            android:id="@+id/edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:onClick="@{viewModel.edit}"
+                            android:text="编辑"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/page_15" />
+
+                        <TextView
+                            android:id="@+id/cancel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:onClick="@{viewModel.cancel}"
+                            android:text="取消"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/page_15"
+                            android:visibility="invisible" />
+                    </FrameLayout>
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+            <TextView
+                style="@style/CommonLine"
+                android:layout_marginTop="2dp" />
+
+            <com.melvin.share.view.MyRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                app:adapter="@{viewModel.adapter}"
+                app:data="@{viewModel.data}"
+                app:layoutManager="@{viewModel.linearLayoutManager}"
+                tools:listitem="@layout/scan_history_item" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_rectangle_background"
+            android:onClick="@{viewModel.delete}"
+            android:text="删   除"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </RelativeLayout>
+</layout>
