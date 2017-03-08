@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
 import com.melvin.share.adapter.WalletMoneyAdapter;
 import com.melvin.share.databinding.FragmentWalletWillBinding;
@@ -31,11 +34,12 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
 
     private FragmentWalletWillBinding binding;
     private Context mContext;
-    private RecyclerView recyclerView;
+    private MyRecyclerView recyclerView;
     private WalletMoneyAdapter adpter;
     private List<BaseModel> dataList = new ArrayList<>();
     private View root;
-
+    private View headerView;
+    private TextView sumMoneyView;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wallet_will, container, false);
@@ -59,18 +63,23 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
      */
     private void initData() {
         recyclerView = binding.recyclerView;
-//        recyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
-//        recyclerView.setLoadingListener(this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        //头部
+        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        headerView = layoutInflater.inflate(R.layout.wallet_will_title, null, false);
+        sumMoneyView = (TextView) headerView.findViewById(R.id.sum_money);
+
+        recyclerView.addHeaderView(headerView);
+        recyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
+        recyclerView.setLoadingListener(this);
     }
 
     /**
      * 初始化Adapter
      */
     private void initAdapter() {
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new WalletMoneyAdapter(mContext, dataList);
         recyclerView.setAdapter(adpter);
     }
@@ -99,7 +108,7 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
     public void onRefresh() {
         dataList.clear();
         requestData();
-//        recyclerView.refreshComplete();
+        recyclerView.refreshComplete();
 
     }
 
@@ -109,7 +118,7 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
     @Override
     public void onLoadMore() {
         requestData();
-//        recyclerView.loadMoreComplete();
+        recyclerView.loadMoreComplete();
     }
 }
 

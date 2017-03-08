@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
@@ -19,18 +22,13 @@ import com.melvin.share.adapter.RecommendShopAdapter;
 import com.melvin.share.databinding.FragmentHomeBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.User;
-import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
-import com.melvin.share.ui.activity.home.QRcodeActivity;
-import com.melvin.share.view.FullyGridLayoutManager;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.ui.activity.home.RecommendActivity;
+import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -39,23 +37,24 @@ import rx.schedulers.Schedulers;
  * <p>
  * 描述：首页
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener {
+public class HomeFragment extends BaseFragment implements MyRecyclerView.LoadingListener {
 
     private FragmentHomeBinding binding;
     private Context mContext;
-
     private RecommendShopAdapter adpter;
     private List<BaseModel> dataList = new ArrayList<>();
-
-    private RecyclerView recyclerView;
+    private MyRecyclerView recyclerView;
     private View root;
+    private View headerView;
+    private ImageView scanButton;
+    private ImageView recommendButton;
+    private ImageView locationButton;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         if (root == null) {
             mContext = getActivity();
-            initClick();
             initData();
             initAdapter();
             root = binding.getRoot();
@@ -71,33 +70,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void initData() {
         recyclerView = binding.recyclerView;
-    }
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        //头部
+        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        headerView = layoutInflater.inflate(R.layout.home_title, null, false);
+        scanButton = (ImageView) headerView.findViewById(R.id.scan);
+        recommendButton = (ImageView) headerView.findViewById(R.id.recommend);
+        locationButton = (ImageView) headerView.findViewById(R.id.location);
 
-
-    /**
-     * 初始化点击事件
-     */
-    private void initClick() {
-        binding.scan.setOnClickListener(this);
-        binding.sharecode.setOnClickListener(this);
-        binding.location.setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.scan:
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
                 startActivityForResult(openCameraIntent, 0);
-                break;
-            case R.id.sharecode:
-                startActivity(new Intent(mContext, QRcodeActivity.class));
-                break;
-            case R.id.location:
+            }
+        });
+        recommendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, RecommendActivity.class));
+            }
+        });
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(mContext, LocationModeSourceActivity.class));
-                break;
-        }
+            }
+        });
+
+        recyclerView.addHeaderView(headerView);
+        recyclerView.setLoadingListener(this);
     }
 
     @Override
@@ -115,11 +119,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 初始化Adapter
      */
     private void initAdapter() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-        gridLayoutManager.setSmoothScrollbarEnabled(true);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new RecommendShopAdapter(mContext, dataList);
         recyclerView.setAdapter(adpter);
     }
@@ -150,5 +149,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                    }
 //
 //                });
+    }
+
+    /**
+     * 下拉刷新
+     */
+    @Override
+    public void onRefresh() {
+        dataList.clear();
+        requestData();
+        recyclerView.refreshComplete();
+
+    }
+
+    /**
+     * 上拉加载更多
+     */
+    @Override
+    public void onLoadMore() {
+        requestData();
+        recyclerView.loadMoreComplete();
     }
 }

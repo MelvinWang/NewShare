@@ -42,10 +42,10 @@ public class OrnamentActivity extends BaseActivity implements MyRecyclerView.Loa
         id = getIntent().getStringExtra("id");
         initWindow();
         initToolbar(binding.toolbar);
-        ininData();
+        initData();
     }
 
-    private void ininData() {
+    private void initData() {
         map.put("category.id",id);
         mRadioGroup = binding.mRadioGroup;
         //设置选项选中事件

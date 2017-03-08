@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.melvin.share.ui.fragment.main.HomeFragment;
 import com.melvin.share.ui.fragment.main.SelfFragment;
-import com.melvin.share.ui.fragment.main.ShoppingFragment;
+import com.melvin.share.ui.fragment.main.QrcodeFragment;
 import com.melvin.share.ui.fragment.main.WalletFragment;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class FragmentFactory {
             if (position == 0) {
                 fragment = new HomeFragment();
             } else if (position == 1) {
-                fragment = new ShoppingFragment();
+                fragment = new QrcodeFragment();
             } else if (position == 2) {
                 fragment = new WalletFragment();
             } else if (position == 3) {

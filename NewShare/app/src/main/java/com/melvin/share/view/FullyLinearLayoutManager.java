@@ -7,18 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Author: Melvin
- * <p/>
- * Data： 2016/11/29
- * <p/>
- * 描述：
+ * 创建日期:2017/3/7 ${Time}
+ * <p>
+ * 作者:Melvin
+ * <p>
+ * 功能描述:
  */
-public class FullyGridLayoutManager extends GridLayoutManager {
-    public FullyGridLayoutManager(Context context, int spanCount) {
+public class FullyLinearLayoutManager extends GridLayoutManager {
+
+    public FullyLinearLayoutManager(Context context, int spanCount) {
         super(context, spanCount);
     }
 
-    public FullyGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+    public FullyLinearLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
         super(context, spanCount, orientation, reverseLayout);
     }
 

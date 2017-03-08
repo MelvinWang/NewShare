@@ -3,6 +3,7 @@ package com.melvin.share.ui.fragment.main;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -28,7 +29,6 @@ import com.melvin.share.ui.activity.selfcenter.QueryHelpActivity;
 import com.melvin.share.ui.activity.selfcenter.SettingActivity;
 import com.melvin.share.ui.activity.selfcenter.ShopCollectionActivity;
 import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
-import com.melvin.share.view.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
             root = binding.getRoot();
             requestData();
         } else {
-            ViewUtils.removeParent(root);// 移除frameLayout之前的爹
+            ViewUtils.removeParent(root);
         }
         return root;
     }
@@ -77,8 +77,10 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
      * 初始化Adapter
      */
     private void initAdapter() {
-        FullyGridLayoutManager gridLayoutManager = new FullyGridLayoutManager(mContext, 2);
-        gridLayoutManager.setOrientation(FullyGridLayoutManager.VERTICAL);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        gridLayoutManager.setSmoothScrollbarEnabled(true);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(gridLayoutManager);
         adpter = new RecommendShopAdapter(mContext, dataList);
         recyclerView.setAdapter(adpter);

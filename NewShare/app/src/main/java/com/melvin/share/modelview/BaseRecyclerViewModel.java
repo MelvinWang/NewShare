@@ -4,11 +4,9 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
 import com.melvin.share.BR;
 import com.melvin.share.network.NetworkUtil;
-import com.melvin.share.view.DynamicBox;
 
 import java.util.ArrayList;
 import java.util.List;

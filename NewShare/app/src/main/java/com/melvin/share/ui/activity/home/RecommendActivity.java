@@ -1,71 +1,50 @@
-package com.melvin.share.ui.fragment.main;
+package com.melvin.share.ui.activity.home;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.allure.lbanners.LMBanners;
-import com.amap.api.maps.model.Marker;
 import com.melvin.share.R;
 import com.melvin.share.Utils.DateUtil;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.Utils;
-import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.HomeProductAdapter;
 import com.melvin.share.adapter.HomeShopAdapter;
-import com.melvin.share.adapter.LocalImgAdapter;
 import com.melvin.share.adapter.UrlImgAdapter;
-import com.melvin.share.app.BaseApplication;
-import com.melvin.share.databinding.FragmentHomeBinding;
-import com.melvin.share.databinding.FragmentShoppingBinding;
+import com.melvin.share.databinding.ActivityRecommendBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Category;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
 import com.melvin.share.model.serverReturn.ShopBean;
-import com.melvin.share.ui.activity.common.MainActivity;
-import com.melvin.share.ui.activity.home.ClothActivity;
-import com.melvin.share.ui.activity.home.DeliciousActivity;
-import com.melvin.share.ui.activity.home.DigitalActivity;
-import com.melvin.share.ui.activity.home.FurnitureActivity;
-import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
-import com.melvin.share.ui.activity.home.MarkUpActivity;
-import com.melvin.share.ui.activity.home.OrnamentActivity;
 import com.melvin.share.ui.activity.SearchActivity;
-import com.melvin.share.ui.activity.home.ShoesActivity;
+import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.NoScrollRecyclerView;
 import com.melvin.share.view.RxListSubscribe;
 import com.melvin.share.view.RxSubscribe;
-import com.melvin.share.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
- * <p/>
- * Data： 2016/7/17
- * <p/>
- * 描述：购物
+ * <p>
+ * Data： 2017/3/7
+ * <p>
+ * 描述：首页推荐
  */
-public class ShoppingFragment extends BaseFragment implements View.OnClickListener {
-
-    private FragmentShoppingBinding binding;
+public class RecommendActivity extends BaseActivity  implements View.OnClickListener{
+    private ActivityRecommendBinding binding;
     private Context mContext;
     private LMBanners mLBanners;
     private List<String> networkImages = new ArrayList<>();
@@ -80,38 +59,24 @@ public class ShoppingFragment extends BaseFragment implements View.OnClickListen
     private NoScrollRecyclerView newRecyclerView;
     private NoScrollRecyclerView userRecommendRecyclerView;
     private NoScrollRecyclerView shopRecyclerView;
-    private View root;
-
     @Override
-    protected View initView(LayoutInflater inflater, ViewGroup container) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping, container, false);
-        if (root == null) {
-            mContext = getActivity();
-            mLBanners = binding.banners;
-            initClick();
-            initData();
-            initAdapter();
-            root = binding.getRoot();
-            requestData();
-        } else {
-            ViewUtils.removeParent(root);// 移除frameLayout之前的爹
-        }
-        return root;
+    protected void initView() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_recommend);
+        mContext = this;
+        initWindow();
+        initData();
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-
     /**
      * 初始化数据
      */
     private void initData() {
+        mLBanners = binding.banners;
         newRecyclerView = binding.newRecyclerView;
         userRecommendRecyclerView = binding.userRecommendRecyclerView;
         shopRecyclerView = binding.shopRecyclerView;
+        initAdapter();
+        initClick();
+        requestData();
     }
 
 
@@ -358,4 +323,6 @@ public class ShoppingFragment extends BaseFragment implements View.OnClickListen
         super.onDestroy();
         mLBanners.clearImageTimerTask();
     }
+
+
 }

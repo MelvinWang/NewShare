@@ -34,7 +34,7 @@ public class WalletFragment extends BaseFragment {
             initTable();
             root = binding.getRoot();
         } else {
-            ViewUtils.removeParent(root);// 移除frameLayout之前的爹
+            ViewUtils.removeParent(root);
         }
         return root;
     }

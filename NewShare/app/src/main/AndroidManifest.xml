@@ -245,7 +245,7 @@
 
         <!-- 首页的几个大分类 -->
         <activity
-            android:name=".ui.activity.home.QRcodeActivity"
+            android:name=".ui.activity.home.RecommendActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.home.LocationModeSourceActivity"

@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
+import com.melvin.share.Utils.GlobalFlagUtils;
 import com.melvin.share.Utils.RxBus;
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.ProductInfoActivity;
@@ -39,7 +40,7 @@ public class OrderCodeItemViewModel extends BaseObservable {
         context.startActivity(intent,options.toBundle());
     }
     public void onclickShare(View view) {
-        RxBus.get().post("hello11");
+        RxBus.get().post(GlobalFlagUtils.ordercodeFlag);
     }
 
     public String getImgUrl() {

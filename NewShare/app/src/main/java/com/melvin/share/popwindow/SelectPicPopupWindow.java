@@ -13,6 +13,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.melvin.share.R;
 /**
@@ -25,26 +26,28 @@ import com.melvin.share.R;
 public class SelectPicPopupWindow extends PopupWindow {
 
 
-    private Button wechat_share, friends_share, qq_share, qq_zone_share;
+    private ImageView wechat_share, friends_share, qq_share, qq_zone_share;
+    private TextView cancel;
     private View mMenuView;
-    private ImageView qrImgview;
 
     public SelectPicPopupWindow(Activity context, OnClickListener itemsOnClick) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.alert_dialog, null);
-        wechat_share = (Button) mMenuView.findViewById(R.id.wechat_share);
-        friends_share = (Button) mMenuView.findViewById(R.id.friends_share);
-        qq_share = (Button) mMenuView.findViewById(R.id.qq_share);
-        qq_zone_share = (Button) mMenuView.findViewById(R.id.qq_zone_share);
-        qrImgview = (ImageView) mMenuView.findViewById(R.id.iv_qr_image);
+        wechat_share = (ImageView) mMenuView.findViewById(R.id.wechat_share);
+        friends_share = (ImageView) mMenuView.findViewById(R.id.friends_share);
+        qq_share = (ImageView) mMenuView.findViewById(R.id.qq_share);
+        qq_zone_share = (ImageView) mMenuView.findViewById(R.id.qq_zone_share);
+        cancel = (TextView) mMenuView.findViewById(R.id.cancel);
+
 
         //设置按钮监听
         wechat_share.setOnClickListener(itemsOnClick);
         friends_share.setOnClickListener(itemsOnClick);
         qq_share.setOnClickListener(itemsOnClick);
         qq_zone_share.setOnClickListener(itemsOnClick);
+        cancel.setOnClickListener(itemsOnClick);
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
@@ -75,9 +78,4 @@ public class SelectPicPopupWindow extends PopupWindow {
             }
         });
     }
-
-    public void setImgview(Bitmap qrCodeBitmap) {
-        qrImgview.setImageBitmap(qrCodeBitmap);
-    }
-
 }
