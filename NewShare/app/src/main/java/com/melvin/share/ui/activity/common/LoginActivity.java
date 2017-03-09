@@ -3,17 +3,20 @@ package com.melvin.share.ui.activity.common;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.melvin.share.R;
 import com.melvin.share.Utils.CodeUtils;
+import com.melvin.share.adapter.LoginAdapter;
+import com.melvin.share.adapter.QrcodeAdapter;
 import com.melvin.share.databinding.ActivityLoginBinding;
 import com.melvin.share.ui.activity.common.BaseActivity;
 
 
 /**
- * Created Time: 2016/7/17.
+ * Created Time: 2017/3/8.
  * <p/>
  * Author:Melvin
  * <p/>
@@ -33,53 +36,20 @@ public class LoginActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         context = this;
         initWindow();
-        iv_showCode = binding.ivShowCode;
+        initTable();
         initToolbar(binding.toolbar);
-        initData();
-    }
-
-    private void initData() {
-        //将验证码用图片的形式显示出来s
-        iv_showCode.setImageBitmap(CodeUtils.getInstance().createBitmap());
-        realCode = CodeUtils.getInstance().getCode();
     }
 
     /**
-     * 刷新验证码
-     *
-     * @param view
+     * 初始化标题,绑定
      */
-    public void refreshCerificationCode(View view) {
-        iv_showCode.setImageBitmap(CodeUtils.getInstance().createBitmap());
-        realCode = CodeUtils.getInstance().getCode();
-    }
-
-    /**
-     * 忘记密码
-     *
-     * @param view
-     */
-    public void forgetPassword(View view) {
-        startActivity(new Intent(context, ForgetPasswordActivity.class));
-    }
-
-    /**
-     * 手机验证登录
-     *
-     * @param view
-     */
-    public void phoneLogin(View view) {
-        startActivity(new Intent(context, PhoneLoginActivity.class));
+    private void initTable() {
+        LoginAdapter viewPagerAdapter = new LoginAdapter(getSupportFragmentManager(), this);
+        binding.viewpager.setAdapter(viewPagerAdapter);//设置适配器
+        TabLayout mTabLayout = binding.tablayout;
+        mTabLayout.setupWithViewPager(binding.viewpager);
     }
 
 
-    /**
-     * 注册
-     *
-     * @param view
-     */
-    public void clickRegister(View view) {
-        startActivity(new Intent(context, RegisterFirstActivity.class));
-    }
 
 }

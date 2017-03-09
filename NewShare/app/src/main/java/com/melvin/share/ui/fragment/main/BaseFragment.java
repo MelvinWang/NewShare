@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.melvin.share.network.NetworkUtil;
+import com.melvin.share.rx.RxFragment;
 
 import retrofit.Retrofit;
 
@@ -18,7 +19,7 @@ import retrofit.Retrofit;
  * <p/>
  * 功能： Fragement基类
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends RxFragment {
     protected Retrofit retrofit;
     protected NetworkUtil.FromNetwork fromNetwork;
     @Override

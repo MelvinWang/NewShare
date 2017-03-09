@@ -260,7 +260,7 @@ public class CityTransparentActivity extends BaseActivity implements OnWheelChan
     public void showChoose(View view) {
 //        Toast.makeText(this, mCurrentProviceName + mCurrentCityName + mCurrentAreaName, Toast.LENGTH_LONG).show();
         Intent intent = new Intent();
-        intent.putExtra("result", mCurrentProviceName + mCurrentCityName + mCurrentAreaName + "-" + mRegionIdDatasMap.get(mCurrentProviceName) + "-" + mRegionIdDatasMap.get(mCurrentCityName));
+        intent.putExtra("result", mCurrentProviceName  + "-" + mCurrentCityName + "-"  + mCurrentAreaName + "-" + mRegionIdDatasMap.get(mCurrentProviceName) + "-" + mRegionIdDatasMap.get(mCurrentCityName));
         setResult(RESULT_OK, intent);
         finish();
     }

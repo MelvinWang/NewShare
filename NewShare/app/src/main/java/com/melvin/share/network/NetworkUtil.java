@@ -1,10 +1,12 @@
 package com.melvin.share.network;
 
 
+import com.google.gson.JsonObject;
 import com.melvin.share.model.Category;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.customer.Customer;
 import com.melvin.share.model.serverReturn.AddressBean;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
 import com.melvin.share.model.serverReturn.SelfInformation;
@@ -18,11 +20,16 @@ import java.util.Map;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
+import retrofit.http.Body;
+import retrofit.http.DELETE;
+import retrofit.http.Field;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.Query;
 import rx.Observable;
 
 /**
@@ -39,6 +46,77 @@ public class NetworkUtil {
 
     //定义接口
     public interface FromNetwork {
+        /**
+         * 个人信息
+         */
+        //会员注册验证接口
+        @GET("/app/customer/findCutomerExitByPhoneOrUserName")
+        Observable<CommonReturnModel> checkCustomer(@Query("phone") String phone,
+                                                    @Query("userName") String userName);
+
+        //短信验证码发送接口
+        @FormUrlEncoded
+        @POST("/sendMessageByPhone")
+        Observable<CommonReturnModel> sendMessage(@FieldMap Map<Object, Object> map);
+
+        //会员注册接口
+        @POST("/app/customer/insert")
+        Observable<CommonReturnModel> regist(@Body JsonObject json);
+
+        //修改密码
+        @POST("/app/customer/updatePassword")
+        Observable<CommonReturnModel> updatePassword(@Body JsonObject json);
+
+        //会员账号登录
+        @GET("/app/customer/loginByPassword")
+        Observable<CommonReturnModel<SelfInformation>> loginByPassword(@Query("account") String account,
+                                                                       @Query("password") String password);
+
+        //会员凭手机验证码登录接口
+        @GET("/app/customer/loginByPhoneCode")
+        Observable<CommonReturnModel<SelfInformation>> loginByPhoneCode(@Query("phone") String phone,
+
+                                                                        @Query("code") String password);
+
+        //忘记密码
+        @FormUrlEncoded
+        @POST("/app/customer/forgetPassword")
+        Observable<CommonReturnModel> forgetPassword(@FieldMap Map<Object, Object> map);
+
+        //获取个人基本信息
+        @GET("/app/customer/findCustomerById")
+        Observable<Customer> findCustomerById(@Query("id") String id);
+
+        //修改个人基本信息
+        @POST("/app/customer/updateCutomerById")
+        Observable<CommonReturnModel> updateCutomerById(@Body JsonObject json);
+
+
+        /**
+         * 收货地址
+         */
+        //查看用户的收货地址
+        @GET("/app/address/findAddressByCustomerId")
+        Observable<ArrayList<AddressBean>> findAddressByCustomerId(@Query("customerId") String customerId);
+
+        //添加用户地址
+        @POST("/app/address/insertAddressByCustomerId")
+        Observable<CommonReturnModel> insertAddressByCustomerId(@Body JsonObject json);
+
+        //设置默认收货地址
+        @FormUrlEncoded
+        @POST("/app/address/updateDefaultAddress")
+        Observable<CommonReturnModel> updateDefaultAddress(@FieldMap Map<Object, Object> map);
+
+        //修改用户地址
+        @POST("/app/address/updateAddressByAddressId")
+        Observable<CommonReturnModel> updateAddressByAddressId(@Body JsonObject json);
+
+        //删除用户地址
+        @DELETE("/app/address/deleteAddressByIds")
+        Observable<CommonReturnModel> deleteAddressByIds(@Query("addressIds") String[] addressIds);
+
+
         //首页分类
         @POST("/app/category/findAll")
         Observable<ArrayList<Category>> categoryFind();
@@ -57,25 +135,6 @@ public class NetworkUtil {
         @POST("/app/product/findProductsByCategory")
         Observable<ArrayList<Product>> findProductsByCategory(@FieldMap Map<Object, Object> map);
 
-        //会员注册验证接口
-        @FormUrlEncoded
-        @POST("/app/customer/checkCustomer")
-        Observable<BaseReturnModel> checkCustomer(@FieldMap Map<Object, Object> map);
-
-        //短信验证码发送接口
-        @FormUrlEncoded
-        @POST("/common/sendMessage")
-        Observable<BaseReturnModel> sendMessage(@FieldMap Map<Object, Object> map);
-
-        //会员注册接口
-        @FormUrlEncoded
-        @POST("/app/customer/regist")
-        Observable<BaseReturnModel> regist(@FieldMap Map<Object, Object> map);
-
-        //会员凭手机验证码登录接口
-        @FormUrlEncoded
-        @POST("/app/customer/loginByCode")
-        Observable<BaseReturnModel<SelfInformation>> loginByCode(@FieldMap Map<Object, Object> map);
 
         //查看商品详情
         @FormUrlEncoded
@@ -90,12 +149,12 @@ public class NetworkUtil {
         //删除浏览记录
         @FormUrlEncoded
         @POST("/app/product/deleteRecord")
-        Observable<BaseReturnModel> deleteRecord(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> deleteRecord(@FieldMap Map<Object, Object> map);
 
         //查询某款具体商品的价格,数量
         @FormUrlEncoded
         @POST("/app/product/findProduct")
-        Observable<BaseReturnModel> findProduct(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findProduct(@FieldMap Map<Object, Object> map);
 
         //查看用户收藏的商品
         @FormUrlEncoded
@@ -115,17 +174,17 @@ public class NetworkUtil {
         //查看用户收藏的店铺
         @FormUrlEncoded
         @POST("/app/seller/findSellersByCustomer")
-        Observable<BaseReturnModel> findSellersByCustomer(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findSellersByCustomer(@FieldMap Map<Object, Object> map);
 
         //附近实体店查询接口
         @FormUrlEncoded
         @POST("/app/customer/findStore")
-        Observable<BaseReturnModel> findStore(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findStore(@FieldMap Map<Object, Object> map);
 
         //批量删除购物车
         @FormUrlEncoded
         @POST("/app/cart/deleteCart")
-        Observable<BaseReturnModel> deleteCart(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> deleteCart(@FieldMap Map<Object, Object> map);
 
         //查看用户的购物车
         @FormUrlEncoded
@@ -135,31 +194,17 @@ public class NetworkUtil {
         //购物车添加或者修改
         @FormUrlEncoded
         @POST("/app/cart/persist")
-        Observable<BaseReturnModel> persist(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> persist(@FieldMap Map<Object, Object> map);
 
         //Banner图展示
         @FormUrlEncoded
         @POST("/app/banner/findAll")
-        Observable<BaseReturnModel> findAll(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findAll(@FieldMap Map<Object, Object> map);
 
-        //删除用户的某一条收货地址
-        @FormUrlEncoded
-        @POST("/app/address/delete")
-        Observable<BaseReturnModel> delete(@FieldMap Map<Object, Object> map);
-
-        //查看用户的收货地址
-        @FormUrlEncoded
-        @POST("/app/address/findByCustomer")
-        Observable<ArrayList<AddressBean>> findByCustomer(@FieldMap Map<Object, Object> map);
-
-        //添加/修改用户地址
-        @FormUrlEncoded
-        @POST("/app/address/persist")
-        Observable<BaseReturnModel> persistAddress(@FieldMap Map<Object, Object> map);
 
         @Multipart
         @POST("/common/uploadPicture")
-        Observable<BaseReturnModel> uploadFile(@Part("file\"; filename=\"real.jpg\"") RequestBody file);
+        Observable<CommonReturnModel> uploadFile(@Part("file\"; filename=\"real.jpg\"") RequestBody file);
 
     }
 

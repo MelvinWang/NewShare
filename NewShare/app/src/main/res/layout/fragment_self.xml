@@ -24,6 +24,7 @@
                 android:background="@mipmap/self_center_bg">
 
                 <ImageButton
+                    android:id="@+id/message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -39,11 +40,12 @@
 
                     <ImageView
                         android:id="@+id/self_center_avatar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:src="@mipmap/self_center_avatar" />
 
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/self_center_avatar"

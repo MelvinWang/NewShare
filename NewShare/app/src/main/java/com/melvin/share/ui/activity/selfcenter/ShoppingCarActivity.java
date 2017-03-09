@@ -21,20 +21,18 @@ import com.melvin.share.databinding.ActivityShoppingCarBinding;
 import com.melvin.share.event.PostEvent;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.shopcar.ConfirmOrderActivity;
 import com.melvin.share.ui.activity.shopcar.ShoppingCarEditActivity;
 import com.melvin.share.view.MyRecyclerView;
-import com.melvin.share.view.RxSubscribe;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -179,10 +177,10 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
      */
     private void requestData() {
         ShapreUtils.putParamCustomerId(map);
+
         fromNetwork.findCartByCustomer(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<Product>>(mContext) {
+                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain(ShoppingCarActivity.this,true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(mContext, true) {
                     @Override
                     protected void myNext(ArrayList<Product> list) {
                         data.clear();

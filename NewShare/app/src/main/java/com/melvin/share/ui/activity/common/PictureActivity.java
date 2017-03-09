@@ -1,5 +1,6 @@
 package com.melvin.share.ui.activity.common;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,8 +14,11 @@ import android.widget.LinearLayout;
 
 import com.melvin.share.R;
 import com.melvin.share.Utils.SDcardPathUtils;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.Utils.Utils;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxSubscribe;
+import com.melvin.share.ui.activity.selfcenter.ManageAddressActivity;
 import com.melvin.share.view.SelectPicPopupWindow;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
@@ -40,12 +44,14 @@ public class PictureActivity extends BaseActivity {
     private ImageView image;
     private Uri imagetempUri;//临时图片路径
     private Uri imageCropUri;//真实图片路径
+    private Context mContext;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_up_image);
+        mContext=this;
         root = (LinearLayout) findViewById(R.id.root);
         image = (ImageView) findViewById(R.id.image);
         menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
@@ -70,21 +76,21 @@ public class PictureActivity extends BaseActivity {
     public void upload(View v) {
         File file = new File(SDcardPathUtils.getSDCardPath() + "/real.jpg");
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+
         fromNetwork.uploadFile(requestBody)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<BaseReturnModel>(this) {
-                               @Override
-                               protected void myNext(BaseReturnModel baseReturnModel) {
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(PictureActivity.this,true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
 
-                               }
+                        Utils.showToast(mContext, commonReturnModel.message);
+                    }
 
-                               @Override
-                               protected void myError(String message) {
-
-                               }
-                           }
-                );
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 
 

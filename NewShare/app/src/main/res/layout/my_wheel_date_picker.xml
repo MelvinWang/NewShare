@@ -10,12 +10,12 @@
         android:id="@+id/wheel_date_picker_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:padding="20dp"
         app:wheel_atmospheric="true"
         app:wheel_curved="true"
         app:wheel_cyclic="true"
-        app:wheel_item_space="30dp"
-        app:wheel_item_text_size="40sp"
+        app:wheel_item_space="15dp"
+        app:wheel_item_text_size="25sp"
         app:wheel_selected_item_text_color="#fa0c0c" />
 
     <TextView
@@ -31,12 +31,12 @@
         android:id="@+id/wheel_date_picker_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:padding="20dp"
         app:wheel_atmospheric="true"
         app:wheel_curved="true"
         app:wheel_cyclic="true"
-        app:wheel_item_space="30dp"
-        app:wheel_item_text_size="40sp"
+        app:wheel_item_space="15dp"
+        app:wheel_item_text_size="25sp"
         app:wheel_selected_item_text_color="#fa0c0c" />
 
     <TextView
@@ -53,12 +53,12 @@
         android:id="@+id/wheel_date_picker_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:padding="20dp"
         app:wheel_atmospheric="true"
         app:wheel_curved="true"
         app:wheel_cyclic="true"
-        app:wheel_item_space="30dp"
-        app:wheel_item_text_size="40sp"
+        app:wheel_item_space="15dp"
+        app:wheel_item_text_size="25sp"
         app:wheel_selected_item_text_color="#fa0c0c" />
 
     <TextView

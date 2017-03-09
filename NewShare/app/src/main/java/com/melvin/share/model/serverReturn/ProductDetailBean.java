@@ -11,7 +11,7 @@ import java.util.List;
  * <p/>
  * 功能：商品详情
  */
-public class ProductDetailBean {
+public class ProductDetailBean extends BaseModel{
 
 
     /**

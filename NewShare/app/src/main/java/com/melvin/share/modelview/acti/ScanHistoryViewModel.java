@@ -3,29 +3,23 @@ package com.melvin.share.modelview.acti;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.melvin.share.Utils.Utils;
-import com.melvin.share.adapter.ProductCollectionAdapter;
 import com.melvin.share.adapter.ScanHistoryAdapter;
-import com.melvin.share.app.BaseApplication;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
+import com.melvin.share.ui.activity.selfcenter.ScanHistoryActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.view.RequestView;
-import com.melvin.share.view.RxSubscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -57,23 +51,21 @@ public class ScanHistoryViewModel extends BaseRecyclerViewModel<BaseModel> imple
     }
 
     public void requestData(Map map) {
+
         fromNetwork.findRecords(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<Product>>(context) {
+                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain((ScanHistoryActivity)context,true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(context, true) {
                     @Override
-                    protected void myNext(ArrayList<Product> list) {
-                        data.addAll(list);
-                        listData.addAll(list);
+                    protected void myNext(ArrayList<Product> products) {
+                        data.addAll(products);
+                        listData.addAll(products);
                         onRequestSuccess(data);
                     }
 
                     @Override
                     protected void myError(String message) {
-
+                        Utils.showToast(context, message);
                     }
-
-
                 });
 
     }
@@ -134,9 +126,9 @@ public class ScanHistoryViewModel extends BaseRecyclerViewModel<BaseModel> imple
 //        fromNetwork.deleteRecord(map)
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new RxSubscribe<BaseReturnModel>(context) {
+//                .subscribe(new RxSubscribe<CommonReturnModel>(context) {
 //                    @Override
-//                    protected void myNext(BaseReturnModel baseReturnModel) {
+//                    protected void myNext(CommonReturnModel baseReturnModel) {
 //                       if (baseReturnModel.success){
 //
 //                       }

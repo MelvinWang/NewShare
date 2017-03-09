@@ -20,6 +20,8 @@ import com.melvin.share.view.MyRecyclerView;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.melvin.share.R.id.map;
+
 /**
  * Author: Melvin
  * <p/>
@@ -33,7 +35,6 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
     private ManageAddressViewModel manageAddressViewModel;
-    private Map map;
     public static boolean saveOrUpdate = false;
 
     @Override
@@ -42,21 +43,17 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
         mContext = this;
         initWindow();
         initToolbar(binding.toolbar);
+        RxCommonBus.get().register(this); //注册
         ininData();
     }
 
     private void ininData() {
-        RxCommonBus.get().register(this); //注册
-        map = new HashMap();
-        //     map.put("currentPage", "1");
-        ShapreUtils.putParamCustomerDotId(map);
-
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
         manageAddressViewModel = new ManageAddressViewModel(this, mRecyclerView);
         binding.setViewModel(manageAddressViewModel);
-        manageAddressViewModel.requestData(map);
+        manageAddressViewModel.requestData();
     }
 
     /**
@@ -64,7 +61,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
      */
     @Override
     public void onRefresh() {
-        manageAddressViewModel.requestQueryData(map);
+        manageAddressViewModel.requestQueryData();
         mRecyclerView.refreshComplete();
     }
 
@@ -80,7 +77,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
     protected void onRestart() {
         super.onRestart();
         if (saveOrUpdate) {
-            manageAddressViewModel.requestQueryData(map);
+            manageAddressViewModel.requestQueryData();
             saveOrUpdate = false;
         }
     }

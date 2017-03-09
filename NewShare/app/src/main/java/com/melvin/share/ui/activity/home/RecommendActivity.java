@@ -22,19 +22,16 @@ import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Category;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.serverReturn.ShopBean;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.SearchActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.NoScrollRecyclerView;
-import com.melvin.share.view.RxListSubscribe;
-import com.melvin.share.view.RxSubscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -204,23 +201,21 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
      * 商品分类
      */
     private void requestCategory() {
+
         fromNetwork.categoryFind()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<Category>>(mContext) {
+                .compose(new RxActivityHelper<ArrayList<Category>>().ioMain(RecommendActivity.this,true))
+                .subscribe(new RxModelSubscribe<ArrayList<Category>>(mContext, true) {
                     @Override
                     protected void myNext(ArrayList<Category> categorys) {
                         LogUtils.i("商品分类");
                         categoryList.addAll(categorys);
-
                     }
 
                     @Override
                     protected void myError(String message) {
-
+                        Utils.showToast(mContext, message);
                     }
                 });
-
     }
 
     /**
@@ -230,22 +225,21 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
         Map map = new HashMap();
         map.put("createTime", DateUtil.getNowPlusTime());
         map.put("rows", "4");
+
         fromNetwork.findProductsInHomePage(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxListSubscribe<Product>(mContext) {
+                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain(RecommendActivity.this,true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(mContext, true) {
                     @Override
                     protected void myNext(ArrayList<Product> productList) {
                         LogUtils.i("新商品");
                         data1.addAll(productList);
                         newProductAdapter.notifyDataSetChanged();
                         requestRecommendProdcut();
-
                     }
 
                     @Override
                     protected void myError(String message) {
-
+                        Utils.showToast(mContext, message);
                     }
                 });
     }
@@ -257,10 +251,10 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
         Map map = new HashMap();
         map.put("saleTotal", "1");
         map.put("rows", "4");
+
         fromNetwork.findProductsInHomePage(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxListSubscribe<Product>(mContext) {
+                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain(RecommendActivity.this,true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(mContext, true) {
                     @Override
                     protected void myNext(ArrayList<Product> productList) {
                         LogUtils.i("推荐商品");
@@ -270,7 +264,7 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
 
                     @Override
                     protected void myError(String message) {
-
+                        Utils.showToast(mContext, message);
                     }
                 });
     }
@@ -279,10 +273,10 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
      * 推荐店铺
      */
     private void requesRecommentShop() {
+
         fromNetwork.findRecommendedSeller()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<ShopBean>>(mContext) {
+                .compose(new RxActivityHelper<ArrayList<ShopBean>>().ioMain(RecommendActivity.this,true))
+                .subscribe(new RxModelSubscribe<ArrayList<ShopBean>>(mContext, true) {
                     @Override
                     protected void myNext(ArrayList<ShopBean> list) {
                         data3.addAll(list);
@@ -291,9 +285,8 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
 
                     @Override
                     protected void myError(String message) {
-
+                        Utils.showToast(mContext, message);
                     }
-
                 });
     }
 

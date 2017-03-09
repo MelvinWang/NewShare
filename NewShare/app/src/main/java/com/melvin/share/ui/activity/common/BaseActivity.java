@@ -1,16 +1,13 @@
 package com.melvin.share.ui.activity.common;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.melvin.share.R;
 import com.melvin.share.Utils.StatusBarUtils;
-import com.melvin.share.Utils.Utils;
-import com.melvin.share.app.BaseApplication;
 import com.melvin.share.network.NetworkUtil;
+import com.melvin.share.rx.RxActivity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,20 +21,19 @@ import retrofit.Retrofit;
  * <p/>
  * 功能：基类
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends RxActivity {
     // 管理运行的所有的activity
     public final static List<BaseActivity> mActivities = new LinkedList<BaseActivity>();
 
     protected Retrofit retrofit;
     protected NetworkUtil.FromNetwork fromNetwork;
-    protected SharedPreferences mPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         retrofit = NetworkUtil.getRetrofit();
         fromNetwork = retrofit.create(NetworkUtil.FromNetwork.class);
-        mPref = Utils.getShare(BaseApplication.getApplication());
         synchronized (mActivities) {
             mActivities.add(this);
         }

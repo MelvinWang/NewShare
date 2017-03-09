@@ -5,6 +5,9 @@
 
     <data class="ActivitySettingBinding">
 
+        <variable
+            name="model"
+            type="com.melvin.share.model.customer.Customer" />
     </data>
 
     <LinearLayout
@@ -23,7 +26,6 @@
             app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:title=" ">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,12 +36,17 @@
                 android:textSize="@dimen/page_18" />
         </android.support.v7.widget.Toolbar>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@null" />
+
         <RelativeLayout
-            android:onClick="uploadHead"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/btn_rectangle_normal">
+            android:background="@drawable/btn_rectangle_normal"
+            android:onClick="uploadHead">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,7 +70,7 @@
             style="@style/CommonLine"
             android:layout_marginTop="0dp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -76,19 +83,22 @@
                 android:text="昵称"
                 android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/nick_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="宝宝" />
-        </RelativeLayout>
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:gravity="right"
+                android:text="@={model.nickName}" />
+        </LinearLayout>
 
         <TextView
             style="@style/CommonLine"
             android:layout_marginTop="0dp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -101,13 +111,16 @@
                 android:text="姓名"
                 android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="宝宝" />
-        </RelativeLayout>
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:gravity="right"
+                android:text="@={model.userName}" />
+        </LinearLayout>
 
         <TextView
             style="@style/CommonLine"
@@ -143,7 +156,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/sex_back"
-                android:text="男" />
+                android:text="@={model.sex}" />
         </RelativeLayout>
 
         <TextView
@@ -180,7 +193,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/birth_day_back"
-                android:text="2016-8-10" />
+                android:text="@={model.birthday}" />
         </RelativeLayout>
 
         <TextView
@@ -217,7 +230,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/address_back"
-                android:text="四川成都" />
+                android:text="@={model.domicile}" />
         </RelativeLayout>
 
         <TextView
@@ -228,14 +241,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rectangle_normal"
-            android:onClick="amendPhone"
             android:padding="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="修改手机号"
+                android:text="手机号"
                 android:textSize="18sp" />
 
 
@@ -245,15 +257,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/self_center_back" />
+                android:src="@mipmap/self_center_back"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/iv_back"
-                android:text="13883387333" />
+                android:text="@={model.phone}" />
         </RelativeLayout>
 
         <TextView
@@ -296,6 +308,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/btn_rectangle_background"
+                android:onClick="loginOut"
                 android:text="退出当前账号"
                 android:textColor="@color/white" />
         </RelativeLayout>

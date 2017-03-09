@@ -9,7 +9,7 @@ import java.util.List;
  * <p/>
  * 描述：
  */
-public class LoginReturn extends BaseReturnModel {
+public class LoginReturn extends CommonReturnModel {
 
 
     private ResultBean result;

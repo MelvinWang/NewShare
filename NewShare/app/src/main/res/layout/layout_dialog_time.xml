@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/pop_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-      >
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <com.melvin.share.view.MyWheelDatePicker
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        />
+        <com.melvin.share.view.MyWheelDatePicker
+            android:id="@+id/main"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rectangle_background"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="确  定"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 

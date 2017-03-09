@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.melvin.share.R;
+import com.melvin.share.Utils.GlideImgManager;
 import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.RecommendShopAdapter;
 import com.melvin.share.app.BaseApplication;
@@ -23,6 +26,7 @@ import com.melvin.share.ui.activity.selfcenter.AboutUsActivity;
 import com.melvin.share.ui.activity.selfcenter.AllOrderActivity;
 import com.melvin.share.ui.activity.selfcenter.LocationShopActivity;
 import com.melvin.share.ui.activity.selfcenter.ManageAddressActivity;
+import com.melvin.share.ui.activity.selfcenter.MessageActivity;
 import com.melvin.share.ui.activity.selfcenter.OpenshopFirstActivity;
 import com.melvin.share.ui.activity.selfcenter.ProductCollectionActivity;
 import com.melvin.share.ui.activity.selfcenter.QueryHelpActivity;
@@ -66,6 +70,26 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        String userName = ShapreUtils.getUserName();
+        String picture = ShapreUtils.getPicture();
+        if (!TextUtils.isEmpty(userName)) {
+            binding.name.setText(userName);
+        } else {
+            binding.name.setText("点击登录");
+        }
+        if (!TextUtils.isEmpty(picture)) {
+            GlideImgManager.glideLoader(mContext, picture, R.mipmap.self_center_avatar, R.mipmap.self_center_avatar,
+                    binding.selfCenterAvatar, 0);
+        } else {
+            Glide.with(mContext).
+                    load(R.mipmap.self_center_avatar).
+                    into(binding.selfCenterAvatar);
+        }
+    }
+
     /**
      * 初始化数据
      */
@@ -90,18 +114,12 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
      * 绑定点击事件
      */
     private void initClick() {
-
         binding.clickAvatar.setOnClickListener(this);
+        binding.message.setOnClickListener(this);
         binding.clickShopCar.setOnClickListener(this);
         binding.clickAllOrder.setOnClickListener(this);
         binding.clickProductCollection.setOnClickListener(this);
         binding.clickShopCollection.setOnClickListener(this);
-//        binding.clickWaitPay.setOnClickListener(this);
-//        binding.clickWaitSendProduct.setOnClickListener(this);
-//        binding.clickWaitReceiveProduct.setOnClickListener(this);
-//        binding.clickWaitEvaluate.setOnClickListener(this);
-//        binding.clickRefund.setOnClickListener(this);
-
         binding.clickOpenShop.setOnClickListener(this);
         binding.clickVip.setOnClickListener(this);
         binding.clickReceiveAddress.setOnClickListener(this);
@@ -122,14 +140,19 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.click_avatar://头像登录
-                String customerId = BaseApplication.mPre.getString("customerId", null);
+                String customerId = ShapreUtils.getCustomerId();
+                LogUtils.i(customerId + "customerId");
                 if (!TextUtils.isEmpty(customerId)) {
-                    intent.setClass(mContext, LoginActivity.class);
+                    intent.setClass(mContext, SettingActivity.class);
                     mContext.startActivity(intent);
                 } else {
                     intent.setClass(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
                 }
+                break;
+            case R.id.message://购物车
+                intent.setClass(mContext, MessageActivity.class);
+                mContext.startActivity(intent);
                 break;
             case R.id.click_shop_car://购物车
                 intent.setClass(mContext, ShoppingCarActivity.class);
@@ -146,31 +169,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
             case R.id.click_shop_collection://店铺收藏
                 intent.setClass(mContext, ShopCollectionActivity.class);
                 mContext.startActivity(intent);
-
                 break;
-
-//            case R.id.click_wait_pay://待付款
-//                intent.setClass(mContext, WaitPayActivity.class);
-//                mContext.startActivity(intent);
-//                break;
-//            case R.id.click_wait_send_product://待发货
-//                intent.setClass(mContext, WaitSendProductActivity.class);
-//                mContext.startActivity(intent);
-//                break;
-//            case R.id.click_wait_receive_product://待收货
-//                intent.setClass(mContext, WaitReceiveProductActivity.class);
-//                mContext.startActivity(intent);
-//                break;
-//            case R.id.click_wait_evaluate://待评价
-//                intent.setClass(mContext, WaitEvaluateActivity.class);
-//                mContext.startActivity(intent);
-//                break;
-//            case R.id.click_refund://退款
-//                intent.setClass(mContext, RefundActivity.class);
-//                mContext.startActivity(intent);
-//                break;
-
-
             case R.id.click_open_shop://申请线上商场
                 intent.setClass(mContext, OpenshopFirstActivity.class);
                 mContext.startActivity(intent);

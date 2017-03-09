@@ -3,26 +3,25 @@ package com.melvin.share.modelview.acti;
 import android.content.Context;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.ShopCarEditAdapter;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
+import com.melvin.share.ui.activity.shopcar.ShoppingCarEditActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.view.RequestView;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.rx.RxSubscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -52,13 +51,12 @@ public class ShopCarEditViewModel extends BaseRecyclerViewModel<BaseModel> imple
 
     public void requestData(Map map) {
         fromNetwork.findCartByCustomer(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<Product>>(context) {
+                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain((ShoppingCarEditActivity)context,true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(context, true) {
                     @Override
-                    protected void myNext(ArrayList<Product> list) {
-                        data.addAll(list);
-                        listData.addAll(list);
+                    protected void myNext(ArrayList<Product> products) {
+                        data.addAll(products);
+                        listData.addAll(products);
                         onRequestSuccess(data);
                     }
 
@@ -67,8 +65,6 @@ public class ShopCarEditViewModel extends BaseRecyclerViewModel<BaseModel> imple
                         Utils.showToast(context, message);
                     }
                 });
-
-
     }
 
 
@@ -121,13 +117,14 @@ public class ShopCarEditViewModel extends BaseRecyclerViewModel<BaseModel> imple
                 }
             }
             carMap.put("cartIds", cartIds);
+
+
             fromNetwork.deleteCart(carMap)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscribe<BaseReturnModel>(context) {
+                    .compose(new RxActivityHelper<CommonReturnModel>().ioMain((ShoppingCarEditActivity)context,true))
+                    .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                         @Override
-                        protected void myNext(BaseReturnModel baseReturnModel) {
-                            Utils.showToast(context, baseReturnModel.message);
+                        protected void myNext(CommonReturnModel commonReturnModel) {
+                            Utils.showToast(context, commonReturnModel.message);
                             data.removeAll(products);
                             onRequestSuccess(data);
                             ShoppingCarActivity.updateFlag = true;

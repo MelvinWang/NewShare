@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.melvin.share.modelview.item.ManageAddressItemViewModel" />
@@ -27,26 +29,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="宝宝"
-                android:text="@{viewModel.name}" />
+                android:text="@{viewModel.name}"
+                tools:text="宝宝" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                tools:text="13883387333"
                 android:text="@{viewModel.phone}"
-                 />
+                tools:text="13883387333" />
         </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            tools:text="收货地址"
-            android:text="@{viewModel.address}"
             android:layout_marginTop="10dp"
-            />
+            android:text="@{viewModel.address}"
+            tools:text="收货地址" />
 
         <TextView
             android:layout_width="match_parent"
@@ -60,16 +60,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <CheckBox
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:button="@drawable/dot_select"
-                android:padding="10dp"
-                android:checked="@{viewModel.isFocus}"
                 android:onClick="@{viewModel.setDefault}"
-                android:text="设置默认地址" />
+                android:padding="10dp"
+                android:text="设置默认地址"
+                android:textColor="@{viewModel.isDefault?@color/app_common_red:@color/color_4A}" />
 
             <TextView
                 android:id="@+id/delete"
@@ -78,8 +78,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:onClick="@{viewModel.onDelete}"
                 android:background="@null"
+                android:onClick="@{viewModel.onDelete}"
                 android:padding="10dp"
                 android:text="删除" />
 

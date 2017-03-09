@@ -3,20 +3,38 @@ package com.melvin.share.ui.activity.selfcenter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v4.view.GravityCompat;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.RxCommonBus;
+import com.melvin.share.Utils.ShapreUtils;
+import com.melvin.share.Utils.Utils;
+import com.melvin.share.app.BaseApplication;
 import com.melvin.share.databinding.ActivitySettingBinding;
+import com.melvin.share.model.customer.Customer;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.popwindow.SexPopupWindow;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
+import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.AmendPasswordActivity;
 import com.melvin.share.ui.activity.common.AmendPhoneActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.CityTransparentActivity;
 import com.melvin.share.ui.activity.common.PictureActivity;
+import com.melvin.share.ui.activity.common.RegisterFirstActivity;
 import com.melvin.share.view.SelectTimeopupWindow;
+
+import static com.melvin.share.R.id.map;
+import static com.melvin.share.R.mipmap.phone;
 
 /**
  * Author: Melvin
@@ -31,6 +49,7 @@ public class SettingActivity extends BaseActivity {
     private SexPopupWindow sexPopupWindow;
     private SelectTimeopupWindow selectTimeopupWindow; // 自定义的头像编辑弹出框
     private String sex;
+    private Customer mCustomer;
 
     @Override
     protected void initView() {
@@ -41,17 +60,67 @@ public class SettingActivity extends BaseActivity {
         initWindow();
         RxCommonBus.get().register(this); //注册
         initToolbar(binding.toolbar);
+        initData();
+    }
+
+    /**
+     * 获取数据
+     */
+    private void initData() {
+        selectTimeopupWindow.setOnClickListener(new SelectTimeopupWindow.OnCliclListener() {
+            @Override
+            public void confirm(String date) {
+                selectTimeopupWindow.dismiss();
+                binding.tvBirthDay.setText(date);
+            }
+        });
+        fromNetwork.findCustomerById(ShapreUtils.getCustomerId())
+                .compose(new RxActivityHelper<Customer>().ioMain(SettingActivity.this, true))
+                .subscribe(new RxModelSubscribe<Customer>(mContext, true) {
+                    @Override
+                    protected void myNext(Customer customer) {
+                        mCustomer = customer;
+                        binding.setModel(mCustomer);
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+
+        binding.userName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    binding.userName.setGravity(Gravity.LEFT);
+                } else {
+                    binding.userName.setGravity(Gravity.RIGHT);
+                }
+            }
+        });
+        binding.nickName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    binding.nickName.setGravity(Gravity.LEFT);
+                } else {
+                    binding.nickName.setGravity(Gravity.RIGHT);
+                }
+            }
+        });
+
     }
 
     //为弹出窗口实现监听类
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         public void onClick(View v) {
-            sexPopupWindow.dismiss();
             switch (v.getId()) {
                 case R.id.sex_cancel:
                     sexPopupWindow.dismiss();
                     break;
                 case R.id.sex_confirm:
+                    sexPopupWindow.dismiss();
                     binding.tvSex.setText(sex);
                     break;
             }
@@ -108,21 +177,23 @@ public class SettingActivity extends BaseActivity {
 
 
     /**
-     * 修改手机
-     *
-     * @param v
-     */
-    public void amendPhone(View v) {
-        startActivity(new Intent(mContext, AmendPhoneActivity.class));
-    }
-
-    /**
      * 修改密码
      *
      * @param v
      */
     public void amendPassword(View v) {
         startActivity(new Intent(mContext, AmendPasswordActivity.class));
+    }
+
+    /**
+     * 退出当前账号
+     *
+     * @param view
+     */
+    public void loginOut(View view) {
+        ShapreUtils.setCustomerId(null);
+        ShapreUtils.setUserName(null);
+        ShapreUtils.setPicture(null);
     }
 
     @Override
@@ -138,9 +209,58 @@ public class SettingActivity extends BaseActivity {
             if (data != null) {
                 String result = data.getExtras().getString("result");
                 String[] split = result.split("-");
-                binding.tvAddress.setText(split[0]);
+                if (split.length >= 3) {
+
+                    binding.tvAddress.setText(split[0] + split[1] + split[2]);
+                }
             }
         }
+    }
+
+    /**
+     * toolbar上菜单的选择事件
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                updateCutomerById();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * 返回键先关闭侧滑菜单
+     */
+    @Override
+    public void onBackPressed() {
+        updateCutomerById();
+    }
+
+    /**
+     * 保存
+     */
+    private void updateCutomerById() {
+        mCustomer.customerId = mCustomer.id;
+        mCustomer.realName = mCustomer.userName;
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(mCustomer)));
+
+        fromNetwork.updateCutomerById(jsonObject)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(SettingActivity.this, false))
+                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, false) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        finish();
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 
 }

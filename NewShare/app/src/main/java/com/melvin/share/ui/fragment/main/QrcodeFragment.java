@@ -14,14 +14,13 @@ import android.view.ViewGroup;
 import com.google.zxing.WriterException;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
-import com.melvin.share.Utils.GlobalFlagUtils;
+import com.melvin.share.network.GlobalFlag;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.RxBus;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.QrcodeAdapter;
 import com.melvin.share.databinding.FragmentQrCodeBinding;
-import com.melvin.share.dialog.ConfirmReceiveDialog;
 import com.melvin.share.dialog.QrCodeShareDialog;
 import com.melvin.share.popwindow.SelectPicPopupWindow;
 import com.melvin.share.zxing.encoding.EncodingHandler;
@@ -109,10 +108,10 @@ public class QrcodeFragment extends BaseFragment {
             }
         });
         //订单
-        if (TextUtils.equals(GlobalFlagUtils.ordercodeFlag, qrcodeString)) {
+        if (TextUtils.equals(GlobalFlag.ordercodeFlag, qrcodeString)) {
             dialog.setTitle("订单");
             dialog.setDetail("订单");
-        } else if (TextUtils.equals(GlobalFlagUtils.shopcodeFlag, qrcodeString)) {
+        } else if (TextUtils.equals(GlobalFlag.shopcodeFlag, qrcodeString)) {
             dialog.setTitle("商店");
             dialog.setDetail("商店");
         }

@@ -10,28 +10,22 @@ import android.view.ViewGroup;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
-import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.AllProductAdapter;
 import com.melvin.share.databinding.FragmentAllProductBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.ShopInformationActivity;
-import com.melvin.share.ui.activity.selfcenter.ManageAddressActivity;
 import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.view.NoRefreshRecyclerView;
-import com.melvin.share.view.RxSubscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -49,6 +43,7 @@ public class AllProductFragment extends BaseFragment implements NoRefreshRecycle
     private List<BaseModel> data = new ArrayList<>();
     private View root;
     private Map map;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_product, container, false);
@@ -78,7 +73,7 @@ public class AllProductFragment extends BaseFragment implements NoRefreshRecycle
      * 初始化Adapter
      */
     private void initAdapter() {
-        GridLayoutManager gridLayoutManager =  new GridLayoutManager(mContext,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         allProductAdapter = new AllProductAdapter(mContext, data);
@@ -89,24 +84,25 @@ public class AllProductFragment extends BaseFragment implements NoRefreshRecycle
      * 请求网络
      */
     private void requestData() {
-        map=new HashMap();
+        map = new HashMap();
         map.put("seller.id", ShopInformationActivity.sellerId);
+
+
         fromNetwork.findProductsBySeller(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<Product>>(mContext) {
+                .compose(new RxFragmentHelper<ArrayList<Product>>().ioMain(mContext, AllProductFragment.this, true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(mContext, true) {
                     @Override
-                    protected void myNext(ArrayList<Product> list) {
-                        data.addAll(list);
+                    protected void myNext(ArrayList<Product> products) {
+                        data.addAll(products);
                         allProductAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     protected void myError(String message) {
+
                         Utils.showToast(mContext, message);
                     }
                 });
-
 
     }
 

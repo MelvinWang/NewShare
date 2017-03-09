@@ -19,7 +19,6 @@ import android.widget.Toast;
  * 功能： Toast,Share等实用工具
  */
 public class Utils {
-    private static final String endpoint = "http://oss-cn-beijing.aliyuncs.com/importantfile/";
     public static Toast mToast;
     public static SharedPreferences mPref;
 
@@ -32,27 +31,11 @@ public class Utils {
     }
 
     /**
-     * 获取oss固定字符串的长度
-     */
-    public static int getOssUrlLength() {
-        return endpoint.length();
-    }
-
-    /**
      * 获取share
      */
     public static SharedPreferences getShare(Context mContext) {
         mPref = mContext.getSharedPreferences("config", mContext.MODE_PRIVATE);
         return mPref;
-    }
-
-    /**
-     * 获取refreshToken
-     */
-    public static String getRefreshToken(Context mContext) {
-        mPref = getShare(mContext);
-        String refreshToken = mPref.getString("refreshToken", null);
-        return refreshToken;
     }
 
     /**
@@ -62,25 +45,6 @@ public class Utils {
         mPref = getShare(mContext);
         String token = mPref.getString("token", null);
         return token;
-    }
-
-    /**
-     * 获取token
-     */
-    public static String getBranchId(Context mContext) {
-        mPref = getShare(mContext);
-        String branchId = mPref.getString("branchId", null);
-        return branchId;
-    }
-
-
-    /**
-     * 获取token
-     */
-    public static String getUserPhone(Context mContext) {
-        mPref = getShare(mContext);
-        String userphone = mPref.getString("username", null);
-        return userphone;
     }
 
 

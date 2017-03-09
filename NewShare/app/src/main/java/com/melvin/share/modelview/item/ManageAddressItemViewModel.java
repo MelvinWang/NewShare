@@ -29,21 +29,19 @@ public class ManageAddressItemViewModel extends BaseObservable {
     }
 
     public String getName() {
-        return addressBean.recever;
+        return addressBean.receiver;
     }
 
     public String getPhone() {
-        return addressBean.receverPhone;
+        return addressBean.phone;
     }
 
     public String getAddress() {
-        return addressBean.area + addressBean.address;
+        return addressBean.province + addressBean.city + addressBean.area + addressBean.detailAddress;
     }
-
-    public boolean getIsFocus() {
-        return addressBean.defaultAddress;
+    public boolean getIsDefault() {
+        return addressBean.isdefault;
     }
-
     /**
      * 设为默认地址
      *

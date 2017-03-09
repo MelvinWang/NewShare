@@ -3,29 +3,23 @@ package com.melvin.share.ui.activity.selfcenter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Parcelable;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.databinding.ActivityNewAddressBinding;
-import com.melvin.share.event.AddressEvent;
-import com.melvin.share.model.Product;
 import com.melvin.share.model.serverReturn.AddressBean;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.CityTransparentActivity;
-import com.melvin.share.view.RxSubscribe;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
@@ -40,8 +34,7 @@ public class NewAddressActivity extends BaseActivity {
     private ActivityNewAddressBinding binding;
     private Context context;
     private AddressBean addressBean;
-    private Map map;
-    private AddressEvent addressEvent;
+    private boolean newOrUpdate = true; //true代表新增
 
     //初始化界面
     @Override
@@ -54,16 +47,16 @@ public class NewAddressActivity extends BaseActivity {
     }
 
     private void initData() {
-        map = new HashMap();
-        addressEvent = new AddressEvent(map);
-        binding.setEvent(addressEvent);
         addressBean = getIntent().getParcelableExtra("addressBean");
-        ShapreUtils.putParamCustomerDotId(map);
         if (addressBean != null) {//修改
-            map.put("id", addressBean.id);
-            binding.setAddressBean(addressBean);
+            newOrUpdate = false;
             binding.titleName.setText("修改地址");
+            binding.area.setText(addressBean.province + addressBean.city + addressBean.area);
+        } else {
+            newOrUpdate = true;
+            addressBean = new AddressBean();
         }
+        binding.setAddressBean(addressBean);
     }
 
     /**
@@ -72,45 +65,47 @@ public class NewAddressActivity extends BaseActivity {
      * @param v
      */
     public void save(View v) {
-        map.put("recever", binding.recever.getText().toString());
-        map.put("receverPhone", binding.receverPhone.getText().toString());
-        map.put("postalcode", binding.postalcode.getText().toString());
-        map.put("address", binding.address.getText().toString());
-        if (TextUtils.isEmpty((String) map.get("recever"))) {
+        if (TextUtils.isEmpty(addressBean.receiver)) {
             Utils.showToast(context, "请输入姓名");
             return;
         }
-        if (TextUtils.isEmpty((String) map.get("receverPhone"))) {
+        if (TextUtils.isEmpty(addressBean.phone)) {
             Utils.showToast(context, "请输入手机号码");
             return;
         }
-        if (TextUtils.isEmpty(binding.area.getText().toString())) {
+        if (TextUtils.isEmpty(addressBean.province)
+                || TextUtils.isEmpty(addressBean.city)
+                || TextUtils.isEmpty(addressBean.area)) {
             Utils.showToast(context, "请选择城市");
             return;
         }
-        if (TextUtils.isEmpty((String) map.get("address"))) {
+        if (TextUtils.isEmpty(addressBean.detailAddress)) {
             Utils.showToast(context, "请输入详细地址");
             return;
         }
-        map.put("area", binding.area.getText().toString());
-        saveToServer();
+        if (newOrUpdate) {
+            saveToServer();
+        } else {
+            updateAddress();
+        }
     }
 
     /**
-     * 保存
+     * 新增保存
      */
     private void saveToServer() {
-        fromNetwork.persistAddress(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<BaseReturnModel>(context) {
+        addressBean.customerId = ShapreUtils.getCustomerId();
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(addressBean)));
+
+        fromNetwork.insertAddressByCustomerId(jsonObject)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(NewAddressActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                     @Override
-                    protected void myNext(BaseReturnModel baseReturnModel) {
-                        Utils.showToast(context, baseReturnModel.message);
-                        if (baseReturnModel.success) {
-                            ManageAddressActivity.saveOrUpdate = true;
-                            finish();
-                        }
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        Utils.showToast(context, commonReturnModel.message);
+                        ManageAddressActivity.saveOrUpdate = true;
+                        finish();
                     }
 
                     @Override
@@ -120,6 +115,30 @@ public class NewAddressActivity extends BaseActivity {
                 });
     }
 
+    /**
+     * 修改保存
+     */
+    private void updateAddress() {
+        addressBean.addressId = addressBean.id;
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(addressBean)));
+        LogUtils.i(jsonObject.toString());
+        fromNetwork.updateAddressByAddressId(jsonObject)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(NewAddressActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        Utils.showToast(context, commonReturnModel.message);
+                        ManageAddressActivity.saveOrUpdate = true;
+                        finish();
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(context, message);
+                    }
+                });
+    }
 
     /**
      * 获取城市名称
@@ -140,7 +159,12 @@ public class NewAddressActivity extends BaseActivity {
             if (data != null) {
                 String result = data.getExtras().getString("result");
                 String[] split = result.split("-");
-                binding.area.setText(split[0]);
+                if (split.length >= 3) {
+                    addressBean.province = split[0];
+                    addressBean.city = split[1];
+                    addressBean.area = split[2];
+                    binding.area.setText(addressBean.province + addressBean.city + addressBean.area);
+                }
             }
         }
     }

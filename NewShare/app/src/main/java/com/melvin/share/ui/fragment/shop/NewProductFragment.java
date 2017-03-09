@@ -17,19 +17,16 @@ import com.melvin.share.adapter.NewProductAdapter;
 import com.melvin.share.databinding.FragmentNewProductBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
+import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.ShopInformationActivity;
 import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.view.NoRefreshRecyclerView;
-import com.melvin.share.view.RxSubscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -90,18 +87,19 @@ public class NewProductFragment extends BaseFragment implements NoRefreshRecycle
     private void requestData() {
         map.put("seller.id", ShopInformationActivity.sellerId);
         map.put("createTime", DateUtil.getNowPlusTime());
+
         fromNetwork.findProductsBySeller(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ArrayList<Product>>(mContext) {
+                .compose(new RxFragmentHelper<ArrayList<Product>>().ioMain(mContext, NewProductFragment.this, true))
+                .subscribe(new RxModelSubscribe<ArrayList<Product>>(mContext, true) {
                     @Override
-                    protected void myNext(ArrayList<Product> list) {
-                        data.addAll(list);
+                    protected void myNext(ArrayList<Product> products) {
+                        data.addAll(products);
                         newProductAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     protected void myError(String message) {
+
                         Utils.showToast(mContext, message);
                     }
                 });

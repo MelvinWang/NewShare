@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.RxCarBus;
@@ -12,20 +11,19 @@ import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.event.PostEvent;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.network.NetworkUtil;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.ProductInfoActivity;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import retrofit.Retrofit;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created Time: 2016/7/23.
@@ -122,18 +120,18 @@ public class ShopCarItemViewModel extends BaseObservable {
             carMap.put("repertory.id", product.repertoryId);
             carMap.put("productNum", number);
             ShapreUtils.putParamCustomerDotId(carMap);
+
             fromNetwork.persist(carMap)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscribe<BaseReturnModel>(context) {
+                    .compose(new RxActivityHelper<CommonReturnModel>().ioMain((ShoppingCarActivity) context, true))
+                    .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                         @Override
-                        protected void myNext(BaseReturnModel baseReturnModel) {
-                            Utils.showToast(context, baseReturnModel.message);
+                        protected void myNext(CommonReturnModel commonReturnModel) {
+                            Utils.showToast(context, commonReturnModel.message);
                         }
 
                         @Override
                         protected void myError(String message) {
-
+                            Utils.showToast(context, message);
                         }
                     });
         }

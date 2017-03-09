@@ -8,5 +8,6 @@ package com.melvin.share.model;
  * 功能： 基model
  */
 public abstract class BaseModel {
-
+    public boolean success;
+    public String message;
 }

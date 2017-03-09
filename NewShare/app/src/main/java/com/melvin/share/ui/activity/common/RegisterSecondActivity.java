@@ -1,22 +1,25 @@
 package com.melvin.share.ui.activity.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.databinding.ActivityRegisterSBinding;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxSubscribe;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -52,7 +55,7 @@ public class RegisterSecondActivity extends BaseActivity {
         code = getIntent().getStringExtra("code");
 
         map.put("phone", phone);
-        map.put("username", username);
+        map.put("userName", username);
         map.put("code", code);
 
         userPassword = binding.userPassword;
@@ -83,13 +86,18 @@ public class RegisterSecondActivity extends BaseActivity {
     //注册
     private void regist() {
         map.put("password", confirmPassword.getText().toString());
-        fromNetwork.regist(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<BaseReturnModel>(context) {
+
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        LogUtils.i(jsonObject.toString());
+        fromNetwork.regist(jsonObject)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(RegisterSecondActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                     @Override
-                    protected void myNext(BaseReturnModel baseReturnModel) {
-                        Utils.showToast(context, baseReturnModel.message);
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        Utils.showToast(context, commonReturnModel.message);
+                        startActivity(new Intent(context, LoginActivity.class));
+                        finish();
                     }
 
                     @Override

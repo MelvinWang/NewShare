@@ -1,5 +1,7 @@
 package com.melvin.share.model.serverReturn;
 
+import com.melvin.share.model.BaseModel;
+
 /**
  * Author: Melvin
  * <p/>
@@ -7,5 +9,6 @@ package com.melvin.share.model.serverReturn;
  * <p/>
  * 描述：
  */
-public class CommonModel {
+public class CommonReturnModel<T> extends BaseModel{
+    public T result;
 }

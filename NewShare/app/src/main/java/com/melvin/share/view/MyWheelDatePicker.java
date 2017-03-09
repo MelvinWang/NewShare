@@ -432,6 +432,11 @@ public class MyWheelDatePicker extends LinearLayout implements WheelPicker.OnIte
         return null;
     }
 
+    public String getStringCurrentDate() {
+        String date = mYear + "-" + mMonth + "-" + mDay;
+        return date;
+    }
+
     @Override
     public int getItemAlignYear() {
         return mPickerYear.getItemAlign();

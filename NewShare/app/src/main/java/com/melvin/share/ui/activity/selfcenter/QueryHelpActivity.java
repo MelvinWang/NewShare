@@ -1,18 +1,11 @@
 package com.melvin.share.ui.activity.selfcenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.melvin.share.R;
-import com.melvin.share.Utils.CodeUtils;
-import com.melvin.share.databinding.ActivityLoginBinding;
 import com.melvin.share.databinding.ActivityQueryHelpBinding;
 import com.melvin.share.ui.activity.common.BaseActivity;
-import com.melvin.share.ui.activity.common.PhoneLoginActivity;
-import com.melvin.share.ui.activity.common.RegisterFirstActivity;
 
 
 /**

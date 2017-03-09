@@ -40,6 +40,7 @@ public class RegisterFirstActivity extends BaseActivity {
         initToolbar(binding.toolbar);
         initData();
     }
+
     private void initData() {
         map = new HashMap();
         registerFirstViewModel = new RegisterFirstViewModel(context);
@@ -48,6 +49,7 @@ public class RegisterFirstActivity extends BaseActivity {
         code = binding.userValinumber;
 
     }
+
     /**
      * 获取验证码
      *
@@ -62,8 +64,7 @@ public class RegisterFirstActivity extends BaseActivity {
             Utils.showToast(context, "请输入电话号码");
             return;
         }
-        map.put("phone", phone.getText().toString());
-        registerFirstViewModel.requestData(map);
+        registerFirstViewModel.requestData(username.getText().toString(), phone.getText().toString());
 
     }
 

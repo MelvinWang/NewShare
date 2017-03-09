@@ -19,14 +19,17 @@ import com.melvin.share.adapter.ProductAttriAdapter;
 import com.melvin.share.adapter.ProductInfoAdapter;
 import com.melvin.share.databinding.ActivityProductInfoBinding;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
+import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.ui.activity.common.BaseActivity;
+import com.melvin.share.ui.activity.common.LoginActivity;
+import com.melvin.share.ui.activity.common.RegisterSecondActivity;
 import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
 import com.melvin.share.ui.activity.shopcar.ConfirmOrderActivity;
 import com.melvin.share.popwindow.PurchasePopupWindow;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.rx.RxSubscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,10 +103,11 @@ public class ProductInfoActivity extends BaseActivity {
         attriMap.put("productId", "1");
         map.put("productId", "1");
         ShapreUtils.putParamCustomerId(map);
+
+
         fromNetwork.findProductByCustomer(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ProductDetailBean>(mContext) {
+                .compose(new RxActivityHelper<ProductDetailBean>().ioMain(ProductInfoActivity.this, true))
+                .subscribe(new RxSubscribe<ProductDetailBean>(mContext, true) {
                     @Override
                     protected void myNext(ProductDetailBean productDetailBean) {
                         productDetail = productDetailBean;
@@ -111,10 +115,10 @@ public class ProductInfoActivity extends BaseActivity {
                         setValueToDialog();
                     }
 
-
                     @Override
                     protected void myError(String message) {
 
+                        Utils.showToast(mContext, message);
                     }
                 });
 
@@ -127,10 +131,10 @@ public class ProductInfoActivity extends BaseActivity {
         attriMap.put("attributeValueIds", attributeValueIds);
         attriMap.put("length", length);
         LogUtils.i("哈" + attriMap.toString());
+
         fromNetwork.findProductByAttributeValueIds(attriMap)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<ProductStore>(mContext) {
+                .compose(new RxActivityHelper<ProductStore>().ioMain(ProductInfoActivity.this, true))
+                .subscribe(new RxSubscribe<ProductStore>(mContext, true) {
                     @Override
                     protected void myNext(ProductStore productStore) {
                         repertoryId = productStore.id + "";
@@ -141,13 +145,12 @@ public class ProductInfoActivity extends BaseActivity {
                         menuWindow.store.setText("库存" + productStore.totalNum);
                     }
 
-
                     @Override
                     protected void myError(String message) {
 
+                        Utils.showToast(mContext, message);
                     }
                 });
-
     }
 
     /**
@@ -352,22 +355,19 @@ public class ProductInfoActivity extends BaseActivity {
                         carMap.put("repertory.id", repertoryId);
                         carMap.put("productNum", menuWindow.productNumber);
                         ShapreUtils.putParamCustomerDotId(carMap);
-                        fromNetwork.persist(carMap)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new RxSubscribe<BaseReturnModel>(mContext) {
-                                    @Override
-                                    protected void myNext(BaseReturnModel baseReturnModel) {
-                                        if (baseReturnModel.success) {
-                                            ShoppingCarActivity.updateFlag = true;
-                                        }
-                                        Utils.showToast(mContext, baseReturnModel.message);
-                                    }
 
+                        fromNetwork.persist(carMap)
+                                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
+                                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                                    @Override
+                                    protected void myNext(CommonReturnModel commonReturnModel) {
+                                        Utils.showToast(mContext, commonReturnModel.message);
+                                        ShoppingCarActivity.updateFlag = true;
+                                    }
 
                                     @Override
                                     protected void myError(String message) {
-
+                                        Utils.showToast(mContext, message);
                                     }
                                 });
                     }

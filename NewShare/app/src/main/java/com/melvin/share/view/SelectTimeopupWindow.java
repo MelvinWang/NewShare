@@ -7,9 +7,19 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.melvin.share.R;
+import com.melvin.share.Utils.Utils;
+import com.melvin.share.dialog.OrderCancelDialog;
+
+import java.util.Date;
+
+import static com.melvin.share.R.id.btn_confirm;
+import static com.melvin.share.R.id.sex_cancel;
+
 /**
  * Created Time: 2016/11/24.
  * <p>
@@ -20,14 +30,23 @@ import com.melvin.share.R;
 public class SelectTimeopupWindow extends PopupWindow {
 
     private View mMenuView;
+    private Button btn_confirm;
+    private MyWheelDatePicker main;
 
     @SuppressLint("InflateParams")
-    public SelectTimeopupWindow(Context context) {
+    public SelectTimeopupWindow(final Context context) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.layout_dialog_time, null);
-
+        main = (MyWheelDatePicker) mMenuView.findViewById(R.id.main);
+        btn_confirm = (Button) mMenuView.findViewById(R.id.btn_confirm);
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnClickListener.confirm(main.getStringCurrentDate());
+            }
+        });
         // 设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         // 设置SelectPicPopupWindow弹出窗体的宽
@@ -59,7 +78,17 @@ public class SelectTimeopupWindow extends PopupWindow {
                 return true;
             }
         });
+    }
 
+    public interface OnCliclListener {
+        void confirm(String date);
+
+    }
+
+    public OnCliclListener mOnClickListener;
+
+    public void setOnClickListener(OnCliclListener mOnClickListener) {
+        this.mOnClickListener = mOnClickListener;
     }
 
 }

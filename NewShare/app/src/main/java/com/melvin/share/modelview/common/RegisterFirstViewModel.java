@@ -3,14 +3,14 @@ package com.melvin.share.modelview.common;
 import android.content.Context;
 
 import com.melvin.share.Utils.Utils;
-import com.melvin.share.model.serverReturn.BaseReturnModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.modelview.BaseCommonViewModel;
-import com.melvin.share.view.RxSubscribe;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.ui.activity.common.RegisterFirstActivity;
+import com.melvin.share.rx.RxSubscribe;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -20,52 +20,49 @@ import rx.schedulers.Schedulers;
  * 描述： 登录页面ViewModel
  */
 public class RegisterFirstViewModel extends BaseCommonViewModel {
-    private boolean flag = false;//是否可以获取验证码
+
 
     public RegisterFirstViewModel(Context context) {
         super(context);
     }
-    public void requestData(final Map map) {
-        if (!flag) {
-            fromNetwork.checkCustomer(map)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscribe<BaseReturnModel>(context) {
-                        @Override
-                        protected void myNext(BaseReturnModel baseReturnModel) {
-                            if (baseReturnModel.success) {
-                                requestCode(map);
-                            } else {
-                                Utils.showToast(context, baseReturnModel.message);
-                            }
+
+    public void requestData(String userName, final String phone) {
+        fromNetwork.checkCustomer(userName, phone)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain((RegisterFirstActivity)context,true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        if (commonReturnModel.success) {
+                            requestCode(phone);
+                        } else {
+                            Utils.showToast(context, commonReturnModel.message);
                         }
+                    }
 
 
-                        @Override
-                        protected void myError(String message) {
-                            Utils.showToast(context, message);
-                        }
-                    });
-        } else {
-            requestCode(map);
-        }
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(context, message);
+                    }
+                });
 
     }
 
     /**
      * 请求验证码
      *
-     * @param map
+     * @param phone
      */
-    private void requestCode(Map map) {
-        map.put("type", "1");
+    public void requestCode(String phone) {
+        Map map = new HashMap();
+        map.put("phone", phone);
+        map.put("type", "REGIST");
         fromNetwork.sendMessage(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<BaseReturnModel>(context) {
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain((RegisterFirstActivity)context,true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                     @Override
-                    protected void myNext(BaseReturnModel baseReturnModel) {
-                            Utils.showToast(context, baseReturnModel.message);
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        Utils.showToast(context, commonReturnModel.message);
                     }
 
 
@@ -76,18 +73,7 @@ public class RegisterFirstViewModel extends BaseCommonViewModel {
                 });
 
 
-//        fromNetwork.sendMessage(map)
-//                .compose(RxHelper.<CommonModel>handleResult())
-//                .subscribe(new RxSubscribe<CommonModel>(context) {
-//                    @Override
-//                    protected void myNext(CommonModel CommonModel) {
-//                        Utils.showToast(context, "短信已发送");
-//                    }
-//                    @Override
-//                    protected void myError(String message) {
-//                        Utils.showToast(context, message);
-//                    }
-//                });
+
     }
 
 }
