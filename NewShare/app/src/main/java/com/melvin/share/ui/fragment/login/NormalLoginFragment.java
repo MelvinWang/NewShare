@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.CodeUtils;
 import com.melvin.share.Utils.ShapreUtils;
@@ -26,6 +29,9 @@ import com.melvin.share.ui.activity.common.ForgetPasswordActivity;
 import com.melvin.share.ui.activity.common.MainActivity;
 import com.melvin.share.ui.activity.common.RegisterFirstActivity;
 import com.melvin.share.ui.fragment.main.BaseFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.melvin.share.R.mipmap.phone;
 
@@ -137,8 +143,12 @@ public class NormalLoginFragment extends BaseFragment implements View.OnClickLis
             Utils.showToast(mContext, "图片验证码不一致");
             return;
         }
-
-        fromNetwork.loginByPassword(phoneEt.getText().toString(), passwordEt.getText().toString())
+        Map map = new HashMap();
+        map.put("account", phoneEt.getText().toString());
+        map.put("password", passwordEt.getText().toString());
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.loginByPassword(jsonObject)
                 .compose(new RxFragmentHelper<CommonReturnModel<SelfInformation>>().ioMain(mContext, NormalLoginFragment.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<SelfInformation>>(mContext, true) {
                     @Override

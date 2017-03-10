@@ -244,7 +244,6 @@ public class SettingActivity extends BaseActivity {
      */
     private void updateCutomerById() {
         mCustomer.customerId = mCustomer.id;
-        mCustomer.realName = mCustomer.userName;
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(mCustomer)));
 

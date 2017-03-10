@@ -51,7 +51,7 @@ public class AllProductItemViewModel extends BaseObservable {
     }
 
     public String getImgUrl() {
-        String[] split = product.picture.split("\\|");
+        String[] split = product.mainProduct.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.SERVICE_URL + split[0];
             return url;

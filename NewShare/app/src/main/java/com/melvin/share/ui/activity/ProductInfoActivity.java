@@ -23,6 +23,7 @@ import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
 import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.LoginActivity;
 import com.melvin.share.ui.activity.common.RegisterSecondActivity;
@@ -100,14 +101,14 @@ public class ProductInfoActivity extends BaseActivity {
     private void initData() {
         map = new HashMap();
         attriMap = new HashMap();
-        attriMap.put("productId", "1");
-        map.put("productId", "1");
+        attriMap.put("productId", productId);
+        map.put("productId", productId);
         ShapreUtils.putParamCustomerId(map);
 
 
-        fromNetwork.findProductByCustomer(map)
+        fromNetwork.findProductDetail(productId)
                 .compose(new RxActivityHelper<ProductDetailBean>().ioMain(ProductInfoActivity.this, true))
-                .subscribe(new RxSubscribe<ProductDetailBean>(mContext, true) {
+                .subscribe(new RxModelSubscribe<ProductDetailBean>(mContext, true) {
                     @Override
                     protected void myNext(ProductDetailBean productDetailBean) {
                         productDetail = productDetailBean;
@@ -117,7 +118,6 @@ public class ProductInfoActivity extends BaseActivity {
 
                     @Override
                     protected void myError(String message) {
-
                         Utils.showToast(mContext, message);
                     }
                 });
@@ -262,9 +262,9 @@ public class ProductInfoActivity extends BaseActivity {
                     menuWindow.textName1.setText(productDetail.attributes.get(0).attributeName);
                     data1.addAll(productDetail.attributes.get(0).attributeValues);
                     productAttriAdapter1.notifyDataSetChanged();
-                    id1 = productDetail.attributes.get(0).attributeValues.get(0).id + "";
+                    id1 = productDetail.attributes.get(0).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1;
-                    findProductByAttributeValueIds();
+//                    findProductByAttributeValueIds();
                     break;
                 case 2:
                     menuWindow.linearLayout1.setVisibility(View.VISIBLE);
@@ -276,10 +276,10 @@ public class ProductInfoActivity extends BaseActivity {
                     productAttriAdapter1.notifyDataSetChanged();
                     productAttriAdapter2.notifyDataSetChanged();
 
-                    id1 = productDetail.attributes.get(0).attributeValues.get(0).id + "";
-                    id2 = productDetail.attributes.get(1).attributeValues.get(0).id + "";
+                    id1 = productDetail.attributes.get(0).attributeValues.get(0).attributeValueId + "";
+                    id2 = productDetail.attributes.get(1).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1 + "," + id2;
-                    findProductByAttributeValueIds();
+//                    findProductByAttributeValueIds();
                     break;
                 case 3:
                     menuWindow.linearLayout1.setVisibility(View.VISIBLE);
@@ -294,11 +294,12 @@ public class ProductInfoActivity extends BaseActivity {
                     productAttriAdapter1.notifyDataSetChanged();
                     productAttriAdapter2.notifyDataSetChanged();
                     productAttriAdapter3.notifyDataSetChanged();
-                    id1 = productDetail.attributes.get(0).attributeValues.get(0).id + "";
-                    id2 = productDetail.attributes.get(1).attributeValues.get(0).id + "";
-                    id3 = productDetail.attributes.get(2).attributeValues.get(0).id + "";
+
+                    id1 = productDetail.attributes.get(0).attributeValues.get(0).attributeValueId + "";
+                    id2 = productDetail.attributes.get(1).attributeValues.get(0).attributeValueId + "";
+                    id3 = productDetail.attributes.get(2).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1 + "," + id2 + "," + id3;
-                    findProductByAttributeValueIds();
+//                    findProductByAttributeValueIds();
                     break;
                 case 4:
                     menuWindow.linearLayout1.setVisibility(View.VISIBLE);
@@ -317,12 +318,13 @@ public class ProductInfoActivity extends BaseActivity {
                     productAttriAdapter2.notifyDataSetChanged();
                     productAttriAdapter3.notifyDataSetChanged();
                     productAttriAdapter4.notifyDataSetChanged();
-                    id1 = productDetail.attributes.get(0).attributeValues.get(0).id + "";
-                    id2 = productDetail.attributes.get(1).attributeValues.get(0).id + "";
-                    id3 = productDetail.attributes.get(2).attributeValues.get(0).id + "";
-                    id4 = productDetail.attributes.get(3).attributeValues.get(0).id + "";
+
+                    id1 = productDetail.attributes.get(0).attributeValues.get(0).attributeValueId + "";
+                    id2 = productDetail.attributes.get(1).attributeValues.get(0).attributeValueId + "";
+                    id3 = productDetail.attributes.get(2).attributeValues.get(0).attributeValueId + "";
+                    id4 = productDetail.attributes.get(3).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1 + "," + id2 + "," + id3 + "," + id4;
-                    findProductByAttributeValueIds();
+//                    findProductByAttributeValueIds();
                     break;
             }
         }
@@ -335,42 +337,42 @@ public class ProductInfoActivity extends BaseActivity {
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.purchase_confirm:
-                    if (flag) {   //直接购买
-                        List<Product> products = new ArrayList<>();
-                        //构造一个商品
-                        Product product = new Product();
-                        product.id = productDetail.product.id + "";
-                        product.repertoryId = repertoryId;
-                        product.productNumber = menuWindow.productNumber + "";
-                        product.picture = productDetail.product.picture;
-                        product.productName = repertoryProductName;
-                        product.repertoryName = repertoryProductName;
-                        product.price = repertoryProductPrice;
-                        products.add(product);
-                        Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
-                        intent.putParcelableArrayListExtra("products", (ArrayList<? extends Parcelable>) products);
-                        startActivity(intent);
-                    } else { //加入到购物车
-                        Map carMap = new HashMap();
-                        carMap.put("repertory.id", repertoryId);
-                        carMap.put("productNum", menuWindow.productNumber);
-                        ShapreUtils.putParamCustomerDotId(carMap);
-
-                        fromNetwork.persist(carMap)
-                                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
-                                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
-                                    @Override
-                                    protected void myNext(CommonReturnModel commonReturnModel) {
-                                        Utils.showToast(mContext, commonReturnModel.message);
-                                        ShoppingCarActivity.updateFlag = true;
-                                    }
-
-                                    @Override
-                                    protected void myError(String message) {
-                                        Utils.showToast(mContext, message);
-                                    }
-                                });
-                    }
+//                    if (flag) {   //直接购买
+//                        List<Product> products = new ArrayList<>();
+//                        //构造一个商品
+//                        Product product = new Product();
+//                        product.id = productDetail.product.id + "";
+//                        product.repertoryId = repertoryId;
+//                        product.productNumber = menuWindow.productNumber + "";
+//                        product.picture = productDetail.product.picture;
+//                        product.productName = repertoryProductName;
+//                        product.repertoryName = repertoryProductName;
+//                        product.price = repertoryProductPrice;
+//                        products.add(product);
+//                        Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
+//                        intent.putParcelableArrayListExtra("products", (ArrayList<? extends Parcelable>) products);
+//                        startActivity(intent);
+//                    } else { //加入到购物车
+//                        Map carMap = new HashMap();
+//                        carMap.put("repertory.id", repertoryId);
+//                        carMap.put("productNum", menuWindow.productNumber);
+//                        ShapreUtils.putParamCustomerDotId(carMap);
+//
+//                        fromNetwork.persist(carMap)
+//                                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
+//                                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+//                                    @Override
+//                                    protected void myNext(CommonReturnModel commonReturnModel) {
+//                                        Utils.showToast(mContext, commonReturnModel.message);
+//                                        ShoppingCarActivity.updateFlag = true;
+//                                    }
+//
+//                                    @Override
+//                                    protected void myError(String message) {
+//                                        Utils.showToast(mContext, message);
+//                                    }
+//                                });
+//                    }
                     break;
             }
 

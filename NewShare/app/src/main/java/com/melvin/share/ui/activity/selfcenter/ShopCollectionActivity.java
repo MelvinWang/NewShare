@@ -11,6 +11,9 @@ import com.melvin.share.modelview.acti.ShopCollectionViewModel;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.MyRecyclerView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Author: Melvin
  * <p/>
@@ -24,6 +27,8 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
     private ShopCollectionViewModel shopCollectionViewModel;
+    private Map map;
+    private int pageNo = 1;
 
     @Override
     protected void initView() {
@@ -35,12 +40,14 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
     }
 
     private void ininData() {
+        map = new HashMap();
+        map.put("pageNo", pageNo + "");
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        shopCollectionViewModel = new ShopCollectionViewModel(this, mRecyclerView,binding.edit,binding.cancel,binding.delete);
+        shopCollectionViewModel = new ShopCollectionViewModel(this, mRecyclerView, binding.edit, binding.cancel, binding.delete);
         binding.setViewModel(shopCollectionViewModel);
-        shopCollectionViewModel.requestData();
+        shopCollectionViewModel.requestData(map);
     }
 
     /**
@@ -48,8 +55,9 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
      */
     @Override
     public void onRefresh() {
-        shopCollectionViewModel.requestData();
-        mRecyclerView.refreshComplete();
+        pageNo = 1;
+        map.put("pageNo", pageNo + "");
+        shopCollectionViewModel.requestData(map);
     }
 
     /**
@@ -57,7 +65,9 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
      */
     @Override
     public void onLoadMore() {
-
+        pageNo++;
+        map.put("pageNo", pageNo + "");
+        shopCollectionViewModel.requestData(map);
     }
 
 

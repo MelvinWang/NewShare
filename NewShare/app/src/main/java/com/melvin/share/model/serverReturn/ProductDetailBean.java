@@ -11,113 +11,48 @@ import java.util.List;
  * <p/>
  * 功能：商品详情
  */
-public class ProductDetailBean extends BaseModel{
+public class ProductDetailBean extends BaseModel {
 
 
     /**
-     * picture : /repository/niuzaiku1.png|/repository/niuzaiku2.png|/repository/niuzaiku3.png
      * id : 1
-     * level : 10
-     * productTotal : 1000
-     * shareTimes : 321
-     * productName : 牛仔裤
-     * postage : 10
+     * name : 小米手机
+     * mainPicture : /repository/xiaomi.png
+     * otherPicture :
+     * place : 北京
+     * price : 688
+     * shareTimes : 300
+     * total : 1000
+     * properties : [{"propertyName":"主屏分辨率","propertyValue":"1920x1080像素"},{"propertyName":"屏幕","propertyValue":"5.5英寸"},{"propertyName":"后置摄像头","propertyValue":"1200万像素"},{"propertyName":"电池容量","propertyValue":" 2860mAh"}]
+     * attributes : [{"attributeName":"内存","attributeValues":[{"attributeValueId":1,"attributeValue":"1G"},{"attributeValueId":2,"attributeValue":"2G"}]},{"attributeName":"颜色","attributeValues":[{"attributeValueId":3,"attributeValue":"红色"},{"attributeValueId":4,"attributeValue":"白色"},{"attributeValueId":5,"attributeValue":"黑色"}]}]
      */
 
-    public ProductBean product;
-    /**
-     * id : 1
-     * detailName : 主要材质
-     * detailValue : 棉
-     */
-
-    public List<DetailsBean> details;
-    /**
-     * id : 1
-     * attributeName : 颜色
-     * attributeValues : [{"id":3,"attributeValueName":"蓝色"},{"id":4,"attributeValueName":"黑色"}]
-     */
-
+    public String id;
+    public String name;
+    public String mainPicture;
+    public String otherPicture;
+    public String place;
+    public String price;
+    public String shareTimes;
+    public String total;
+    public List<PropertiesBean> properties;
     public List<AttributesBean> attributes;
 
-    public static class ProductBean {
-        public String picture;
-        public int id;
-        public int level;
-        public int price;
-        public int productTotal;
-        public int shareTimes;
-        public String productName;
-        public int postage;
 
-        @Override
-        public String toString() {
-            return "ProductBean{" +
-                    "picture='" + picture + '\'' +
-                    ", id=" + id +
-                    ", level=" + level +
-                    ", productTotal=" + productTotal +
-                    ", shareTimes=" + shareTimes +
-                    ", productName='" + productName + '\'' +
-                    ", postage=" + postage +
-                    '}';
-        }
+    public static class PropertiesBean extends BaseModel {
+        public String propertyName;
+        public String propertyValue;
+
+
     }
 
-    public static class DetailsBean extends BaseModel {
-        public int id;
-        public String detailName;
-        public String detailValue;
-
-        @Override
-        public String toString() {
-            return "DetailsBean{" +
-                    "id=" + id +
-                    ", detailName='" + detailName + '\'' +
-                    ", detailValue='" + detailValue + '\'' +
-                    '}';
-        }
-    }
-
-    public static class AttributesBean extends BaseModel{
-        public int id;
+    public static class AttributesBean extends BaseModel {
         public String attributeName;
-
-        @Override
-        public String toString() {
-            return "AttributesBean{" +
-                    "id=" + id +
-                    ", attributeName='" + attributeName + '\'' +
-                    ", attributeValues=" + attributeValues +
-                    '}';
-        }
-
-        /**
-         * id : 3
-         * attributeValueName : 蓝色
-         */
         public List<AttributeValuesBean> attributeValues;
 
         public static class AttributeValuesBean extends BaseModel {
-            public int id;
-            public String attributeValueName;
-
-            @Override
-            public String toString() {
-                return "AttributeValuesBean{" +
-                        "id=" + id +
-                        ", attributeValueName='" + attributeValueName + '\'' +
-                        '}';
-            }
+            public String attributeValueId;
+            public String attributeValue;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ProductDetailBean{" +
-                "product=" + product +
-                ", details=" + details +
-                ", attributes=" + attributes +
-                '}';
     }
 }

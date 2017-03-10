@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.melvin.share.modelview.item.HotLabelItemViewModel" />
+    </data>
+
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="14dp"
+        android:layout_marginLeft="2dp"
+        android:background="@drawable/btn_rectangle_label"
+        android:gravity="center"
+        android:text="@{viewModel.labelName}"
+        android:textColor="#828282"
+        android:textSize="8sp"
+        tools:text="标签标志" />
+
+
+</layout>

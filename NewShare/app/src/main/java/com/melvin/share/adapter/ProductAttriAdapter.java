@@ -50,8 +50,8 @@ public class ProductAttriAdapter extends BaseAdapter<ProductAttriAdapter.Binding
     @Override
     public void onBindViewHolder(final BindingHolder holder, int position) {
         //当viewholder和数据绑定时的回调
-        holder.mButton.setText(list.get(position).attributeValueName);
-        holder.itemView.setTag(list.get(position).id+"");
+        holder.mButton.setText(list.get(position).attributeValue);
+        holder.itemView.setTag(list.get(position).attributeValueId+"");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

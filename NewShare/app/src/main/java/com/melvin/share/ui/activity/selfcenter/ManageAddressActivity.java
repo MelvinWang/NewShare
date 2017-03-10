@@ -61,7 +61,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
      */
     @Override
     public void onRefresh() {
-        manageAddressViewModel.requestQueryData();
+        manageAddressViewModel.requestData();
         mRecyclerView.refreshComplete();
     }
 
@@ -70,6 +70,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
      */
     @Override
     public void onLoadMore() {
+        mRecyclerView.loadMoreComplete();
 
     }
 
@@ -77,7 +78,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
     protected void onRestart() {
         super.onRestart();
         if (saveOrUpdate) {
-            manageAddressViewModel.requestQueryData();
+            manageAddressViewModel.requestData();
             saveOrUpdate = false;
         }
     }

@@ -46,7 +46,7 @@ public class ProductDetailAdapter extends BaseAdapter<ProductDetailAdapter.Bindi
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((ProductDetailBean.DetailsBean) list.get(position));
+        holder.bindObject((ProductDetailBean.PropertiesBean) list.get(position));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ProductDetailAdapter extends BaseAdapter<ProductDetailAdapter.Bindi
             this.binding = binding;
         }
 
-        void bindObject(final ProductDetailBean.DetailsBean detailsBean) {
+        void bindObject(final ProductDetailBean.PropertiesBean detailsBean) {
             if (binding.getViewModel() == null) {
                 binding.setViewModel(new ProductDetailItemViewModel(context, detailsBean));
             } else {

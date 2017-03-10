@@ -16,8 +16,7 @@ import com.melvin.share.Utils.GlideImgManager;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.ViewUtils;
-import com.melvin.share.adapter.RecommendShopAdapter;
-import com.melvin.share.app.BaseApplication;
+import com.melvin.share.adapter.ShareHotAdapter;
 import com.melvin.share.databinding.FragmentSelfBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.User;
@@ -50,7 +49,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     private Context mContext;
     private View root;
     private RecyclerView recyclerView;
-    private RecommendShopAdapter adpter;
+    private ShareHotAdapter adpter;
     private List<BaseModel> dataList = new ArrayList<>();
 
     @Override
@@ -106,7 +105,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
         gridLayoutManager.setSmoothScrollbarEnabled(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        adpter = new RecommendShopAdapter(mContext, dataList);
+        adpter = new ShareHotAdapter(mContext, dataList);
         recyclerView.setAdapter(adpter);
     }
 
@@ -205,27 +204,12 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
      * 请求网络，分享热度商品
      */
     private void requestData() {
-        for (int i = 0; i <= 10; i++) {
-            User user = new User();
-            user.username = "username" + i;
-            dataList.add(user);
-        }
-        adpter.notifyDataSetChanged();
-//        fromNetwork.findRecommendedSeller()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new RxSubscribe<ArrayList<ShopBean>>(mContext) {
-//                    @Override
-//                    protected void myNext(ArrayList<ShopBean> list) {
-//                        dataList.addAll(list);
-//                        adpter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    protected void myError(String message) {
-//
-//                    }
-//
-//                });
+//        for (int i = 0; i <= 10; i++) {
+//            User user = new User();
+//            user.username = "username" + i;
+//            dataList.add(user);
+//        }
+//        adpter.notifyDataSetChanged();
+
     }
 }

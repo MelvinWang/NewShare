@@ -6,29 +6,33 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
-import com.melvin.share.adapter.RecommendShopAdapter;
+import com.melvin.share.adapter.ShareHotAdapter;
 import com.melvin.share.databinding.FragmentHomeBinding;
 import com.melvin.share.model.BaseModel;
-import com.melvin.share.model.User;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.list.HomeHotProduct;
+import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
 import com.melvin.share.ui.activity.home.RecommendActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Melvin
@@ -41,7 +45,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
 
     private FragmentHomeBinding binding;
     private Context mContext;
-    private RecommendShopAdapter adpter;
+    private ShareHotAdapter adpter;
     private List<BaseModel> dataList = new ArrayList<>();
     private MyRecyclerView recyclerView;
     private View root;
@@ -49,6 +53,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
     private ImageView scanButton;
     private ImageView recommendButton;
     private ImageView locationButton;
+    private Map map;
+    private int pageNo = 1;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -69,6 +75,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
      * 初始化数据
      */
     private void initData() {
+        map = new HashMap();
         recyclerView = binding.recyclerView;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
@@ -119,7 +126,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
      * 初始化Adapter
      */
     private void initAdapter() {
-        adpter = new RecommendShopAdapter(mContext, dataList);
+        adpter = new ShareHotAdapter(mContext, dataList);
         recyclerView.setAdapter(adpter);
     }
 
@@ -127,28 +134,30 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
      * 请求网络，分享热度商品
      */
     private void requestData() {
-        for (int i = 0; i <= 10; i++) {
-            User user = new User();
-            user.username = "username" + i;
-            dataList.add(user);
-        }
-        adpter.notifyDataSetChanged();
-//        fromNetwork.findRecommendedSeller()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new RxSubscribe<ArrayList<ShopBean>>(mContext) {
-//                    @Override
-//                    protected void myNext(ArrayList<ShopBean> list) {
-//                        dataList.addAll(list);
-//                        adpter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    protected void myError(String message) {
-//
-//                    }
-//
-//                });
+        map.put("pageNo", pageNo);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findHotProduct(jsonObject)
+                .compose(new RxFragmentHelper<CommonList<HomeHotProduct>>().ioMain(mContext, HomeFragment.this, true))
+                .subscribe(new RxModelSubscribe<CommonList<HomeHotProduct>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonList<HomeHotProduct> commonList) {
+                        dataList.addAll(commonList.rows);
+                        adpter.notifyDataSetChanged();
+                        if (pageNo == 1) {
+                            recyclerView.refreshComplete();
+                        } else {
+                            recyclerView.loadMoreComplete();
+                        }
+
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 
     /**
@@ -156,9 +165,10 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
      */
     @Override
     public void onRefresh() {
+        pageNo = 1;
         dataList.clear();
         requestData();
-        recyclerView.refreshComplete();
+
 
     }
 
@@ -167,7 +177,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
      */
     @Override
     public void onLoadMore() {
+        pageNo++;
         requestData();
-        recyclerView.loadMoreComplete();
+
     }
 }

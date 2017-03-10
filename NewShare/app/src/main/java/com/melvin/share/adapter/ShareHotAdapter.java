@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import com.melvin.share.R;
 import com.melvin.share.databinding.HomeItemBinding;
 import com.melvin.share.model.BaseModel;
-import com.melvin.share.model.User;
-import com.melvin.share.modelview.item.RecommendShopItemViewModel;
+import com.melvin.share.model.list.HomeHotProduct;
+import com.melvin.share.modelview.item.ShareHotItemViewModel;
 
 import java.util.List;
 
@@ -22,11 +22,11 @@ import java.util.List;
  * <p/>
  * 功能：分享热度的Adapter
  */
-public class RecommendShopAdapter extends BaseAdapter<RecommendShopAdapter.BindingHolder> {
+public class ShareHotAdapter extends BaseAdapter<ShareHotAdapter.BindingHolder> {
     private List<BaseModel> list;
     private Context context;
 
-    public RecommendShopAdapter(Context context, List<BaseModel> list) {
+    public ShareHotAdapter(Context context, List<BaseModel> list) {
         this.list = list;
         this.context = context;
     }
@@ -43,7 +43,7 @@ public class RecommendShopAdapter extends BaseAdapter<RecommendShopAdapter.Bindi
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((HomeHotProduct) list.get(position));
     }
 
     @Override
@@ -62,9 +62,9 @@ public class RecommendShopAdapter extends BaseAdapter<RecommendShopAdapter.Bindi
             this.binding = binding;
         }
 
-        void bindObject(final User model) {
+        void bindObject(final HomeHotProduct model) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new RecommendShopItemViewModel(context, model));
+                binding.setViewModel(new ShareHotItemViewModel(context, model,binding.recyclerView));
             } else {
                 binding.getViewModel().setEntity(model);
             }

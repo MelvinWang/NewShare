@@ -25,25 +25,26 @@ public class HomeShopItemViewModel extends BaseObservable {
     private Context context;
 
 
-    public HomeShopItemViewModel(Context context,ShopBean shopBean) {
+    public HomeShopItemViewModel(Context context, ShopBean shopBean) {
         this.shopBean = shopBean;
         this.context = context;
     }
 
     public void onItemClick(View view) {
         Intent intent = new Intent(context, ShopInformationActivity.class);
-        intent.putExtra("shopBean",shopBean);
+        intent.putExtra("shopBean", shopBean);
         context.startActivity(intent);
 
     }
+
     public String getShopName() {
         return shopBean.name;
     }
+
     public String getImgUrl() {
-        String[] split = shopBean.logo.split("\\|");
+        String[] split = shopBean.picture.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.SERVICE_URL + split[0];
-            LogUtils.e("哈哈"+url);
             return url;
         }
         return "";

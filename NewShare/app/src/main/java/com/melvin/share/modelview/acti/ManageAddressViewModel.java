@@ -48,12 +48,18 @@ public class ManageAddressViewModel extends BaseRecyclerViewModel<BaseModel> imp
     }
 
 
+    /**
+     * 第一次请求或者刷新
+     *
+     * @param
+     */
     public void requestData() {
         fromNetwork.findAddressByCustomerId(ShapreUtils.getCustomerId())
                 .compose(new RxActivityHelper<ArrayList<AddressBean>>().ioMain((ManageAddressActivity) context, true))
                 .subscribe(new RxModelSubscribe<ArrayList<AddressBean>>(context, true) {
                     @Override
                     protected void myNext(ArrayList<AddressBean> list) {
+                        data.clear();
                         data.addAll(list);
                         onRequestSuccess(data);
                     }
@@ -72,7 +78,6 @@ public class ManageAddressViewModel extends BaseRecyclerViewModel<BaseModel> imp
                 .subscribe(new RxModelSubscribe<ArrayList<AddressBean>>(context, true) {
                     @Override
                     protected void myNext(ArrayList<AddressBean> list) {
-                        data.clear();
                         data.addAll(list);
                         onRequestSuccess(data);
                     }
@@ -101,7 +106,7 @@ public class ManageAddressViewModel extends BaseRecyclerViewModel<BaseModel> imp
                     @Override
                     protected void myNext(CommonReturnModel commonReturnModel) {
                         Utils.showToast(context, commonReturnModel.message);
-                        requestQueryData();
+                        requestData();
                     }
 
                     @Override

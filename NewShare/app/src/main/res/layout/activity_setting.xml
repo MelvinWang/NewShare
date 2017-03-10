@@ -119,7 +119,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:gravity="right"
-                android:text="@={model.userName}" />
+                android:text="@={model.realName}" />
         </LinearLayout>
 
         <TextView

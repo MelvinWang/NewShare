@@ -38,7 +38,7 @@ public class ProductInfoFragment extends BaseFragment {
     private FragmentProductinfoBinding binding;
     private Context mContext;
     private LMBanners mLBanners;
-    private ScrollRecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     private RecyclerView mDetailRecyclerView;
     private ProductInformationAdapter productInformationAdapter;
     private ProductDetailAdapter productDetailAdapter;
@@ -50,6 +50,7 @@ public class ProductInfoFragment extends BaseFragment {
 
     public ProductDetailBean productDetailBean;
     private View root;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_productinfo, container, false);
@@ -60,8 +61,8 @@ public class ProductInfoFragment extends BaseFragment {
             initAdapter();
             root = binding.getRoot();
             requestData();
-        }else{
-            ViewUtils.removeParent(root);// 移除frameLayout之前的爹
+        } else {
+            ViewUtils.removeParent(root);
         }
         return root;
 
@@ -98,7 +99,7 @@ public class ProductInfoFragment extends BaseFragment {
      * 数据赋值
      */
     private void requestData() {
-        String picture = productDetailBean.product.picture;
+        String picture = productDetailBean.mainPicture;
         if (!TextUtils.isEmpty(picture)) {
             String[] split = picture.split("\\|");
             if (split != null) {
@@ -109,14 +110,21 @@ public class ProductInfoFragment extends BaseFragment {
                 }
             }
         }
-        binding.productName.setText(productDetailBean.product.productName);
-        binding.shareTime.setText(productDetailBean.product.shareTimes + "分享");
-        binding.price.setText("￥ " + productDetailBean.product.price);
-        data.addAll(ImgUrlBeanList);
-        datadetail.addAll(productDetailBean.details);
+        binding.productName.setText(productDetailBean.name);
+        binding.shareTime.setText(productDetailBean.shareTimes + "分享");
+        binding.price.setText("￥ " + productDetailBean.price);
+
+        //Banner图片
         mLBanners.setAdapter(new UrlImgAdapter(mContext), networkImages);
-        productInformationAdapter.notifyDataSetChanged();
+
+        //参数信息
+        datadetail.addAll(productDetailBean.properties);
         productDetailAdapter.notifyDataSetChanged();
+
+
+        //底部图片
+        data.addAll(ImgUrlBeanList);
+        productInformationAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ProductAttriItemViewModel extends BaseObservable {
     }
 
     public String getAttriName() {
-        return attributeValuesBean.attributeValueName;
+        return attributeValuesBean.attributeValue;
     }
 
     public void setEntity(ProductDetailBean.AttributesBean.AttributeValuesBean attributeValuesBean) {

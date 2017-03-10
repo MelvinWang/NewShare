@@ -6,7 +6,8 @@ import android.databinding.BaseObservable;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.melvin.share.model.User;
+import com.melvin.share.model.serverReturn.ShopBean;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ShopInformationActivity;
 
 /**
@@ -18,34 +19,40 @@ import com.melvin.share.ui.activity.ShopInformationActivity;
  */
 public class ShopCollectionItemViewModel extends BaseObservable {
 
-    private User user;
+    private ShopBean bean;
     private Context context;
     private String number = "1";
 
-    public ShopCollectionItemViewModel(Context context, User user) {
-        this.user = user;
+    public ShopCollectionItemViewModel(Context context, ShopBean bean) {
+        this.bean = bean;
         this.context = context;
     }
 
     public void onItemClick(View view) {
-        context.startActivity(new Intent(context, ShopInformationActivity.class));
+        Intent intent = new Intent(context, ShopInformationActivity.class);
+        intent.putExtra("shopBean", bean);
+        context.startActivity(intent);
     }
 
 
     public void setIsShow(boolean b) {
-        user.isShow = b;
+        bean.isShow = b;
     }
 
     public boolean getIsShow() {
-        return user.isShow;
+        return bean.isShow;
     }
 
     public void setIsFocus(boolean b) {
-        user.isChecked = b;
+        bean.isChecked = b;
     }
 
     public boolean getIsFocus() {
-        return user.isChecked;
+        return bean.isChecked;
+    }
+
+    public String getName() {
+        return bean.name;
     }
 
     /**
@@ -64,11 +71,16 @@ public class ShopCollectionItemViewModel extends BaseObservable {
     }
 
     public String getImgUrl() {
-        return "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+        String[] split = bean.picture.split("\\|");
+        if (split != null && split.length >= 1) {
+            String url = GlobalUrl.SERVICE_URL + split[0];
+            return url;
+        }
+        return "";
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+    public void setEntity(ShopBean bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

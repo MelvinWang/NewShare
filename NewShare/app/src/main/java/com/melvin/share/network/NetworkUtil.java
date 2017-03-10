@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.melvin.share.model.Category;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.customer.Customer;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.list.HomeHotProduct;
 import com.melvin.share.model.serverReturn.AddressBean;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
@@ -68,9 +70,8 @@ public class NetworkUtil {
         Observable<CommonReturnModel> updatePassword(@Body JsonObject json);
 
         //会员账号登录
-        @GET("/app/customer/loginByPassword")
-        Observable<CommonReturnModel<SelfInformation>> loginByPassword(@Query("account") String account,
-                                                                       @Query("password") String password);
+        @POST("/app/customer/loginByPassword")
+        Observable<CommonReturnModel<SelfInformation>> loginByPassword(@Body JsonObject json);
 
         //会员凭手机验证码登录接口
         @GET("/app/customer/loginByPhoneCode")
@@ -117,6 +118,59 @@ public class NetworkUtil {
         Observable<CommonReturnModel> deleteAddressByIds(@Query("addressIds") String[] addressIds);
 
 
+        /**
+         * 店铺相关东西
+         */
+
+        //查询收藏商店
+        @POST("/app/user/findCollectUserByCustomerId")
+        Observable<CommonList<ShopBean>> findCollectUserByCustomerId(@Body JsonObject json);
+
+        //通过店铺ID查询店铺信息接口
+        @GET("/app/user/findUserById")
+        Observable<ShopBean> findShopById(@Query("userId") String userId,
+                                          @Query("customerId") String customerId);
+        //按商家查询商品接口
+        @POST(" /app/product/findProductByUser")
+        Observable<CommonList<Product>> findProductByUser(@Body JsonObject json);
+
+        //收藏或者取消收藏接口
+        @FormUrlEncoded
+        @POST("/app/user/collectUserOrDeleteUser")
+        Observable<CommonReturnModel> collectUserOrDeleteUser(@FieldMap Map<Object, Object> map);
+
+        //批量删除收藏店铺
+        @DELETE("/app/user/deleteCollectUserByIds")
+        Observable<CommonReturnModel> deleteCollectUserByIds(@Query("collectionUserIds") String[] collectionUserIds);
+
+        //推荐商家
+        @GET("/app/user/findRecommendedUser")
+        Observable<ArrayList<ShopBean>> findRecommendedSeller();
+
+        /**
+         * 商品相关东西
+         */
+
+        //首页推荐商家
+        @POST("/app/product/findHotProduct")
+        Observable<CommonList<HomeHotProduct>> findHotProduct(@Body JsonObject json);
+
+        //查看商品详情
+
+        @GET("/app/product/findProductDetail")
+        Observable<ProductDetailBean> findProductDetail(@Query("id") String id);
+
+
+
+
+
+
+
+
+
+
+
+
         //首页分类
         @POST("/app/category/findAll")
         Observable<ArrayList<Category>> categoryFind();
@@ -126,9 +180,7 @@ public class NetworkUtil {
         @POST("/app/product/findProductsInHomePage")
         Observable<ArrayList<Product>> findProductsInHomePage(@FieldMap Map<Object, Object> map);
 
-        //首页推荐商家
-        @POST("/app/seller/findRecommendedSeller")
-        Observable<ArrayList<ShopBean>> findRecommendedSeller();
+
 
         //查看分类下的商品
         @FormUrlEncoded
@@ -136,10 +188,7 @@ public class NetworkUtil {
         Observable<ArrayList<Product>> findProductsByCategory(@FieldMap Map<Object, Object> map);
 
 
-        //查看商品详情
-        @FormUrlEncoded
-        @POST("/app/product/findProductByCustomer")
-        Observable<ProductDetailBean> findProductByCustomer(@FieldMap Map<Object, Object> map);
+
 
         //查询到具体商品的库存量等信息
         @FormUrlEncoded

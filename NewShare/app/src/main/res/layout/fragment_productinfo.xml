@@ -4,7 +4,7 @@
 
     <data class="FragmentProductinfoBinding"></data>
 
-    <com.melvin.share.view.MyScrollview
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/f2f2f2">
@@ -95,7 +95,7 @@
                 style="@style/CommonLine"
                 android:layout_marginTop="3dp" />
 
-            <com.melvin.share.view.ScrollRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -104,6 +104,6 @@
 
         </LinearLayout>
 
-    </com.melvin.share.view.MyScrollview>
+    </android.support.v4.widget.NestedScrollView>
 
 </layout>

@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:onClick="@{viewModel.onItemClick}"
         android:orientation="vertical"
+        android:background="@color/f2f2f2"
         android:padding="8dp">
 
         <ImageView

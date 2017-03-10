@@ -7,37 +7,37 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.melvin.share.R;
-import com.melvin.share.databinding.SearchProductItemBinding;
-import com.melvin.share.databinding.ShopCollectionItemBinding;
+import com.melvin.share.databinding.HotLabelItemBinding;
+import com.melvin.share.databinding.SearchItemBinding;
 import com.melvin.share.model.BaseModel;
-import com.melvin.share.model.User;
-import com.melvin.share.model.serverReturn.ShopBean;
-import com.melvin.share.modelview.item.SearchProductItemViewModel;
-import com.melvin.share.modelview.item.ShopCollectionItemViewModel;
+import com.melvin.share.model.SearchBean;
+import com.melvin.share.model.list.HomeHotProduct;
+import com.melvin.share.modelview.item.HotLabelItemViewModel;
+import com.melvin.share.modelview.item.SearchItemViewModel;
 
 import java.util.List;
 
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/3
+ * Data： 2017/3/10
  * <p>
- * 描述：店铺收藏页面Adapter
+ * 描述： 分享热度标签Adapter
  */
-public class ShopCollectionAdapter extends BaseAdapter<ShopCollectionAdapter.BindingHolder> {
-    private List<BaseModel> list;
+public class HotLabelAdapter extends BaseAdapter<HotLabelAdapter.BindingHolder> {
+    private List<HomeHotProduct.LabelsBean> list;
     private Context context;
 
-    public ShopCollectionAdapter(Context context, List<BaseModel> list) {
+    public HotLabelAdapter(Context context, List<HomeHotProduct.LabelsBean> list) {
         this.list = list;
         this.context = context;
     }
 
     @Override
-    public ShopCollectionAdapter.BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ShopCollectionItemBinding binding = DataBindingUtil.inflate(
+    public HotLabelAdapter.BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        HotLabelItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
-                R.layout.shop_collection_item,
+                R.layout.hot_label_item,
                 parent,
                 false);
         return new BindingHolder(binding);
@@ -45,7 +45,7 @@ public class ShopCollectionAdapter extends BaseAdapter<ShopCollectionAdapter.Bin
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((ShopBean) list.get(position));
+        holder.bindObject(list.get(position));
     }
 
     @Override
@@ -58,16 +58,16 @@ public class ShopCollectionAdapter extends BaseAdapter<ShopCollectionAdapter.Bin
      * Holder
      */
     public class BindingHolder extends RecyclerView.ViewHolder {
-        final ShopCollectionItemBinding binding;
+        final HotLabelItemBinding binding;
 
-        public BindingHolder(ShopCollectionItemBinding binding) {
+        public BindingHolder(HotLabelItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        void bindObject(final ShopBean bean) {
+        void bindObject(final HomeHotProduct.LabelsBean bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new ShopCollectionItemViewModel(context, bean));
+                binding.setViewModel(new HotLabelItemViewModel(context, bean));
             } else {
                 binding.getViewModel().setEntity(bean);
             }

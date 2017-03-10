@@ -16,10 +16,10 @@ import com.melvin.share.model.serverReturn.ProductDetailBean;
  */
 public class ProductDetailItemViewModel extends BaseObservable {
 
-    private ProductDetailBean.DetailsBean detailsBean;
+    private ProductDetailBean.PropertiesBean detailsBean;
     private Context context;
 
-    public ProductDetailItemViewModel(Context context, ProductDetailBean.DetailsBean detailsBean) {
+    public ProductDetailItemViewModel(Context context, ProductDetailBean.PropertiesBean detailsBean) {
         this.detailsBean = detailsBean;
         this.context = context;
     }
@@ -30,13 +30,13 @@ public class ProductDetailItemViewModel extends BaseObservable {
 
     public String getDetailName() {
 
-        return detailsBean.detailName+"：";
+        return detailsBean.propertyName+"：";
     }
     public String getDetailValue() {
-        return detailsBean.detailValue;
+        return detailsBean.propertyValue;
     }
 
-    public void setEntity(ProductDetailBean.DetailsBean detailsBean) {
+    public void setEntity(ProductDetailBean.PropertiesBean detailsBean) {
         this.detailsBean = detailsBean;
         notifyChange();
     }

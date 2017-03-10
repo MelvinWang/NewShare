@@ -7,138 +7,46 @@
 
     </data>
 
-    <com.melvin.share.view.MyScrollview
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:title=" ">
+
+            <EditText
+                android:layout_width="1dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/search_enter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/edit_redline_background"
+                android:drawableLeft="@mipmap/search"
+                android:drawablePadding="10dp"
+                android:focusable="true"
+                android:hint="搜索店铺内宝贝"
+                android:onClick="toSearchActivity"
+                android:padding="8dp"
+                android:textColor="@color/color_777"
+                android:textColorHint="@color/color_777" />
+        </android.support.v7.widget.Toolbar>
+
+
+        <com.melvin.share.view.MyRecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:title=" ">
-                <EditText
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/search_enter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/edit_redline_background"
-                    android:drawableLeft="@mipmap/search"
-                    android:drawablePadding="10dp"
-                    android:hint="搜索店铺内宝贝"
-                    android:onClick="toSearchActivity"
-                    android:padding="8dp"
-                    android:focusable="true"
-                    android:textColor="@color/color_777"
-                    android:textColorHint="@color/color_777" />
-            </android.support.v7.widget.Toolbar>
-
-            <TextView
-                style="@style/CommonLine"
-                android:layout_marginTop="0dp" />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
-
-                <ImageView
-                    android:id="@+id/shop_img"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/shop_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/shop_img"
-                    android:text="店铺名称"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/page_15" />
-
-                <TextView
-                    android:id="@+id/shop_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/shop_img"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_toRightOf="@id/shop_img"
-                    android:text="店铺描述"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/page_15" />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center"
-                    android:button="@drawable/collection_shop_select"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp" />
-            </RelativeLayout>
-
-            <TextView
-                style="@style/CommonLine"
-                android:layout_marginTop="0dp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@color/f2f2f2">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_rectangle_normal_f2"
-                    android:onClick="allProduct"
-                    android:text="全部宝贝"
-                    android:textColor="@color/color_777"
-                    android:textSize="@dimen/page_18" />
-
-                <TextView
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:background="@color/color_ddd"
-                    android:textSize="1dp" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_rectangle_normal_f2"
-                    android:onClick="newProduct"
-                    android:text="最新上架"
-                    android:textColor="@color/color_777"
-                    android:textSize="@dimen/page_18" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/product_information"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:background="@color/f2f2f2" />
-        </LinearLayout>
-    </com.melvin.share.view.MyScrollview>
+            tools:listitem="@layout/all_product_item" />
+    </LinearLayout>
 </layout>

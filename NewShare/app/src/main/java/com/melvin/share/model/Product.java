@@ -38,6 +38,29 @@ public class Product  extends BaseModel implements Parcelable {
     public String repertoryId;
     public String repertoryName;
 
+    public String mainProduct;
+
+
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "picture='" + picture + '\'' +
+                ", id='" + id + '\'' +
+                ", shareTimes='" + shareTimes + '\'' +
+                ", productName='" + productName + '\'' +
+                ", price='" + price + '\'' +
+                ", place='" + place + '\'' +
+                ", recordId='" + recordId + '\'' +
+                ", productId='" + productId + '\'' +
+                ", isChecked=" + isChecked +
+                ", isShow=" + isShow +
+                ", productNumber='" + productNumber + '\'' +
+                ", repertoryId='" + repertoryId + '\'' +
+                ", repertoryName='" + repertoryName + '\'' +
+                '}';
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -58,6 +81,7 @@ public class Product  extends BaseModel implements Parcelable {
         dest.writeString(this.productNumber);
         dest.writeString(this.repertoryId);
         dest.writeString(this.repertoryName);
+        dest.writeString(this.mainProduct);
     }
 
     public Product() {
@@ -77,6 +101,7 @@ public class Product  extends BaseModel implements Parcelable {
         this.productNumber = in.readString();
         this.repertoryId = in.readString();
         this.repertoryName = in.readString();
+        this.mainProduct = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -90,23 +115,4 @@ public class Product  extends BaseModel implements Parcelable {
             return new Product[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "picture='" + picture + '\'' +
-                ", id='" + id + '\'' +
-                ", shareTimes='" + shareTimes + '\'' +
-                ", productName='" + productName + '\'' +
-                ", price='" + price + '\'' +
-                ", place='" + place + '\'' +
-                ", recordId='" + recordId + '\'' +
-                ", productId='" + productId + '\'' +
-                ", isChecked=" + isChecked +
-                ", isShow=" + isShow +
-                ", productNumber='" + productNumber + '\'' +
-                ", repertoryId='" + repertoryId + '\'' +
-                ", repertoryName='" + repertoryName + '\'' +
-                '}';
-    }
 }
