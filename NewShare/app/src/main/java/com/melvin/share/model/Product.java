@@ -39,6 +39,9 @@ public class Product  extends BaseModel implements Parcelable {
     public String repertoryName;
 
     public String mainProduct;
+    public String collectId;
+    public String name;
+    public String mainPicture;
 
 
 

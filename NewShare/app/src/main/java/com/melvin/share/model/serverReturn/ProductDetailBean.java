@@ -29,12 +29,14 @@ public class ProductDetailBean extends BaseModel {
 
     public String id;
     public String name;
+    public boolean collected;
     public String mainPicture;
     public String otherPicture;
     public String place;
     public String price;
     public String shareTimes;
     public String total;
+    public String userId;
     public List<PropertiesBean> properties;
     public List<AttributesBean> attributes;
 

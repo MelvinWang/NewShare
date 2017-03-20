@@ -3,6 +3,7 @@ package com.melvin.share.network;
 
 import com.google.gson.JsonObject;
 import com.melvin.share.model.Category;
+import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.customer.Customer;
 import com.melvin.share.model.list.CommonList;
@@ -24,7 +25,6 @@ import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
-import retrofit.http.Field;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -131,7 +131,7 @@ public class NetworkUtil {
         Observable<ShopBean> findShopById(@Query("userId") String userId,
                                           @Query("customerId") String customerId);
         //按商家查询商品接口
-        @POST(" /app/product/findProductByUser")
+        @POST("/app/product/findProductByUser")
         Observable<CommonList<Product>> findProductByUser(@Body JsonObject json);
 
         //收藏或者取消收藏接口
@@ -158,9 +158,28 @@ public class NetworkUtil {
         //查看商品详情
 
         @GET("/app/product/findProductDetail")
-        Observable<ProductDetailBean> findProductDetail(@Query("id") String id);
+        Observable<ProductDetailBean> findProductDetail(@Query("id") String id,
+                                                        @Query("customerId") String customerId);
+
+        //收藏商品或者取消收藏商品接口
+        @FormUrlEncoded
+        @POST("/app/product/collectProductOrDeleteProduct")
+        Observable<CommonReturnModel> collectProductOrDeleteProduct(@FieldMap Map<Object, Object> map);
 
 
+        //查询收藏商品接口
+        @POST("/app/product/findCollectProduct")
+        Observable<CommonList<Product>> findCollectProduct(@Body JsonObject json);
+
+
+
+
+        /**
+         * 消息操作接口
+         */
+        //用户消息中心
+        @POST("/app/news/findNewsByCustomerId")
+        Observable<CommonList<MessageInfo>> findNewsByCustomerId(@Body JsonObject json);
 
 
 

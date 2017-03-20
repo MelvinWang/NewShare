@@ -30,7 +30,7 @@ public class ShopCollectionItemViewModel extends BaseObservable {
 
     public void onItemClick(View view) {
         Intent intent = new Intent(context, ShopInformationActivity.class);
-        intent.putExtra("shopBean", bean);
+        intent.putExtra("userId", bean.userId);
         context.startActivity(intent);
     }
 

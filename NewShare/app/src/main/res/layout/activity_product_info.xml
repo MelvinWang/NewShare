@@ -70,16 +70,19 @@
             android:paddingTop="5dp">
 
             <ImageView
+                android:id="@+id/shop_img"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:src="@mipmap/productinfo_shop" />
-
-            <ImageView
+            <CheckBox
+                android:id="@+id/collection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:src="@mipmap/productinfo_collection_n" />
+                android:button="@drawable/collection_select"
+                />
+
 
             <Button
                 style="@style/CircularBtnStyle"

@@ -67,7 +67,7 @@ public class ShopCollectionActivity extends BaseActivity implements MyRecyclerVi
     public void onLoadMore() {
         pageNo++;
         map.put("pageNo", pageNo + "");
-        shopCollectionViewModel.requestData(map);
+        shopCollectionViewModel.requestQueryData(map);
     }
 
 

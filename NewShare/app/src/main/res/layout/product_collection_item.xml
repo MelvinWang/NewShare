@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/page_15"
-                android:text="产品名称:" />
+                android:text="@{viewModel.productName}" />
 
             <TextView
                 android:id="@+id/product_rate"
@@ -70,7 +70,7 @@
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/ff9000"
                 android:textSize="@dimen/page_18"
-                android:text="￥:121.5" />
+                android:text="@{viewModel.price}" />
 
 
         </RelativeLayout>
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/app_common_red"
                 android:gravity="center"
-                android:text="2222" />
+                android:text="@{viewModel.shareTimes}" />
 
             <TextView
                 android:layout_below="@id/share_number"
@@ -105,7 +105,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="发货地" />
+                android:text="@{viewModel.place}" />
         </RelativeLayout>
 
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.adapter.HotLabelAdapter;
 import com.melvin.share.model.list.HomeHotProduct;
 import com.melvin.share.network.GlobalUrl;

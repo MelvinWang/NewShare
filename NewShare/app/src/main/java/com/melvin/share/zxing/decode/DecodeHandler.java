@@ -102,13 +102,13 @@ public class DecodeHandler extends Handler {
 				msg.what = R.id.decode_succeeded;
 				activity.getHandler().sendMessage(msg);
 			}
-			// Message message = Message.obtain(activity.getHandler(),
+			// MessageInfo message = MessageInfo.obtain(activity.getHandler(),
 			// R.id.decode_succeeded, result);
 			// if (null != message) {
 			// message.sendToTarget();
 			// }
 		} else {
-			// Message message = Message.obtain(activity.getHandler(),
+			// MessageInfo message = MessageInfo.obtain(activity.getHandler(),
 			// R.id.decode_failed);
 			// if (null != message) {
 			// message.sendToTarget();

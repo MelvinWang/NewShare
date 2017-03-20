@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
@@ -106,12 +107,27 @@ public class ProductInfoActivity extends BaseActivity {
         ShapreUtils.putParamCustomerId(map);
 
 
-        fromNetwork.findProductDetail(productId)
+        fromNetwork.findProductDetail(productId, ShapreUtils.getCustomerId())
                 .compose(new RxActivityHelper<ProductDetailBean>().ioMain(ProductInfoActivity.this, true))
                 .subscribe(new RxModelSubscribe<ProductDetailBean>(mContext, true) {
                     @Override
-                    protected void myNext(ProductDetailBean productDetailBean) {
+                    protected void myNext(final ProductDetailBean productDetailBean) {
                         productDetail = productDetailBean;
+                        binding.collection.setChecked(productDetailBean.collected);
+                        binding.collection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                collectProductOrDeleteProduct(isChecked);
+                            }
+                        });
+                        binding.shopImg.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, ShopInformationActivity.class);
+                                intent.putExtra("userId", productDetailBean.userId);
+                                startActivity(intent);
+                            }
+                        });
                         initTable();
                         setValueToDialog();
                     }
@@ -123,6 +139,41 @@ public class ProductInfoActivity extends BaseActivity {
                 });
 
     }
+
+
+    /**
+     * 收藏或者取消
+     *
+     * @param isChecked
+     */
+    private void collectProductOrDeleteProduct(boolean isChecked) {
+        Map hashMap = new HashMap();
+        hashMap.put("productId", productId);
+        ShapreUtils.putParamCustomerId(hashMap);
+        if (isChecked) {
+            hashMap.put("doMethod", "1");
+        } else {
+            hashMap.put("doMethod", "0");
+        }
+        LogUtils.i(hashMap.toString());
+
+        fromNetwork.collectProductOrDeleteProduct(hashMap)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        Utils.showToast(mContext, commonReturnModel.message);
+
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
+
 
     /**
      * 查询到具体商品的库存量等信息

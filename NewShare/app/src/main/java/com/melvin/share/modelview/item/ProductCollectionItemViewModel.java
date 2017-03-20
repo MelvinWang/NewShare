@@ -13,7 +13,7 @@ import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 
 /**
- * Created Time: 2016/8/4.
+ * Created Time: 2017/3/20.
  * <p>
  * Author:Melvin
  * <p>
@@ -23,7 +23,6 @@ public class ProductCollectionItemViewModel extends BaseObservable {
 
     private Product product;
     private Context context;
-    private String number = "1";
 
     public ProductCollectionItemViewModel(Context context, Product product) {
         this.product = product;
@@ -32,7 +31,7 @@ public class ProductCollectionItemViewModel extends BaseObservable {
 
     public void onItemClick(View view) {
         Intent intent = new Intent(context, ProductInfoActivity.class);
-        intent.putExtra("productId",product.id);
+        intent.putExtra("productId", product.id);
         context.startActivity(intent);
     }
 
@@ -53,17 +52,21 @@ public class ProductCollectionItemViewModel extends BaseObservable {
     }
 
     public String getProductName() {
-        return product.productName;
+        return product.name;
     }
+
     public String getShareTimes() {
         return product.shareTimes;
     }
 
     public String getPrice() {
-        return "￥:"+product.price;
-    } public String getPlace() {
+        return "￥" + product.price;
+    }
+
+    public String getPlace() {
         return product.place;
     }
+
     /**
      * 勾选状态判断,修改值后，以便操作之时ViewModel可以利用到
      *
@@ -80,10 +83,9 @@ public class ProductCollectionItemViewModel extends BaseObservable {
     }
 
     public String getImgUrl() {
-        String[] split = product.picture.split("\\|");
+        String[] split = product.mainPicture.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.SERVICE_URL + split[0];
-            LogUtils.e("哈哈"+url);
             return url;
         }
         return "";

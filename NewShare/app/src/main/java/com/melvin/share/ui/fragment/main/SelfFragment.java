@@ -149,7 +149,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     mContext.startActivity(intent);
                 }
                 break;
-            case R.id.message://购物车
+            case R.id.message://消息
                 intent.setClass(mContext, MessageActivity.class);
                 mContext.startActivity(intent);
                 break;

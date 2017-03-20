@@ -28,6 +28,7 @@ public class ProductCollectionActivity extends BaseActivity implements MyRecycle
     private MyRecyclerView mRecyclerView;
     private ProductCollectionViewModel productCollectionViewModel;
     private Map map;
+    private int pageNo = 1;
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_collection);
@@ -39,7 +40,7 @@ public class ProductCollectionActivity extends BaseActivity implements MyRecycle
 
     private void ininData() {
         map=new HashMap();
-        map.put("customer.id", "1");
+        map.put("pageNo", pageNo + "");
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
@@ -53,8 +54,9 @@ public class ProductCollectionActivity extends BaseActivity implements MyRecycle
      */
     @Override
     public void onRefresh() {
+        pageNo = 1;
+        map.put("pageNo", pageNo + "");
         productCollectionViewModel.requestData(map);
-        mRecyclerView.refreshComplete();
     }
 
     /**
@@ -62,7 +64,9 @@ public class ProductCollectionActivity extends BaseActivity implements MyRecycle
      */
     @Override
     public void onLoadMore() {
-
+        pageNo++;
+        map.put("pageNo", pageNo + "");
+        productCollectionViewModel.requestQueryData(map);
     }
 
 

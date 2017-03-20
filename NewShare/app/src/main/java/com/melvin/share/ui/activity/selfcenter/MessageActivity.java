@@ -11,10 +11,13 @@ import com.melvin.share.modelview.acti.MessageViewModel;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.MyRecyclerView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Author: Melvin
  * <p/>
- * Data： 2016/8/7
+ * Data： 2017/3/20
  * <p/>
  * 描述： 消息通知
  */
@@ -24,7 +27,8 @@ public class MessageActivity extends BaseActivity implements MyRecyclerView.Load
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
     private MessageViewModel messageViewModel;
-
+    private Map map;
+    private int pageNo = 1;
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_message);
@@ -36,13 +40,14 @@ public class MessageActivity extends BaseActivity implements MyRecyclerView.Load
     }
 
     private void ininData() {
-
+        map=new HashMap();
+        map.put("pageNo", pageNo + "");
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
         messageViewModel = new MessageViewModel(this, mRecyclerView);
         binding.setViewModel(messageViewModel);
-        messageViewModel.requestData();
+        messageViewModel.requestData(map);
     }
 
     /**
@@ -50,8 +55,9 @@ public class MessageActivity extends BaseActivity implements MyRecyclerView.Load
      */
     @Override
     public void onRefresh() {
-        messageViewModel.requestData();
-        mRecyclerView.refreshComplete();
+        pageNo = 1;
+        map.put("pageNo", pageNo + "");
+        messageViewModel.requestData(map);
     }
 
     /**
@@ -59,6 +65,8 @@ public class MessageActivity extends BaseActivity implements MyRecyclerView.Load
      */
     @Override
     public void onLoadMore() {
-
+        pageNo++;
+        map.put("pageNo", pageNo + "");
+        messageViewModel.requestQueryData(map);
     }
 }

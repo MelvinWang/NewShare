@@ -10,6 +10,7 @@ import com.melvin.share.R;
 import com.melvin.share.databinding.MessageItemBinding;
 import com.melvin.share.databinding.ReceiveAddressItemBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.User;
 import com.melvin.share.modelview.item.ManageAddressItemViewModel;
 import com.melvin.share.modelview.item.MessageItemViewModel;
@@ -44,7 +45,7 @@ public class MessageAdapter extends BaseAdapter<MessageAdapter.BindingHolder> {
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((MessageInfo) list.get(position));
     }
 
     @Override
@@ -64,11 +65,11 @@ public class MessageAdapter extends BaseAdapter<MessageAdapter.BindingHolder> {
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final MessageInfo model) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new MessageItemViewModel(context, user));
+                binding.setViewModel(new MessageItemViewModel(context, model));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(model);
             }
         }
     }

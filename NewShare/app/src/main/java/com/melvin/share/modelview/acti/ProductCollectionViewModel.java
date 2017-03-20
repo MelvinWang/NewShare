@@ -5,14 +5,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.ProductCollectionAdapter;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.selfcenter.ProductCollectionActivity;
+import com.melvin.share.ui.activity.selfcenter.ShopCollectionActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.view.RequestView;
 
@@ -48,27 +55,65 @@ public class ProductCollectionViewModel extends BaseRecyclerViewModel<BaseModel>
         adapter = new ProductCollectionAdapter(context, getData());
 
     }
-
+    /**
+     * 第一次请求或者刷新
+     *
+     * @param map
+     */
     public void requestData(Map map) {
-        fromNetwork.findProductsByCustomer(map)
-                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain((ProductCollectionActivity)context,true))
-                .subscribe(new RxModelSubscribe<ArrayList<Product>>(context, true) {
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findCollectProduct(jsonObject)
+                .compose(new RxActivityHelper<CommonList<Product>>().ioMain((ProductCollectionActivity) context, true))
+                .subscribe(new RxModelSubscribe<CommonList<Product>>(context, true) {
                     @Override
-                    protected void myNext(ArrayList<Product> products) {
-                        data.addAll(products);
-                        listData.addAll(products);
+                    protected void myNext(CommonList<Product> bean) {
+                        data.clear();
+                        listData.clear();
+                        data.addAll(bean.rows);
+                        listData.addAll(bean.rows);
                         onRequestSuccess(data);
+                        mRecyclerView.refreshComplete();
                     }
 
                     @Override
                     protected void myError(String message) {
+                        mRecyclerView.refreshComplete();
                         Utils.showToast(context, message);
                     }
                 });
+
     }
 
-
+    /**
+     * 加载更多
+     *
+     * @param map
+     */
     public void requestQueryData(Map map) {
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findCollectProduct(jsonObject)
+                .compose(new RxActivityHelper<CommonList<Product>>().ioMain((ProductCollectionActivity) context, true))
+                .subscribe(new RxModelSubscribe<CommonList<Product>>(context, true) {
+                    @Override
+                    protected void myNext(CommonList<Product> bean) {
+                        data.addAll(bean.rows);
+                        listData.addAll(bean.rows);
+                        onRequestSuccess(data);
+                        mRecyclerView.loadMoreComplete();
+
+
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        mRecyclerView.loadMoreComplete();
+                        Utils.showToast(context, message);
+                    }
+                });
     }
 
     public ProductCollectionAdapter getAdapter() {
