@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.Utils.LogUtils;
-import com.melvin.share.Utils.RxCarBus;
+import com.melvin.share.rx.RxCarBus;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.event.PostEvent;
@@ -17,7 +20,7 @@ import com.melvin.share.network.NetworkUtil;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.ProductInfoActivity;
-import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
+import com.melvin.share.ui.activity.shopcar.ShoppingCarActivity;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -26,7 +29,7 @@ import java.util.Map;
 import retrofit.Retrofit;
 
 /**
- * Created Time: 2016/7/23.
+ * Created Time: 2017/3/31.
  * <p/>
  * Author:Melvin
  * <p/>
@@ -46,8 +49,8 @@ public class ShopCarItemViewModel extends BaseObservable {
         retrofit = NetworkUtil.getRetrofit();
         fromNetwork = retrofit.create(NetworkUtil.FromNetwork.class);
         this.product = product;
-        number = product.productNumber;
-        lastNumber = product.productNumber;
+        number = product.productNum;
+        lastNumber = product.productNum;
         this.context = context;
     }
 
@@ -56,7 +59,7 @@ public class ShopCarItemViewModel extends BaseObservable {
     }
 
     public String getProductName() {
-        return product.repertoryName;
+        return product.productName;
     }
 
     public String getPrice() {
@@ -117,11 +120,12 @@ public class ShopCarItemViewModel extends BaseObservable {
         if (!number.equals(lastNumber)) {//需要修改
             //加入到购物车
             Map carMap = new HashMap();
-            carMap.put("repertory.id", product.repertoryId);
-            carMap.put("productNum", number);
-            ShapreUtils.putParamCustomerDotId(carMap);
-
-            fromNetwork.persist(carMap)
+            carMap.put("stockId", product.stockId);
+            carMap.put("productNumber", number);
+            ShapreUtils.putParamCustomerId(carMap);
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(carMap)));
+            fromNetwork.updateCartProduct(jsonObject)
                     .compose(new RxActivityHelper<CommonReturnModel>().ioMain((ShoppingCarActivity) context, true))
                     .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                         @Override
@@ -149,7 +153,7 @@ public class ShopCarItemViewModel extends BaseObservable {
 
 
     public String getImgUrl() {
-        String[] split = product.picture.split("\\|");
+        String[] split = product.mainPicture.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.SERVICE_URL + split[0];
             LogUtils.e("哈哈" + url);

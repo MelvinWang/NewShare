@@ -3,75 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data class="ActivityRecommendBinding"></data>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/f2f2f2"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/root"
+        <com.melvin.share.view.MyRecyclerView
+            android:id="@+id/category_shop_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content" />
-
-                <com.allure.lbanners.LMBanners
-                    android:id="@+id/banners"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    app:auto_play="true"
-                    app:canLoop="true"
-                    app:durtion="3000"
-                    app:horizontal_transitionEffect="defaultEffect"
-                    app:indicator_position="bottom_mid"
-                    app:indicator_select="@drawable/page_indicator_select"
-                    app:indicator_unselect="@drawable/page_indicator_unselect"
-                    app:isVertical="false"
-                    app:scroll_duration="200" />
-
-                <RelativeLayout
-                    android:id="@+id/search_enter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_redline_background"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:drawableLeft="@mipmap/search"
-                        android:drawablePadding="10dp"
-                        android:hint="关键字" />
-                </RelativeLayout>
-            </FrameLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/f2f2f2"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="店铺推荐"
-                android:textColor="@color/color_333" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/shop_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="20dp"
-                tools:listitem="@layout/recommend_shop_item" />
-
-        </LinearLayout>
-    </ScrollView>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/recommend_category_item" />
+    </LinearLayout>
 </layout>

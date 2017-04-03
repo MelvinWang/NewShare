@@ -69,6 +69,7 @@ public class ShareHotItemViewModel extends BaseObservable {
 
     public void setEntity(HomeHotProduct model) {
         this.model = model;
+        setRecyclerData();
         notifyChange();
     }
 }

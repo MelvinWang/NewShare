@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.melvin.share.R;
-import com.melvin.share.Utils.RxCommonBus;
+import com.melvin.share.rx.RxCommonBus;
 
 /**
  * Created Time: 2016/8/9.

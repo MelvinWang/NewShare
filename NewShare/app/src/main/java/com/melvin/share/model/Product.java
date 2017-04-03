@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/22
+ * Data： 2017/3/31
  * <p>
  * 描述：
  */
@@ -42,8 +42,9 @@ public class Product  extends BaseModel implements Parcelable {
     public String collectId;
     public String name;
     public String mainPicture;
-
-
+    public String stockId;
+    public String productNum;
+    public String postage;
 
     @Override
     public String toString() {
@@ -61,6 +62,13 @@ public class Product  extends BaseModel implements Parcelable {
                 ", productNumber='" + productNumber + '\'' +
                 ", repertoryId='" + repertoryId + '\'' +
                 ", repertoryName='" + repertoryName + '\'' +
+                ", mainProduct='" + mainProduct + '\'' +
+                ", collectId='" + collectId + '\'' +
+                ", name='" + name + '\'' +
+                ", mainPicture='" + mainPicture + '\'' +
+                ", stockId='" + stockId + '\'' +
+                ", productNum='" + productNum + '\'' +
+                ", postage='" + postage + '\'' +
                 '}';
     }
 
@@ -85,6 +93,12 @@ public class Product  extends BaseModel implements Parcelable {
         dest.writeString(this.repertoryId);
         dest.writeString(this.repertoryName);
         dest.writeString(this.mainProduct);
+        dest.writeString(this.collectId);
+        dest.writeString(this.name);
+        dest.writeString(this.mainPicture);
+        dest.writeString(this.stockId);
+        dest.writeString(this.productNum);
+        dest.writeString(this.postage);
     }
 
     public Product() {
@@ -105,6 +119,12 @@ public class Product  extends BaseModel implements Parcelable {
         this.repertoryId = in.readString();
         this.repertoryName = in.readString();
         this.mainProduct = in.readString();
+        this.collectId = in.readString();
+        this.name = in.readString();
+        this.mainPicture = in.readString();
+        this.stockId = in.readString();
+        this.productNum = in.readString();
+        this.postage = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

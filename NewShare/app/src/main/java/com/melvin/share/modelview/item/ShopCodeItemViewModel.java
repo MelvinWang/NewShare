@@ -6,7 +6,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.melvin.share.network.GlobalFlag;
-import com.melvin.share.Utils.RxBus;
+import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.ShopInformationActivity;
 

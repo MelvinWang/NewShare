@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
-import com.melvin.share.Utils.RxCommonBus;
+import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.databinding.ActivityApplyRefundBinding;
 import com.melvin.share.dialog.RefundDialog;
 import com.melvin.share.popwindow.RefundReasonPopupWindow;

@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import com.melvin.share.Utils.LogUtils;
-import com.melvin.share.Utils.RxBus;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 

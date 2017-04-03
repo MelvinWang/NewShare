@@ -1,5 +1,6 @@
 package com.melvin.share.model.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,5 +18,5 @@ public class CommonList<T> {
      */
 
     public int currentPage;
-    public List<T> rows;
+    public List<T> rows=new ArrayList<>();
 }

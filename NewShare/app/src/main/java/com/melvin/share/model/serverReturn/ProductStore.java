@@ -2,8 +2,6 @@ package com.melvin.share.model.serverReturn;
 
 import com.melvin.share.model.BaseModel;
 
-import java.util.List;
-
 /**
  * Author: Melvin
  * <p/>
@@ -14,20 +12,15 @@ import java.util.List;
 public class ProductStore extends  BaseModel {
 
     /**
-     * id : 1
-     * name : 蓝色L牛仔裤
-     * price : 59
-     * totalNum : 282
-     * product : null
-     * attributeValues : []
+     * stockId : 1
+     * stockName : 1G红色
+     * productNumber : 78
+     * realPrice : 1000.00
      */
 
-    public int id;
-    public String name;
-    public int price;
-    public int totalNum;
-    public Object product;
-    public List attributeValues;
-
+    public String stockId;
+    public String stockName;
+    public String productNumber;
+    public String realPrice;
 
 }

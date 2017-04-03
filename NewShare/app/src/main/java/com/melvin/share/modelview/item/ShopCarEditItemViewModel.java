@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import com.melvin.share.Utils.LogUtils;
-import com.melvin.share.Utils.RxBus;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 
@@ -36,7 +33,7 @@ public class ShopCarEditItemViewModel extends BaseObservable {
     }
 
     public String getProductName() {
-        return product.repertoryName;
+        return product.productName;
     }
 
     public String getPrice() {
@@ -44,7 +41,7 @@ public class ShopCarEditItemViewModel extends BaseObservable {
     }
 
     public String getNumber() {
-        return "x" + product.productNumber;
+        return "x" + product.productNum;
     }
 
     public boolean getIsChecked() {
@@ -73,7 +70,7 @@ public class ShopCarEditItemViewModel extends BaseObservable {
 
 
     public String getImgUrl() {
-        String[] split = product.picture.split("\\|");
+        String[] split = product.mainPicture.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.SERVICE_URL + split[0];
             LogUtils.e("哈哈" + url);

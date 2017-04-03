@@ -113,6 +113,7 @@ public class ProductInfoFragment extends BaseFragment {
         binding.productName.setText(productDetailBean.name);
         binding.shareTime.setText(productDetailBean.shareTimes + "分享");
         binding.price.setText("￥ " + productDetailBean.price);
+        binding.postage.setText("邮费:" +productDetailBean.postage);
         binding.place.setText(productDetailBean.place);
 
         //Banner图片

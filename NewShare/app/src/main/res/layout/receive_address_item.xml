@@ -18,6 +18,7 @@
         android:layout_marginBottom="15dp"
         android:background="@color/white"
         android:orientation="vertical"
+        android:onClick="@{viewModel.onItemClick}"
         android:padding="8dp">
 
         <RelativeLayout

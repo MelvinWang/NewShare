@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:text="收货地址"
+                android:text="消息中心"
                 android:textColor="@color/color_333"
                 android:textSize="@dimen/page_18" />
 

@@ -6,132 +6,120 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.allure.lbanners.LMBanners;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.HomeProductAdapter;
 import com.melvin.share.adapter.HomeShopAdapter;
+import com.melvin.share.adapter.RecommendCategoryAdapter;
 import com.melvin.share.adapter.UrlImgAdapter;
 import com.melvin.share.databinding.ActivityRecommendBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Category;
+import com.melvin.share.model.CategoryBean;
+import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.SearchActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
+import com.melvin.share.view.MyRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.http.GET;
 import rx.Observable;
 
+import static com.melvin.share.R.id.map;
+import static com.melvin.share.R.id.recyclerView;
+
 /**
  * Author: Melvin
  * <p>
- * Data： 2017/3/7
+ * Data： 2017/3/31
  * <p>
  * 描述：推荐
  */
-public class RecommendActivity extends BaseActivity  implements View.OnClickListener{
+public class RecommendActivity extends BaseActivity implements MyRecyclerView.LoadingListener {
     private ActivityRecommendBinding binding;
     private Context mContext;
-    private LMBanners mLBanners;
     private List<String> networkImages = new ArrayList<>();
-    private HomeProductAdapter newProductAdapter;
-    private HomeProductAdapter userRecommendProductAdapter;
-    private HomeShopAdapter shopAdapter;
 
-    private List<BaseModel> data1 = new ArrayList<>();
-    private List<BaseModel> data2 = new ArrayList<>();
-    private List<BaseModel> data3 = new ArrayList<>();
-    private List<Category> categoryList = new ArrayList<>();
+    private HomeShopAdapter shopAdapter;
+    private RecommendCategoryAdapter recommendCategoryAdapter;
+
+    private List<BaseModel> data1 = new ArrayList<>();//后面的Banner
+    private List<BaseModel> data2 = new ArrayList<>();//推荐分类
+    private List<BaseModel> data3 = new ArrayList<>();//推荐店铺
+
+    private MyRecyclerView categoryShopRecyclerView;
     private RecyclerView shopRecyclerView;
+
+    private LMBanners mLBanners;
+    private View headerView;
+    private View bottomView;
+    private int pageNo = 1;
+
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recommend);
         mContext = this;
         initWindow();
         initData();
+        initAdapter();
+        requestData();
     }
+
     /**
      * 初始化数据
      */
     private void initData() {
-        mLBanners = binding.banners;
-        shopRecyclerView = binding.shopRecyclerView;
-        initAdapter();
-        initClick();
-        requestData();
-    }
+        categoryShopRecyclerView = binding.categoryShopRecyclerView;
 
-
-    /**
-     * 初始化点击事件
-     */
-    private void initClick() {
-        binding.searchEnter.setOnClickListener(this);
-
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent();
-        switch (v.getId()) {
-            case R.id.search_enter:
+        //头部
+        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        headerView = layoutInflater.inflate(R.layout.category_title, null, false);
+        mLBanners = (LMBanners) headerView.findViewById(R.id.banners);
+        RelativeLayout searchEnterBtn = (RelativeLayout) headerView.findViewById(R.id.search_enter);
+        searchEnterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(mContext, SearchActivity.class));
-                break;
-            //首页8个主题
-//            case R.id.home_delicious:
-//                intent.setClass(mContext, DeliciousActivity.class);
-//                intent.putExtra("id", "1");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_cloth:
-//                intent.setClass(mContext, ClothActivity.class);
-//                intent.putExtra("id", "2");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_ele:
-//                intent.setClass(mContext, DigitalActivity.class);
-//                intent.putExtra("id", "3");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_markup:
-//                intent.setClass(mContext, MarkUpActivity.class);
-//                intent.putExtra("id", "4");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_furnish:
-//                intent.setClass(mContext, FurnitureActivity.class);
-//                intent.putExtra("id", "5");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_ornament:
-//                intent.setClass(mContext, OrnamentActivity.class);
-//                intent.putExtra("id", "6");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_shoes:
-//                intent.setClass(mContext, ShoesActivity.class);
-//                intent.putExtra("id", "7");
-//                startActivity(intent);
-//                break;
-//            case R.id.home_other:
-//                Utils.showToast(mContext, "其他页面");
-//                break;
+            }
+        });
+        //底部店铺
+        LayoutInflater bottomLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        bottomView = bottomLayoutInflater.inflate(R.layout.category_bottom, null, false);
+        shopRecyclerView = (RecyclerView) bottomView.findViewById(R.id.shop_recyclerView);
 
-        }
+        categoryShopRecyclerView.addHeaderView(headerView);
+//        categoryShopRecyclerView.addFootView(bottomView);
+
+        categoryShopRecyclerView.setLoadingListener(this);
     }
+
 
     /**
      * 初始化Adapter
      */
     private void initAdapter() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        categoryShopRecyclerView.setLayoutManager(linearLayoutManager);
+        recommendCategoryAdapter = new RecommendCategoryAdapter(mContext, data2);
+        categoryShopRecyclerView.setAdapter(recommendCategoryAdapter);
+
         GridLayoutManager gridLayoutManager3 = new GridLayoutManager(mContext, 5);
         gridLayoutManager3.setOrientation(LinearLayoutManager.VERTICAL);
         shopRecyclerView.setLayoutManager(gridLayoutManager3);
@@ -144,23 +132,63 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
      */
     private void requestData() {
         requestAD();
+        requesRecommentCategory();
         requesRecommentShop();
 
     }
+
+
     /**
      * 轮播图
      */
     private void requestAD() {
-        addUrilImg();
+        String url = "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+        networkImages.clear();
+        networkImages.add(url);
+        networkImages.add(url);
+        networkImages.add(url);
+        networkImages.add(url);
         mLBanners.setAdapter(new UrlImgAdapter(mContext), networkImages);
     }
+
+    /**
+     * 推荐分类
+     */
+    private void requesRecommentCategory() {
+        Map categoryMap = new HashMap();
+        categoryMap.put("pageNo", "1");
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(categoryMap)));
+        fromNetwork.findMainPageProduct(jsonObject)
+                .compose(new RxActivityHelper<CommonList<CategoryBean>>().ioMain(RecommendActivity.this, true))
+                .subscribe(new RxModelSubscribe<CommonList<CategoryBean>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonList<CategoryBean> bean) {
+                        data2.addAll(bean.rows);
+                        recommendCategoryAdapter.notifyDataSetChanged();
+                        if (pageNo == 1) {
+                            categoryShopRecyclerView.refreshComplete();
+                        } else {
+                            categoryShopRecyclerView.loadMoreComplete();
+                        }
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        categoryShopRecyclerView.refreshComplete();
+                        categoryShopRecyclerView.loadMoreComplete();
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
 
     /**
      * 推荐店铺
      */
     private void requesRecommentShop() {
         fromNetwork.findRecommendedSeller()
-                .compose(new RxActivityHelper<ArrayList<ShopBean>>().ioMain(RecommendActivity.this,true))
+                .compose(new RxActivityHelper<ArrayList<ShopBean>>().ioMain(RecommendActivity.this, true))
                 .subscribe(new RxModelSubscribe<ArrayList<ShopBean>>(mContext, true) {
                     @Override
                     protected void myNext(ArrayList<ShopBean> list) {
@@ -175,14 +203,19 @@ public class RecommendActivity extends BaseActivity  implements View.OnClickList
                 });
     }
 
-    private void addUrilImg() {
-        networkImages.clear();
-        networkImages.add("http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg");
-        networkImages.add("http://g.hiphotos.baidu.com/image/h%3D300/sign=0a9ac84f89b1cb1321693a13ed5556da/1ad5ad6eddc451dabff9af4bb2fd5266d0163206.jpg");
-        networkImages.add("http://a.hiphotos.baidu.com/image/h%3D300/sign=61660ec2207f9e2f6f351b082f31e962/500fd9f9d72a6059e5c05d3e2f34349b023bbac6.jpg");
-        networkImages.add("http://c.hiphotos.baidu.com/image/h%3D300/sign=f840688728738bd4db21b431918a876c/f7246b600c338744c90c3826570fd9f9d62aa09a.jpg");
-
+    @Override
+    public void onRefresh() {
+        pageNo = 1;
+        data2.clear();
+        requestData();
     }
+
+    @Override
+    public void onLoadMore() {
+        pageNo++;
+        requestData();
+    }
+
 
     @Override
     public void onPause() {

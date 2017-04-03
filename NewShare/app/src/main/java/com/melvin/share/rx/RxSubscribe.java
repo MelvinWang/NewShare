@@ -14,7 +14,7 @@ import rx.Subscriber;
  * <p>
  * Author:Melvin
  * <p>
- * 功能：请求数据返统一处理
+ * 功能：请求数据返统一处理，会返回success message这两个字段
  */
 public abstract class RxSubscribe<T extends BaseModel> extends Subscriber<BaseModel> {
     private Context mContext;

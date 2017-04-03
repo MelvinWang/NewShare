@@ -3,8 +3,10 @@ package com.melvin.share.network;
 
 import com.google.gson.JsonObject;
 import com.melvin.share.model.Category;
+import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.model.customer.Customer;
 import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.list.HomeHotProduct;
@@ -100,6 +102,10 @@ public class NetworkUtil {
         @GET("/app/address/findAddressByCustomerId")
         Observable<ArrayList<AddressBean>> findAddressByCustomerId(@Query("customerId") String customerId);
 
+        //查看用户的收货地址
+        @GET("/app/address/findDefaultAddressByCustomerId")
+        Observable<AddressBean> findDefaultAddressByCustomerId(@Query("customerId") String customerId);
+
         //添加用户地址
         @POST("/app/address/insertAddressByCustomerId")
         Observable<CommonReturnModel> insertAddressByCustomerId(@Body JsonObject json);
@@ -130,6 +136,7 @@ public class NetworkUtil {
         @GET("/app/user/findUserById")
         Observable<ShopBean> findShopById(@Query("userId") String userId,
                                           @Query("customerId") String customerId);
+
         //按商家查询商品接口
         @POST("/app/product/findProductByUser")
         Observable<CommonList<Product>> findProductByUser(@Body JsonObject json);
@@ -146,6 +153,10 @@ public class NetworkUtil {
         //推荐商家
         @GET("/app/user/findRecommendedUser")
         Observable<ArrayList<ShopBean>> findRecommendedSeller();
+
+        //推荐分类
+        @POST("/app/product/findMainPageProduct")
+        Observable<CommonList<CategoryBean>> findMainPageProduct(@Body JsonObject json);
 
         /**
          * 商品相关东西
@@ -171,7 +182,10 @@ public class NetworkUtil {
         @POST("/app/product/findCollectProduct")
         Observable<CommonList<Product>> findCollectProduct(@Body JsonObject json);
 
-
+        //查询到具体商品的库存量等信息
+        @FormUrlEncoded
+        @POST("/app/stock/findStockByAttributeValueIds")
+        Observable<ProductStore> findProductByAttributeValueIds(@FieldMap Map<Object, Object> map);
 
 
         /**
@@ -182,6 +196,35 @@ public class NetworkUtil {
         Observable<CommonList<MessageInfo>> findNewsByCustomerId(@Body JsonObject json);
 
 
+        /**
+         * 购物车
+         */
+        //查看用户的购物车
+        @POST("/app/cart/findCartByCustomer")
+        Observable<CommonList<Product>> findCartByCustomer(@Body JsonObject json);
+
+        //购物车添加
+        @POST("/app/cart/insertProductToCart")
+        Observable<CommonReturnModel> insertProductToCart(@Body JsonObject json);
+
+        //购物车修改
+        @POST("/app/cart/updateCartProduct")
+        Observable<CommonReturnModel> updateCartProduct(@Body JsonObject json);
+
+        //批量删除购物车
+        @DELETE("/app/cart/deleteCartByIds")
+        Observable<CommonReturnModel> deleteCartByIds(@Query("cartIds") String[] collectionUserIds);
+
+
+        /**
+         * 订单
+         */
+        //确认订单
+        @POST("/app/order/makeSureOrder")
+        Observable<CommonReturnModel<WaitPayOrderInfo>> makeSureOrder(@Body JsonObject json);
+        //查看全部订单
+        @POST("/app/order/findOrderByCustomer")
+        Observable<CommonList<WaitPayOrderInfo.OrderBean>> findOrderByCustomer(@Body JsonObject json);
 
 
 
@@ -190,9 +233,11 @@ public class NetworkUtil {
 
 
 
-        //首页分类
-        @POST("/app/category/findAll")
-        Observable<ArrayList<Category>> categoryFind();
+
+
+
+
+
 
         //首页推荐
         @FormUrlEncoded
@@ -200,19 +245,11 @@ public class NetworkUtil {
         Observable<ArrayList<Product>> findProductsInHomePage(@FieldMap Map<Object, Object> map);
 
 
-
         //查看分类下的商品
         @FormUrlEncoded
         @POST("/app/product/findProductsByCategory")
         Observable<ArrayList<Product>> findProductsByCategory(@FieldMap Map<Object, Object> map);
 
-
-
-
-        //查询到具体商品的库存量等信息
-        @FormUrlEncoded
-        @POST("/app/repertory/findProductByAttributeValueIds")
-        Observable<ProductStore> findProductByAttributeValueIds(@FieldMap Map<Object, Object> map);
 
         //删除浏览记录
         @FormUrlEncoded
@@ -249,20 +286,6 @@ public class NetworkUtil {
         @POST("/app/customer/findStore")
         Observable<CommonReturnModel> findStore(@FieldMap Map<Object, Object> map);
 
-        //批量删除购物车
-        @FormUrlEncoded
-        @POST("/app/cart/deleteCart")
-        Observable<CommonReturnModel> deleteCart(@FieldMap Map<Object, Object> map);
-
-        //查看用户的购物车
-        @FormUrlEncoded
-        @POST("/app/cart/findCartByCustomer")
-        Observable<ArrayList<Product>> findCartByCustomer(@FieldMap Map<Object, Object> map);
-
-        //购物车添加或者修改
-        @FormUrlEncoded
-        @POST("/app/cart/persist")
-        Observable<CommonReturnModel> persist(@FieldMap Map<Object, Object> map);
 
         //Banner图展示
         @FormUrlEncoded

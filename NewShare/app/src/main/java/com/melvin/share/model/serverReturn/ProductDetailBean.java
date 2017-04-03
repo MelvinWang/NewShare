@@ -5,7 +5,7 @@ import com.melvin.share.model.BaseModel;
 import java.util.List;
 
 /**
- * Created Time: 2016/8/26.
+ * Created Time: 2017/3/26.
  * <p/>
  * Author:Melvin
  * <p/>
@@ -35,6 +35,7 @@ public class ProductDetailBean extends BaseModel {
     public String place;
     public String price;
     public String shareTimes;
+    public String postage;
     public String total;
     public String userId;
     public List<PropertiesBean> properties;

@@ -38,7 +38,7 @@ public class AddressBean extends BaseModel implements Parcelable {
     public String postcode;
     public String province;
     public String receiver;
-    public String flag = "1";//1,代表设置默认地址，2代表删除，3代表修改
+    public String flag = "1";//1,代表设置默认地址，2代表删除，3代表修改,4代表订单进入页面修改选择地址
 
 
     @Override

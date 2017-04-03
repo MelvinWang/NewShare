@@ -4,7 +4,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.view.View;
 
-import com.melvin.share.Utils.RxBus;
+import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
 
 /**

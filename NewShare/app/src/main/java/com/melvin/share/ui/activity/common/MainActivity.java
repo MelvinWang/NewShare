@@ -5,11 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.widget.RadioGroup;
 
 import com.melvin.share.R;
-import com.melvin.share.Utils.RxBus;
 import com.melvin.share.Utils.StatusBarUtils;
 import com.melvin.share.adapter.FragmentAdapter;
 import com.melvin.share.databinding.ActivityMainBinding;
-import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.NoScrollViewPager;
 
 /**

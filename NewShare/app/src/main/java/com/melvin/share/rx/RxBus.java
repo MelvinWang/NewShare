@@ -1,4 +1,4 @@
-package com.melvin.share.Utils;
+package com.melvin.share.rx;
 
 import com.hwangjr.rxbus.Bus;
 /**

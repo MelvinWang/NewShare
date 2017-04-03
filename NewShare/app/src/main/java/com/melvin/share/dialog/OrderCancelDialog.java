@@ -45,7 +45,6 @@ public class OrderCancelDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel:
-                mOnClickListener.cancel();
                 OrderCancelDialog.this.dismiss();
                 break;
             case R.id.confirm:
@@ -58,7 +57,6 @@ public class OrderCancelDialog extends Dialog implements View.OnClickListener {
     public interface OnCliclListener {
         void confirm();
         void cancel();
-
     }
 
     public OnCliclListener mOnClickListener;

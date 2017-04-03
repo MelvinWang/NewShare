@@ -11,6 +11,7 @@ import com.melvin.share.R;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.databinding.FragmentAllOrderBinding;
 import com.melvin.share.modelview.acti.WaitEvaluateViewModel;
+import com.melvin.share.modelview.frag.AllOrderViewModel;
 import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.view.MyRecyclerView;
 
@@ -27,7 +28,7 @@ public class AllOrderFragment extends BaseFragment implements MyRecyclerView.Loa
     private Context mContext;
     private View root;
     private MyRecyclerView mRecyclerView;
-    private WaitEvaluateViewModel waitEvaluateViewModel;
+    private AllOrderViewModel allOrderViewModel;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_order, container, false);
@@ -49,14 +50,14 @@ public class AllOrderFragment extends BaseFragment implements MyRecyclerView.Loa
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        waitEvaluateViewModel = new WaitEvaluateViewModel(mContext, mRecyclerView);
-        binding.setViewModel(waitEvaluateViewModel);
-        waitEvaluateViewModel.requestData();
+        allOrderViewModel= new AllOrderViewModel(mContext, AllOrderFragment.this,mRecyclerView);
+        binding.setViewModel(allOrderViewModel);
+        allOrderViewModel.requestData();
     }
 
     @Override
     public void onRefresh() {
-
+        allOrderViewModel.requestData();
     }
 
     @Override

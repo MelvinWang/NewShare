@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/7
+ * Data： 2017/3/31
  * <p>
  * 描述：购物车编辑
  */
@@ -29,6 +29,7 @@ public class ShoppingCarEditActivity extends BaseActivity implements MyRecyclerV
     private MyRecyclerView mRecyclerView;
     private ShopCarEditViewModel shopCarEditViewModel;
     private Map map;
+    private int pageNo = 1;
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_shopping_car_edit);
@@ -39,8 +40,8 @@ public class ShoppingCarEditActivity extends BaseActivity implements MyRecyclerV
     }
 
     private void ininData() {
-        map = new HashMap();
-        ShapreUtils.putParamCustomerId(map);
+        map=new HashMap();
+        map.put("pageNo", pageNo + "");
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
@@ -54,8 +55,10 @@ public class ShoppingCarEditActivity extends BaseActivity implements MyRecyclerV
      */
     @Override
     public void onRefresh() {
+        pageNo = 1;
+        map.put("pageNo", pageNo + "");
         shopCarEditViewModel.requestData(map);
-        mRecyclerView.refreshComplete();
+
     }
 
     /**
@@ -63,7 +66,9 @@ public class ShoppingCarEditActivity extends BaseActivity implements MyRecyclerV
      */
     @Override
     public void onLoadMore() {
-
+        pageNo++;
+        map.put("pageNo", pageNo + "");
+        shopCarEditViewModel.requestQueryData(map);
     }
 
 

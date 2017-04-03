@@ -16,7 +16,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
 import com.melvin.share.network.GlobalFlag;
 import com.melvin.share.Utils.LogUtils;
-import com.melvin.share.Utils.RxBus;
+import com.melvin.share.rx.RxBus;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.QrcodeAdapter;

@@ -6,7 +6,7 @@
     <data class="FragmentAllOrderBinding">
     <variable
         name="viewModel"
-        type="com.melvin.share.modelview.acti.WaitEvaluateViewModel"/>
+        type="com.melvin.share.modelview.frag.AllOrderViewModel"/>
 
     </data>
 
@@ -25,7 +25,7 @@
             app:adapter="@{viewModel.adapter}"
             app:data="@{viewModel.data}"
             app:layoutManager="@{viewModel.linearLayoutManager}"
-            tools:listitem="@layout/wait_evaluate_item" />
+            tools:listitem="@layout/all_order_item" />
 
     </LinearLayout>
 </layout>

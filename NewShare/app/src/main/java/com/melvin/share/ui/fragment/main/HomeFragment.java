@@ -155,6 +155,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
 
                     @Override
                     protected void myError(String message) {
+                        recyclerView.refreshComplete();
+                        recyclerView.loadMoreComplete();
                         Utils.showToast(mContext, message);
                     }
                 });

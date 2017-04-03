@@ -144,10 +144,10 @@
 
         <!-- 个人中心 ，第三排-->
         <activity
-            android:name=".ui.activity.selfcenter.ShoppingCarActivity"
+            android:name=".ui.activity.shopcar.ShoppingCarActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.selfcenter.AllOrderActivity"
+            android:name=".ui.activity.order.AllOrderActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.selfcenter.OpenshopFirstActivity"
@@ -207,9 +207,7 @@
         <activity
             android:name=".ui.activity.shopcar.DepositActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.shopcar.ConfirmOrderActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.shopcar.ShoppingCarEditActivity"
             android:screenOrientation="portrait" />
@@ -233,7 +231,13 @@
             android:name=".ui.activity.ShopInformationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
+        <!-- 订单-->
+        <activity
+            android:name=".ui.activity.order.ConfirmOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.order.WaitPayOrderActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 扫描页面 -->
         <activity

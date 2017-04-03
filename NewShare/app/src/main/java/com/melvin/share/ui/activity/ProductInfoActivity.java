@@ -12,6 +12,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
@@ -26,10 +29,8 @@ import com.melvin.share.model.serverReturn.ProductStore;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
-import com.melvin.share.ui.activity.common.LoginActivity;
-import com.melvin.share.ui.activity.common.RegisterSecondActivity;
-import com.melvin.share.ui.activity.selfcenter.ShoppingCarActivity;
-import com.melvin.share.ui.activity.shopcar.ConfirmOrderActivity;
+import com.melvin.share.ui.activity.shopcar.ShoppingCarActivity;
+import com.melvin.share.ui.activity.order.ConfirmOrderActivity;
 import com.melvin.share.popwindow.PurchasePopupWindow;
 import com.melvin.share.rx.RxSubscribe;
 
@@ -37,9 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author: Melvin
@@ -56,7 +54,7 @@ public class ProductInfoActivity extends BaseActivity {
     public String productId;
     public static ProductDetailBean productDetail;
     private Map map;
-    private Map attriMap;
+    private Map attriMap;//请求具体库存的
     private String attributeValueIds;
     private int length;
     private List<ProductDetailBean.AttributesBean.AttributeValuesBean> data1 = new ArrayList<>();
@@ -90,7 +88,7 @@ public class ProductInfoActivity extends BaseActivity {
         menuWindow = new PurchasePopupWindow((Activity) mContext, itemsOnClick);
         initAdapter();
         productId = getIntent().getStringExtra("productId");
-        LogUtils.i("哈哈" + productId);
+        LogUtils.i("ProductInfoActivity哈哈" + productId);
         initWindow();
         initToolbar(binding.toolbar);
         initData();
@@ -100,9 +98,11 @@ public class ProductInfoActivity extends BaseActivity {
      * 请求数据
      */
     private void initData() {
-        map = new HashMap();
         attriMap = new HashMap();
         attriMap.put("productId", productId);
+
+
+        map = new HashMap();
         map.put("productId", productId);
         ShapreUtils.putParamCustomerId(map);
 
@@ -134,6 +134,7 @@ public class ProductInfoActivity extends BaseActivity {
 
                     @Override
                     protected void myError(String message) {
+                        LogUtils.i("哈findProductDetail");
                         Utils.showToast(mContext, message);
                     }
                 });
@@ -155,8 +156,6 @@ public class ProductInfoActivity extends BaseActivity {
         } else {
             hashMap.put("doMethod", "0");
         }
-        LogUtils.i(hashMap.toString());
-
         fromNetwork.collectProductOrDeleteProduct(hashMap)
                 .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
@@ -168,11 +167,11 @@ public class ProductInfoActivity extends BaseActivity {
 
                     @Override
                     protected void myError(String message) {
+                        LogUtils.i("哈collectProductOrDeleteProduct");
                         Utils.showToast(mContext, message);
                     }
                 });
     }
-
 
 
     /**
@@ -181,24 +180,26 @@ public class ProductInfoActivity extends BaseActivity {
     private void findProductByAttributeValueIds() {
         attriMap.put("attributeValueIds", attributeValueIds);
         attriMap.put("length", length);
-        LogUtils.i("哈" + attriMap.toString());
+        LogUtils.i("哈findProductByAttributeValueIds" + attriMap.toString());
 
         fromNetwork.findProductByAttributeValueIds(attriMap)
                 .compose(new RxActivityHelper<ProductStore>().ioMain(ProductInfoActivity.this, true))
-                .subscribe(new RxSubscribe<ProductStore>(mContext, true) {
+                .subscribe(new RxModelSubscribe<ProductStore>(mContext, true) {
                     @Override
                     protected void myNext(ProductStore productStore) {
-                        repertoryId = productStore.id + "";
-                        repertoryProductName = productStore.name;
-                        repertoryProductPrice = productStore.price + "";
-                        menuWindow.productName.setText(productStore.name);
-                        menuWindow.price.setText("￥ " + productStore.price);
-                        menuWindow.store.setText("库存" + productStore.totalNum);
+                        if (productStore != null) {
+                            repertoryId = productStore.stockId;
+                            repertoryProductName = productStore.stockName;
+                            repertoryProductPrice = productStore.realPrice;
+                            menuWindow.productName.setText(productStore.stockName);
+                            menuWindow.price.setText("￥ " + productStore.realPrice);
+                            menuWindow.store.setText("库存" + productStore.productNumber);
+                        }
                     }
 
                     @Override
                     protected void myError(String message) {
-
+                        LogUtils.i("哈findProductByAttributeValueIds" + "myError");
                         Utils.showToast(mContext, message);
                     }
                 });
@@ -315,7 +316,7 @@ public class ProductInfoActivity extends BaseActivity {
                     productAttriAdapter1.notifyDataSetChanged();
                     id1 = productDetail.attributes.get(0).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1;
-//                    findProductByAttributeValueIds();
+                    findProductByAttributeValueIds();
                     break;
                 case 2:
                     menuWindow.linearLayout1.setVisibility(View.VISIBLE);
@@ -330,7 +331,7 @@ public class ProductInfoActivity extends BaseActivity {
                     id1 = productDetail.attributes.get(0).attributeValues.get(0).attributeValueId + "";
                     id2 = productDetail.attributes.get(1).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1 + "," + id2;
-//                    findProductByAttributeValueIds();
+                    findProductByAttributeValueIds();
                     break;
                 case 3:
                     menuWindow.linearLayout1.setVisibility(View.VISIBLE);
@@ -350,7 +351,7 @@ public class ProductInfoActivity extends BaseActivity {
                     id2 = productDetail.attributes.get(1).attributeValues.get(0).attributeValueId + "";
                     id3 = productDetail.attributes.get(2).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1 + "," + id2 + "," + id3;
-//                    findProductByAttributeValueIds();
+                    findProductByAttributeValueIds();
                     break;
                 case 4:
                     menuWindow.linearLayout1.setVisibility(View.VISIBLE);
@@ -375,7 +376,7 @@ public class ProductInfoActivity extends BaseActivity {
                     id3 = productDetail.attributes.get(2).attributeValues.get(0).attributeValueId + "";
                     id4 = productDetail.attributes.get(3).attributeValues.get(0).attributeValueId + "";
                     attributeValueIds = id1 + "," + id2 + "," + id3 + "," + id4;
-//                    findProductByAttributeValueIds();
+                    findProductByAttributeValueIds();
                     break;
             }
         }
@@ -388,42 +389,44 @@ public class ProductInfoActivity extends BaseActivity {
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.purchase_confirm:
-//                    if (flag) {   //直接购买
-//                        List<Product> products = new ArrayList<>();
-//                        //构造一个商品
-//                        Product product = new Product();
-//                        product.id = productDetail.product.id + "";
-//                        product.repertoryId = repertoryId;
-//                        product.productNumber = menuWindow.productNumber + "";
-//                        product.picture = productDetail.product.picture;
-//                        product.productName = repertoryProductName;
-//                        product.repertoryName = repertoryProductName;
-//                        product.price = repertoryProductPrice;
-//                        products.add(product);
-//                        Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
-//                        intent.putParcelableArrayListExtra("products", (ArrayList<? extends Parcelable>) products);
-//                        startActivity(intent);
-//                    } else { //加入到购物车
-//                        Map carMap = new HashMap();
-//                        carMap.put("repertory.id", repertoryId);
-//                        carMap.put("productNum", menuWindow.productNumber);
-//                        ShapreUtils.putParamCustomerDotId(carMap);
-//
-//                        fromNetwork.persist(carMap)
-//                                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
-//                                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
-//                                    @Override
-//                                    protected void myNext(CommonReturnModel commonReturnModel) {
-//                                        Utils.showToast(mContext, commonReturnModel.message);
-//                                        ShoppingCarActivity.updateFlag = true;
-//                                    }
-//
-//                                    @Override
-//                                    protected void myError(String message) {
-//                                        Utils.showToast(mContext, message);
-//                                    }
-//                                });
-//                    }
+                    if (flag) {   //直接购买
+                        List<Product> products = new ArrayList<>();
+                        //构造一个商品
+                        Product product = new Product();
+                        product.productNumber = menuWindow.productNumber + "";
+                        product.productNum = menuWindow.productNumber + "";
+                        product.picture = productDetail.mainPicture;
+                        product.productName = repertoryProductName;
+                        product.repertoryName = repertoryProductName;
+                        product.price = repertoryProductPrice;
+                        product.postage = productDetail.postage;
+                        products.add(product);
+                        Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
+                        intent.putParcelableArrayListExtra("products", (ArrayList<? extends Parcelable>) products);
+                        startActivity(intent);
+                    } else { //加入到购物车
+                        Map carMap = new HashMap();
+                        carMap.put("stockId", repertoryId);
+                        carMap.put("productNumber", menuWindow.productNumber);
+                        ShapreUtils.putParamCustomerId(carMap);
+                        LogUtils.i("哈insertProductToCart" + carMap.toString());
+                        JsonParser jsonParser = new JsonParser();
+                        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(carMap)));
+                        fromNetwork.insertProductToCart(jsonObject)
+                                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ProductInfoActivity.this, true))
+                                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                                    @Override
+                                    protected void myNext(CommonReturnModel commonReturnModel) {
+                                        Utils.showToast(mContext, commonReturnModel.message);
+                                        ShoppingCarActivity.updateFlag = true;
+                                    }
+
+                                    @Override
+                                    protected void myError(String message) {
+                                        Utils.showToast(mContext, message);
+                                    }
+                                });
+                    }
                     break;
             }
 

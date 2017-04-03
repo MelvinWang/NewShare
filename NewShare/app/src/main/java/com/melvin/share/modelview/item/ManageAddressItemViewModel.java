@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
-import com.melvin.share.Utils.RxCommonBus;
-import com.melvin.share.Utils.Utils;
-import com.melvin.share.model.User;
+import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.model.serverReturn.AddressBean;
+import com.melvin.share.ui.activity.ProductInfoActivity;
 import com.melvin.share.ui.activity.selfcenter.NewAddressActivity;
 
 /**
@@ -26,6 +25,10 @@ public class ManageAddressItemViewModel extends BaseObservable {
     public ManageAddressItemViewModel(Context context, AddressBean addressBean) {
         this.addressBean = addressBean;
         this.context = context;
+    }
+    public void onItemClick(View view) {
+        addressBean.flag = "4";
+        RxCommonBus.get().post(addressBean);
     }
 
     public String getName() {

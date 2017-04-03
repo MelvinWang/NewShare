@@ -12,7 +12,7 @@ import rx.Subscriber;
  * <p>
  * Author:Melvin
  * <p>
- * 功能：请求集合数据返统一处理
+ * 功能：请求集合,对象数据返统一处理
  */
 public abstract class RxModelSubscribe<T> extends Subscriber<T> {
     private Context mContext;

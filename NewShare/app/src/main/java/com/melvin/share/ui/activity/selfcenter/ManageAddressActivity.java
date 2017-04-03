@@ -3,24 +3,20 @@ package com.melvin.share.ui.activity.selfcenter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
-import com.melvin.share.Utils.RxCommonBus;
-import com.melvin.share.Utils.ShapreUtils;
+import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.databinding.ActivityReceiveAddressBinding;
 import com.melvin.share.model.serverReturn.AddressBean;
 import com.melvin.share.modelview.acti.ManageAddressViewModel;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.MyRecyclerView;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.melvin.share.R.id.map;
+import java.util.ArrayList;
 
 /**
  * Author: Melvin
@@ -36,6 +32,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
     private MyRecyclerView mRecyclerView;
     private ManageAddressViewModel manageAddressViewModel;
     public static boolean saveOrUpdate = false;
+    private boolean orderAddressFlag;//true代表是从订单页面进入
 
     @Override
     protected void initView() {
@@ -49,6 +46,7 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
 
     private void ininData() {
         mRecyclerView = binding.recyclerView;
+        orderAddressFlag = getIntent().getBooleanExtra("orderAddress", false);
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
         manageAddressViewModel = new ManageAddressViewModel(this, mRecyclerView);
@@ -102,6 +100,17 @@ public class ManageAddressActivity extends BaseActivity implements MyRecyclerVie
             manageAddressViewModel.setDefaultAddress(bean);
         } else if ("2".equals(bean.flag)) {
             manageAddressViewModel.deleteAddress(bean);
+        } else if ("4".equals(bean.flag)) {
+            if (orderAddressFlag) {
+                Intent intent = getIntent();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", bean.receiver);
+                bundle.putString("phone", bean.phone);
+                bundle.putString("address", bean.province + bean.city + bean.area + bean.detailAddress);
+                intent.putExtra("bean", bundle);
+                setResult(1, intent);
+                finish();
+            }
         }
     }
 

@@ -3,7 +3,6 @@ package com.melvin.share.ui.activity.selfcenter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v4.view.GravityCompat;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,11 +12,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
-import com.melvin.share.Utils.LogUtils;
-import com.melvin.share.Utils.RxCommonBus;
+import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
-import com.melvin.share.app.BaseApplication;
 import com.melvin.share.databinding.ActivitySettingBinding;
 import com.melvin.share.model.customer.Customer;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
@@ -26,15 +23,10 @@ import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.AmendPasswordActivity;
-import com.melvin.share.ui.activity.common.AmendPhoneActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.CityTransparentActivity;
 import com.melvin.share.ui.activity.common.PictureActivity;
-import com.melvin.share.ui.activity.common.RegisterFirstActivity;
 import com.melvin.share.view.SelectTimeopupWindow;
-
-import static com.melvin.share.R.id.map;
-import static com.melvin.share.R.mipmap.phone;
 
 /**
  * Author: Melvin

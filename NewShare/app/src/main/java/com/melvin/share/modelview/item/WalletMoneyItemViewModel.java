@@ -6,10 +6,9 @@ import android.databinding.BaseObservable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
-import com.melvin.share.Utils.RxBus;
+import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.ProductInfoActivity;
-import com.melvin.share.ui.activity.ShopInformationActivity;
 import com.melvin.share.ui.activity.common.CommonImageActivity;
 
 /**

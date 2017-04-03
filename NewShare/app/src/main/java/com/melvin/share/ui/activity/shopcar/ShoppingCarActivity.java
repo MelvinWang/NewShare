@@ -1,4 +1,4 @@
-package com.melvin.share.ui.activity.selfcenter;
+package com.melvin.share.ui.activity.shopcar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
-import com.melvin.share.Utils.RxCarBus;
+import com.melvin.share.rx.RxCarBus;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.ShopCarAdapter;
@@ -21,11 +24,11 @@ import com.melvin.share.databinding.ActivityShoppingCarBinding;
 import com.melvin.share.event.PostEvent;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.list.CommonList;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
-import com.melvin.share.ui.activity.shopcar.ConfirmOrderActivity;
-import com.melvin.share.ui.activity.shopcar.ShoppingCarEditActivity;
+import com.melvin.share.ui.activity.order.ConfirmOrderActivity;
 import com.melvin.share.view.MyRecyclerView;
 
 import java.math.BigDecimal;
@@ -37,7 +40,7 @@ import java.util.Map;
 /**
  * Author: Melvin
  * <p/>
- * Data： 2016/11/29
+ * Data： 2017/3/31
  * <p/>
  * 描述：购物车
  */
@@ -53,24 +56,26 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
     public static boolean updateFlag = false;
     private TextView totalPrice;
     private BigDecimal totalPriceBigcimal;
+    private int pageNo = 1;
+
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_shopping_car);
         mContext = this;
         initWindow();
+        RxCarBus.get().register(this); //注册
         initToolbar(binding.toolbar);
         initData();
         initAdapter();
-        requestData();
+        requestData(true);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        RxCarBus.get().register(this); //注册
         if (updateFlag) {
             updateFlag = false;
-            requestData();
+            requestData(true);
         }
     }
 
@@ -78,6 +83,7 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
      * 初始化数据
      */
     private void initData() {
+        map.put("pageNo", pageNo + "");
         totalPrice = binding.totalPrice;
         binding.allChoice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -86,7 +92,7 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
                     totalPriceBigcimal = new BigDecimal(0);
                     for (Product product : productList) {
                         product.isChecked = isChecked;
-                        BigDecimal multiply = new BigDecimal((product.price)).multiply(new BigDecimal((product.productNumber)));
+                        BigDecimal multiply = new BigDecimal((product.price)).multiply(new BigDecimal((product.productNum)));
                         totalPriceBigcimal = totalPriceBigcimal.add(multiply);
                     }
                     totalPrice.setText(totalPriceBigcimal + "");
@@ -114,7 +120,6 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
                 break;
             case R.id.goto_pay:
                 gotoPay();
-
                 break;
         }
     }
@@ -149,6 +154,7 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
         shopCarAdapter = new ShopCarAdapter(mContext, data);
         mRecyclerView.setAdapter(shopCarAdapter);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -173,25 +179,32 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
     }
 
     /**
-     * 请求网络
+     * 请求网络 true代表刷新
      */
-    private void requestData() {
+    private void requestData(final boolean flag) {
         ShapreUtils.putParamCustomerId(map);
-
-        fromNetwork.findCartByCustomer(map)
-                .compose(new RxActivityHelper<ArrayList<Product>>().ioMain(ShoppingCarActivity.this,true))
-                .subscribe(new RxModelSubscribe<ArrayList<Product>>(mContext, true) {
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findCartByCustomer(jsonObject)
+                .compose(new RxActivityHelper<CommonList<Product>>().ioMain(ShoppingCarActivity.this, true))
+                .subscribe(new RxModelSubscribe<CommonList<Product>>(mContext, true) {
                     @Override
-                    protected void myNext(ArrayList<Product> list) {
-                        data.clear();
-                        productList.clear();
-                        data.addAll(list);
-                        productList.addAll(list);
+                    protected void myNext(CommonList<Product> bean) {
+                        if (flag) {
+                            data.clear();
+                            productList.clear();
+                        }
+                        data.addAll(bean.rows);
+                        productList.addAll(bean.rows);
                         shopCarAdapter.notifyDataSetChanged();
+                        mRecyclerView.refreshComplete();
+                        mRecyclerView.loadMoreComplete();
                     }
 
                     @Override
                     protected void myError(String message) {
+                        mRecyclerView.refreshComplete();
+                        mRecyclerView.loadMoreComplete();
                         Utils.showToast(mContext, message);
                     }
                 });
@@ -202,9 +215,9 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
      */
     @Override
     public void onRefresh() {
-        data.clear();
-        requestData();
-        mRecyclerView.refreshComplete();
+        pageNo = 1;
+        map.put("pageNo", pageNo + "");
+        requestData(true);
 
     }
 
@@ -213,8 +226,10 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
      */
     @Override
     public void onLoadMore() {
-        requestData();
-        mRecyclerView.loadMoreComplete();
+        pageNo++;
+        map.put("pageNo", pageNo + "");
+        requestData(false);
+
     }
 
 }
