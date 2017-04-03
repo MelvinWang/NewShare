@@ -10,22 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.melvin.share.R;
+import com.melvin.share.Utils.DateUtil;
+import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.ShareHotAdapter;
 import com.melvin.share.databinding.FragmentHomeBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.Reward;
+import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.list.HomeHotProduct;
+import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxFragmentHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
 import com.melvin.share.ui.activity.home.RecommendActivity;
+import com.melvin.share.ui.activity.order.WaitPayOrderActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.zxing.activity.CaptureActivity;
 
@@ -55,6 +62,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
     private ImageView locationButton;
     private Map map;
     private int pageNo = 1;
+    private TextView cashbackUse;
+    private TextView cashbackWill;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -86,6 +95,9 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         scanButton = (ImageView) headerView.findViewById(R.id.scan);
         recommendButton = (ImageView) headerView.findViewById(R.id.recommend);
         locationButton = (ImageView) headerView.findViewById(R.id.location);
+
+        cashbackUse = (TextView) headerView.findViewById(R.id.cashback_use);
+        cashbackWill = (TextView) headerView.findViewById(R.id.cashback_will);
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,10 +142,18 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         recyclerView.setAdapter(adpter);
     }
 
+
+    private void requestData() {
+        requestHotProduct();
+        requestReward();
+
+    }
+
+
     /**
      * 请求网络，分享热度商品
      */
-    private void requestData() {
+    private void requestHotProduct() {
         map.put("pageNo", pageNo);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
@@ -163,13 +183,33 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
     }
 
     /**
+     * 请求返利
+     */
+    private void requestReward() {
+        fromNetwork.findMyTotalReward(ShapreUtils.getCustomerId())
+                .compose(new RxFragmentHelper<Reward>().ioMain(mContext, HomeFragment.this, false))
+                .subscribe(new RxModelSubscribe<Reward>(mContext, false) {
+                    @Override
+                    protected void myNext(Reward bean) {
+                        cashbackUse.setText(bean.cashbackUse);
+                        cashbackWill.setText(bean.cashbackWill);
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
+    /**
      * 下拉刷新
      */
     @Override
     public void onRefresh() {
         pageNo = 1;
         dataList.clear();
-        requestData();
+        requestHotProduct();
 
 
     }
@@ -180,7 +220,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
     @Override
     public void onLoadMore() {
         pageNo++;
-        requestData();
+        requestHotProduct();
 
     }
 }

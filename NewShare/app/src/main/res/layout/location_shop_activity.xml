@@ -46,15 +46,17 @@
             android:paddingTop="20dp">
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="定位地址：" />
 
             <TextView
+                android:id="@+id/locatio_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="具体地址" />
+                android:text="" />
         </LinearLayout>
 
         <TextView
@@ -66,24 +68,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="horizontal"
-           >
+            android:orientation="horizontal">
 
             <TextView
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="地址补充：" />
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:text="店铺名称：" />
 
             <EditText
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:id="@+id/detail_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                 />
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp" />
         </LinearLayout>
 
         <TextView

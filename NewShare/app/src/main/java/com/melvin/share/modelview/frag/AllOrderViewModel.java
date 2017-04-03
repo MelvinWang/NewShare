@@ -1,5 +1,6 @@
 package com.melvin.share.modelview.frag;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 
@@ -23,6 +24,7 @@ import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.MainActivity;
 import com.melvin.share.ui.fragment.login.NormalLoginFragment;
+import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.ui.fragment.main.HomeFragment;
 import com.melvin.share.ui.fragment.order.AllOrderFragment;
 import com.melvin.share.view.MyRecyclerView;
@@ -48,10 +50,10 @@ public class AllOrderViewModel extends BaseRecyclerViewModel<BaseModel> implemen
     private Context context;
     private MyRecyclerView mRecyclerView;
     public List<BaseModel> data = new ArrayList<>();
-    public AllOrderFragment fragment;
+    public BaseFragment fragment;
 
 
-    public AllOrderViewModel(Context context, AllOrderFragment fragment,MyRecyclerView mRecyclerView) {
+    public AllOrderViewModel(Context context, BaseFragment fragment, MyRecyclerView mRecyclerView) {
         super(context);
         this.context = context;
         this.fragment = fragment;
@@ -60,8 +62,8 @@ public class AllOrderViewModel extends BaseRecyclerViewModel<BaseModel> implemen
 
     }
 
-    public void requestData() {
-        Map map = new HashMap();
+    public void requestData(Map map) {
+
         ShapreUtils.putParamCustomerId(map);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));

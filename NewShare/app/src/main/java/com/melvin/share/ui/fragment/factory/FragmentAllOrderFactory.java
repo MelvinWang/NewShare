@@ -3,12 +3,17 @@ package com.melvin.share.ui.fragment.factory;
 import android.support.v4.app.Fragment;
 
 import com.melvin.share.ui.fragment.order.AllOrderFragment;
+import com.melvin.share.ui.fragment.order.RefundOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitEvaluateOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitPayOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitReceiveOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitSendOrderFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created Time: 2016/11/29.
+ * Created Time: 2017/4/3.
  * <p>
  * Author:Melvin
  * <p>
@@ -24,15 +29,15 @@ public class FragmentAllOrderFactory {
             if (position == 0) {
                 fragment = new AllOrderFragment();
             } else if (position == 1) {
-                fragment = new AllOrderFragment();
+                fragment = new WaitPayOrderFragment();
             } else if (position == 2) {
-                fragment = new AllOrderFragment();
+                fragment = new WaitSendOrderFragment();
             } else if (position == 3) {
-                fragment = new AllOrderFragment();
+                fragment = new WaitReceiveOrderFragment();
             }else if (position == 4) {
-                fragment = new AllOrderFragment();
+                fragment = new WaitEvaluateOrderFragment();
             }else if (position == 5) {
-                fragment = new AllOrderFragment();
+                fragment = new RefundOrderFragment();
             }
             if (fragment != null) {
                 mFragments.put(position, fragment);

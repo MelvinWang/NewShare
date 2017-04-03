@@ -2,11 +2,13 @@ package com.melvin.share.ui.activity.selfcenter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.melvin.share.R;
 import com.melvin.share.Utils.MapUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.databinding.ActivityLocationShopBinding;
 import com.melvin.share.ui.activity.common.BaseActivity;
 
@@ -53,6 +56,8 @@ public class LocationShopActivity extends BaseActivity implements LocationSource
     private MarkerOptions markerOption;
     private TextView mLocationErrText;
     private LatLng latlng = new LatLng(30.628489, 104.05638);
+    private String addressLongitude = "";//经    度
+    private String addressLatitude = "";//纬    度
 
     @Override
     protected void initView() {
@@ -150,7 +155,7 @@ public class LocationShopActivity extends BaseActivity implements LocationSource
                 String locationStr = MapUtils.getLocationStr(amapLocation);
                 Log.i("哈哈", locationStr);
                 aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
-//                askServer(locationStr);
+                askServer(locationStr, amapLocation);
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
@@ -161,11 +166,37 @@ public class LocationShopActivity extends BaseActivity implements LocationSource
         }
     }
 
-    private void askServer(String locationStr) {
-        Log.i("哈哈22", locationStr);
-        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
-        addMarkersToMap(30.628489, 104.05434, "店铺名2", "具体位置2");
-        addMarkersToMap(30.628489, 104.05744, "店铺名3", "具体位置3");
+    private void askServer(String locationStr, AMapLocation amapLocation) {
+        binding.locatioAddress.setText(amapLocation.getAddress());
+
+        addressLongitude = amapLocation.getLongitude() + "";
+        addressLatitude = amapLocation.getLatitude() + "";
+//        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
+//        addMarkersToMap(30.628489, 104.05434, "店铺名2", "具体位置2");
+//        addMarkersToMap(30.628489, 104.05744, "店铺名3", "具体位置3");
+
+    }
+
+    /**
+     * 下一步
+     *
+     * @param view
+     */
+    public void clickNext(View view) {
+        if (TextUtils.isEmpty(addressLongitude)) {
+            Utils.showToast(mContext, "定位失败，请重新定位");
+            return;
+        } else if (TextUtils.isEmpty(binding.detailAddress.getText().toString())) {
+            Utils.showToast(mContext, "请输入店铺名称");
+            return;
+        }
+
+        Intent intent = new Intent(mContext, UploadCertificateActivity.class);
+        intent.putExtra("addressLongitude",addressLongitude);
+        intent.putExtra("addressLatitude",addressLatitude);
+        intent.putExtra("shopName",binding.detailAddress.getText().toString());
+        intent.putExtra("shopLocation",true);
+        startActivity(intent);
 
     }
 
@@ -288,5 +319,6 @@ public class LocationShopActivity extends BaseActivity implements LocationSource
 
         }
     }
+
 
 }

@@ -38,7 +38,7 @@ public class OpenshopFirstActivity extends BaseActivity {
      * @param view
      */
     public void clickNext(View view) {
-        startActivity(new Intent(context, OpenshopSecondActivity.class));
+        startActivity(new Intent(context, UploadCertificateActivity.class));
     }
 
 }

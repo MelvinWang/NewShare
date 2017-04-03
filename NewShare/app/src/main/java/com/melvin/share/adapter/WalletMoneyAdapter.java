@@ -10,13 +10,14 @@ import com.melvin.share.R;
 import com.melvin.share.databinding.WalletItemBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.User;
+import com.melvin.share.model.WalletProduct;
 import com.melvin.share.modelview.item.WalletMoneyItemViewModel;
 
 import java.util.List;
 
 
 /**
- * Created Time: 2016/11/29.
+ * Created Time: 2017/4/3.
  * <p/>
  * Author:Melvin
  * <p/>
@@ -43,7 +44,7 @@ public class WalletMoneyAdapter extends BaseAdapter<WalletMoneyAdapter.BindingHo
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((WalletProduct) list.get(position));
     }
 
     @Override
@@ -62,7 +63,7 @@ public class WalletMoneyAdapter extends BaseAdapter<WalletMoneyAdapter.BindingHo
             this.binding = binding;
         }
 
-        void bindObject(final User model) {
+        void bindObject(final WalletProduct model) {
             if (binding.getViewModel() == null) {
                 binding.setViewModel(new WalletMoneyItemViewModel(context, model));
             } else {

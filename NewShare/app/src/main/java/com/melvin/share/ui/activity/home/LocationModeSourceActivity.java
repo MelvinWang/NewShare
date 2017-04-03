@@ -152,9 +152,9 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
 
     private void askServer(String locationStr) {
         Log.i("哈哈22", locationStr);
-        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
-        addMarkersToMap(30.628489, 104.05434, "店铺名2", "具体位置2");
-        addMarkersToMap(30.628489, 104.05744, "店铺名3", "具体位置3");
+//        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
+//        addMarkersToMap(30.628489, 104.05434, "店铺名2", "具体位置2");
+//        addMarkersToMap(30.628489, 104.05744, "店铺名3", "具体位置3");
     }
     /**
      * 在地图上添加marker

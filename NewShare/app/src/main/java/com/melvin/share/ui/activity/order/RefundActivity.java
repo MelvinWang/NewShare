@@ -1,4 +1,4 @@
-package com.melvin.share.ui.activity.selfcenter;
+package com.melvin.share.ui.activity.order;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

@@ -72,11 +72,12 @@
                 android:textSize="@dimen/page_14" />
 
             <TextView
+                android:id="@+id/cashback_use"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="760.00"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/page_14" />
         </LinearLayout>
@@ -109,7 +110,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="760.00"
+                android:id="@+id/cashback_will"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/page_14" />
         </LinearLayout>

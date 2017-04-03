@@ -8,10 +8,9 @@ import android.view.View;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.dialog.ConfirmReceiveDialog;
 import com.melvin.share.model.User;
-import com.melvin.share.ui.activity.ProductInfoActivity;
 import com.melvin.share.ui.activity.selfcenter.ApplyRefundActivity;
 import com.melvin.share.ui.activity.selfcenter.LogisticsInfoActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitReceiveProductOrderInformationActivity;
+import com.melvin.share.ui.activity.order.WaitReceiveProductOrderInformationActivity;
 
 /**
  * Created Time: 2016/8/6

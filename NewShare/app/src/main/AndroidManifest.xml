@@ -139,7 +139,7 @@
             android:name=".ui.activity.selfcenter.WaitEvaluateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.selfcenter.RefundActivity"
+            android:name=".ui.activity.order.RefundActivity"
             android:screenOrientation="portrait" />
 
         <!-- 个人中心 ，第三排-->
@@ -153,7 +153,7 @@
             android:name=".ui.activity.selfcenter.OpenshopFirstActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.selfcenter.OpenshopSecondActivity"
+            android:name=".ui.activity.selfcenter.UploadCertificateActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.selfcenter.SettingActivity"
@@ -193,13 +193,13 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.selfcenter.WaitSendProductOrderInformationActivity"
+            android:name=".ui.activity.order.WaitSendProductOrderInformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.selfcenter.WaitReceiveProductOrderInformationActivity"
+            android:name=".ui.activity.order.WaitReceiveProductOrderInformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.selfcenter.WaitEvaluateOrderInformationActivity"
+            android:name=".ui.activity.order.WaitEvaluateOrderInformationActivity"
             android:screenOrientation="portrait" />
 
 

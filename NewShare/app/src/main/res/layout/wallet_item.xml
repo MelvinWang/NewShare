@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="175dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/logo"
                 app:imageUrl="@{viewModel.imgUrl}" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_below="@id/product_name"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:text="@{viewModel.name}"
+                android:text="@{viewModel.userName}"
                 android:textColor="@color/app_common_red"
                 android:textSize="@dimen/page_10"
                 tools:text="购买者姓名" />
@@ -67,7 +67,7 @@
                 android:layout_below="@id/product_name"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:text="@{viewModel.name}"
+                android:text="@{viewModel.price}"
                 android:textColor="@color/app_common_red"
                 android:textSize="@dimen/page_10"
                 tools:text="奖励金额" />

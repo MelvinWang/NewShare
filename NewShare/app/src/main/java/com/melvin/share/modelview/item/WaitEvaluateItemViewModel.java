@@ -7,9 +7,8 @@ import android.view.View;
 
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.OderEvaluateActivity;
-import com.melvin.share.ui.activity.ProductInfoActivity;
 import com.melvin.share.ui.activity.selfcenter.LogisticsInfoActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitEvaluateOrderInformationActivity;
+import com.melvin.share.ui.activity.order.WaitEvaluateOrderInformationActivity;
 
 /**
  * Created Time: 2016/8/6

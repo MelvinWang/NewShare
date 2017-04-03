@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.selfcenter.ApplyRefundActivity;
-import com.melvin.share.ui.activity.selfcenter.WaitSendProductOrderInformationActivity;
+import com.melvin.share.ui.activity.order.WaitSendProductOrderInformationActivity;
 import com.melvin.share.dialog.UrgeBillDialog;
 
 /**

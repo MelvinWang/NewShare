@@ -10,7 +10,6 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.databinding.FragmentAllOrderBinding;
-import com.melvin.share.modelview.acti.WaitEvaluateViewModel;
 import com.melvin.share.modelview.frag.AllOrderViewModel;
 import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.view.MyRecyclerView;
@@ -23,9 +22,9 @@ import java.util.Map;
  * <p>
  * Data： 2017/4/3
  * <p>
- * 描述：全部订单
+ * 描述：待发货
  */
-public class AllOrderFragment extends BaseFragment implements MyRecyclerView.LoadingListener  {
+public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerView.LoadingListener  {
 
     private FragmentAllOrderBinding binding;
     private Context mContext;
@@ -55,9 +54,9 @@ public class AllOrderFragment extends BaseFragment implements MyRecyclerView.Loa
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        allOrderViewModel= new AllOrderViewModel(mContext, AllOrderFragment.this,mRecyclerView);
+        allOrderViewModel= new AllOrderViewModel(mContext, WaitSendOrderFragment.this,mRecyclerView);
         binding.setViewModel(allOrderViewModel);
-//        map.put("orderStatus",null);
+        map.put("orderStatus","2");
         allOrderViewModel.requestData(map);
     }
 

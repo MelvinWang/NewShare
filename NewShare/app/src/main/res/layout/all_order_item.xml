@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.melvin.share.modelview.item.AllOrderItemViewModel" />
@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@drawable/list_background"
-        android:orientation="vertical"
         android:onClick="@{viewModel.onItemClick}"
+        android:orientation="vertical"
         android:padding="4dp">
 
         <RelativeLayout
@@ -45,6 +45,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/color_ddd"
             android:textSize="1dp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -108,35 +109,119 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:onClick="@{viewModel.onEvaluateClick}"
-                android:id="@+id/pay"
-                style="@style/CircularBtnStyle"
-                android:layout_width="100dp"
-                android:layout_height="45dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/btn_rectangle_withradus"
-                android:text="评价"
-                android:textColor="@color/app_common_red"
-                android:textSize="15sp" />
+                android:layout_height="wrap_content">
 
-            <Button
-                android:onClick="@{viewModel.onLookLogisticsClick}"
-                style="@style/CircularBtnStyle"
-                android:layout_width="100dp"
-                android:layout_height="45dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toLeftOf="@id/pay"
-                android:background="@drawable/btn_rectangle_withradus999"
-                android:text="查看物流"
-                android:textColor="@color/color_999"
-                android:textSize="15sp" />
+                <Button
+                    android:id="@+id/cancel_order"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus999"
+                    android:onClick="@{viewModel.onCancelOrderClick}"
+                    android:text="取消订单"
+                    android:textColor="@color/color_999"
+                    android:visibility="@{viewModel.cancelOrderStatus?  View.VISIBLE:  View.GONE}"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/refund"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus999"
+                    android:onClick="@{viewModel.onRefundClick}"
+                    android:text="申请退款"
+                    android:textColor="@color/color_999"
+                    android:visibility="@{viewModel.refundStatus?  View.VISIBLE:  View.GONE}"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/look_logistics"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus999"
+                    android:onClick="@{viewModel.onLookLogisticsClick}"
+                    android:text="查看物流"
+                    android:textColor="@color/color_999"
+                    android:visibility="@{viewModel.logisticsStatus?  View.VISIBLE:  View.GONE}"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/pay"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onPayClick}"
+                    android:text="付款"
+                    android:textColor="@color/app_common_red"
+                    android:visibility="@{viewModel.payStatus?  View.VISIBLE:  View.GONE}"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/reminder"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onReminderClick}"
+                    android:visibility="@{viewModel.reminderStatus?  View.VISIBLE:  View.GONE}"
+                    android:text="催单"
+                    android:textColor="@color/app_common_red"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/confirm_receive"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onConfirmReceiveClick}"
+                    android:text="确认收货"
+                    android:textColor="@color/app_common_red"
+                    android:visibility="@{viewModel.confirmReceiveStatus?  View.VISIBLE:  View.GONE}"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/evaluate"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onEvaluateClick}"
+                    android:visibility="@{viewModel.evaluateStatus?  View.VISIBLE:  View.GONE}"
+                    android:text="评价"
+                    android:textColor="@color/app_common_red"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
         </RelativeLayout>
+
     </LinearLayout>
 
 </layout>

@@ -1,4 +1,4 @@
-package com.melvin.share.ui.activity.selfcenter;
+package com.melvin.share.ui.activity.order;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -14,7 +14,7 @@ import com.melvin.share.view.MyRecyclerView;
 /**
  * Author: Melvin
  * <p/>
- * Data： 2016/8/7
+ * Data： 2017/4/3
  * <p/>
  * 描述： 待评价订单信息
  */

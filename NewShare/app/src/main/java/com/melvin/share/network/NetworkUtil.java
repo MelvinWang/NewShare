@@ -6,7 +6,9 @@ import com.melvin.share.model.Category;
 import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.Reward;
 import com.melvin.share.model.WaitPayOrderInfo;
+import com.melvin.share.model.WalletProduct;
 import com.melvin.share.model.customer.Customer;
 import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.list.HomeHotProduct;
@@ -167,7 +169,6 @@ public class NetworkUtil {
         Observable<CommonList<HomeHotProduct>> findHotProduct(@Body JsonObject json);
 
         //查看商品详情
-
         @GET("/app/product/findProductDetail")
         Observable<ProductDetailBean> findProductDetail(@Query("id") String id,
                                                         @Query("customerId") String customerId);
@@ -222,18 +223,38 @@ public class NetworkUtil {
         //确认订单
         @POST("/app/order/makeSureOrder")
         Observable<CommonReturnModel<WaitPayOrderInfo>> makeSureOrder(@Body JsonObject json);
+
         //查看全部订单
         @POST("/app/order/findOrderByCustomer")
         Observable<CommonList<WaitPayOrderInfo.OrderBean>> findOrderByCustomer(@Body JsonObject json);
 
+        //查看单个订单的详情
+        @GET("/app/order/findOrderById")
+        Observable<WaitPayOrderInfo.OrderBean> findOrderById(@Query("id") String id);
+
+        //改变订单状态已经付款
+        @POST("/app/order/updateOrderStatus")
+        Observable<WaitPayOrderInfo.OrderBean> updateOrderStatus(@Body JsonObject json);
+
+
+        /**
+         * 返利
+         */
+        //查看单个订单的详情
+        @GET("/app/reward/findMyTotalReward")
+        Observable<Reward> findMyTotalReward(@Query("customerId") String id);
+
+        //POST  查看个人返利的商品
+        @POST("/app/reward/findMyReward")
+        Observable<CommonList<WalletProduct>> findMyReward(@Body JsonObject json);
 
 
 
 
 
-
-
-
+        //  申请成为体验馆
+        @POST("/app/customer/applyExperience")
+        Observable<CommonReturnModel> applyExperience(@Body JsonObject json);
 
 
 

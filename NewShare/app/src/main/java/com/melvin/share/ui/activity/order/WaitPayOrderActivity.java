@@ -59,6 +59,8 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
     private String phone;
     private String address;
     private String cartIds;
+    private boolean fromAllOrder;
+    private String orderId;
 
     @Override
     protected void initView() {
@@ -75,7 +77,9 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         phone = intent.getStringExtra("phone");
         address = intent.getStringExtra("address");
         cartIds = intent.getStringExtra("cartIds");
-
+        //是否从全部订单页面过来，true代表是
+        fromAllOrder = intent.getBooleanExtra("fromAllOrder", false);
+        orderId = intent.getStringExtra("orderId");
         mRecyclerView = binding.recyclerView;
         binding.aliPay.setOnCheckedChangeListener(this);
         binding.wechatPay.setOnCheckedChangeListener(this);
@@ -83,9 +87,41 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         waitPayOrderViewModel = new WaitPayOrderViewModel(this, mRecyclerView);
         binding.setViewModel(waitPayOrderViewModel);
+        if (fromAllOrder) {
+            findOrderById();
+        } else {
+            makeSureOrder();
+        }
 
-        makeSureOrder();
 
+    }
+
+    /**
+     * 查看单个订单的详情
+     */
+    private void findOrderById() {
+        fromNetwork.findOrderById(orderId)
+                .compose(new RxActivityHelper<WaitPayOrderInfo.OrderBean>().ioMain(WaitPayOrderActivity.this, true))
+                .subscribe(new RxModelSubscribe<WaitPayOrderInfo.OrderBean>(mContext, true) {
+                    @Override
+                    protected void myNext(WaitPayOrderInfo.OrderBean bean) {
+                        binding.name.setText(bean.receiver);
+                        binding.phone.setText(bean.recevierPhone);
+                        binding.address.setText(bean.receiveAddress);
+
+                        binding.freight.setText("￥ " + bean.postage);
+                        binding.totalFee.setText("￥ " + bean.total);
+
+                        binding.orderNumber.setText(bean.orderNumber);
+                        binding.createTime.setText(DateUtil.getDateString(bean.createTime));
+                        waitPayOrderViewModel.requestData(bean.orderItemResponses);
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 
     /**
@@ -158,6 +194,38 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         final PaySuccessDialog dialog = new PaySuccessDialog(mContext);
         dialog.setContentView(null);
         dialog.show();
+        pay();
+
+
+    }
+    private void pay() {
+        Map payMap = new HashMap();
+        payMap.put("id", orderId);
+        ShapreUtils.putParamCustomerId(payMap);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(payMap)));
+        fromNetwork.updateOrderStatus(jsonObject)
+                .compose(new RxActivityHelper<WaitPayOrderInfo.OrderBean>().ioMain(WaitPayOrderActivity.this, true))
+                .subscribe(new RxModelSubscribe<WaitPayOrderInfo.OrderBean>(mContext, true) {
+                    @Override
+                    protected void myNext(WaitPayOrderInfo.OrderBean bean) {
+                        binding.name.setText(bean.receiver);
+                        binding.phone.setText(bean.recevierPhone);
+                        binding.address.setText(bean.receiveAddress);
+
+                        binding.freight.setText("￥ " + bean.postage);
+                        binding.totalFee.setText("￥ " + bean.total);
+
+                        binding.orderNumber.setText(bean.orderNumber);
+                        binding.createTime.setText(DateUtil.getDateString(bean.createTime));
+                        waitPayOrderViewModel.requestData(bean.orderItemResponses);
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 
     /**
@@ -172,7 +240,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         dialog.setOnClickListener(new OrderCancelDialog.OnCliclListener() {
             @Override
             public void confirm() {
-                Utils.showToast(mContext,"confirm");
+                Utils.showToast(mContext, "confirm");
             }
 
             @Override
