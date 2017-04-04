@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.melvin.share.R;
 import com.melvin.share.databinding.ProductEvaluateItemBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.User;
 import com.melvin.share.modelview.item.ProductEvaluateItemViewModel;
 
@@ -43,7 +44,7 @@ public class ProductEvaluateAdapter extends BaseAdapter<ProductEvaluateAdapter.B
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((Evaluation) list.get(position));
     }
 
     @Override
@@ -62,11 +63,11 @@ public class ProductEvaluateAdapter extends BaseAdapter<ProductEvaluateAdapter.B
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final Evaluation bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new ProductEvaluateItemViewModel(context, user));
+                binding.setViewModel(new ProductEvaluateItemViewModel(context, bean));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(bean);
             }
         }
     }

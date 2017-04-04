@@ -4,6 +4,7 @@ package com.melvin.share.network;
 import com.google.gson.JsonObject;
 import com.melvin.share.model.Category;
 import com.melvin.share.model.CategoryBean;
+import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.Reward;
@@ -187,6 +188,12 @@ public class NetworkUtil {
         @FormUrlEncoded
         @POST("/app/stock/findStockByAttributeValueIds")
         Observable<ProductStore> findProductByAttributeValueIds(@FieldMap Map<Object, Object> map);
+
+        /**
+         * 商品评价
+         */
+        @POST("/app/evaluation/findEvaluationsByProduct")
+        Observable<CommonList<Evaluation>> findEvaluationsByProduct(@Body JsonObject json);
 
 
         /**

@@ -51,7 +51,7 @@ public class ProductInfoActivity extends BaseActivity {
     private Context mContext = null;
     private PurchasePopupWindow menuWindow;
     private boolean flag = true;//true代表购买,false代表加入购物车
-    public String productId;
+    public static String productId="";
     public static ProductDetailBean productDetail;
     private Map map;
     private Map attriMap;//请求具体库存的

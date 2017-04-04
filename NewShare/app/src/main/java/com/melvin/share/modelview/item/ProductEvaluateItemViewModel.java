@@ -4,6 +4,8 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.melvin.share.Utils.DateUtil;
+import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.User;
 
 /**
@@ -15,11 +17,11 @@ import com.melvin.share.model.User;
  */
 public class ProductEvaluateItemViewModel extends BaseObservable {
 
-    private User user;
+    private Evaluation bean;
     private Context context;
 
-    public ProductEvaluateItemViewModel(Context context, User user) {
-        this.user = user;
+    public ProductEvaluateItemViewModel(Context context, Evaluation bean) {
+        this.bean = bean;
         this.context = context;
     }
 
@@ -27,12 +29,21 @@ public class ProductEvaluateItemViewModel extends BaseObservable {
 
     }
 
-    public String getImgUrl() {
-        return "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+    public String getName() {
+        return  bean.username;
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+    public String getContent() {
+        return  bean.content;
+    }
+    public String getProductName() {
+        return  bean.picture;
+    }
+    public String getTime() {
+        return DateUtil.getDateString(bean.evaluateDate);
+    }
+    public void setEntity(Evaluation bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

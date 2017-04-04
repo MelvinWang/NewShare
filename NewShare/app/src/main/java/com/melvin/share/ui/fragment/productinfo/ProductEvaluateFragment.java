@@ -7,24 +7,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.Utils.ShapreUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.ProductEvaluateAdapter;
 import com.melvin.share.databinding.FragmentProductEvaluateBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.User;
+import com.melvin.share.model.WalletProduct;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
+import com.melvin.share.ui.activity.ProductInfoActivity;
 import com.melvin.share.ui.fragment.main.BaseFragment;
+import com.melvin.share.ui.fragment.wallet.WalletUseFragment;
 import com.melvin.share.view.MyRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.melvin.share.R.id.recyclerView;
 
 /**
  * Author: Melvin
  * <p/>
- * Data： 2016/7/25
+ * Data： 2017/4/4
  * <p/>
  * 描述：单个商品信息的评价
  */
@@ -36,7 +52,8 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
     private ProductEvaluateAdapter productEvaluateAdapter;
     private List<BaseModel> data = new ArrayList<>();
     private View root;
-
+    private int pageNo = 1;
+    private Map map;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_evaluate, container, false);
@@ -56,6 +73,7 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
      * 初始化数据
      */
     private void initData() {
+        map = new HashMap();
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
@@ -76,15 +94,34 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
      * 请求网络
      */
     private void requestData() {
-        List list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            User user = new User();
-            user.password = i + "";
-            user.username = i + "";
-            list.add(user);
-        }
-        data.addAll(list);
-        productEvaluateAdapter.notifyDataSetChanged();
+        map.put("pageNo", pageNo);
+        map.put("productId ", ProductInfoActivity.productId);
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findEvaluationsByProduct(jsonObject)
+                .compose(new RxFragmentHelper<CommonList<Evaluation>>().ioMain(mContext, ProductEvaluateFragment.this, true))
+                .subscribe(new RxModelSubscribe<CommonList<Evaluation>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonList<Evaluation> commonList) {
+                        data.addAll(commonList.rows);
+                        productEvaluateAdapter.notifyDataSetChanged();
+                        if (pageNo == 1) {
+                            mRecyclerView.refreshComplete();
+                        } else {
+                            mRecyclerView.loadMoreComplete();
+                        }
+
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        mRecyclerView.refreshComplete();
+                        mRecyclerView.loadMoreComplete();
+                        Utils.showToast(mContext, message);
+                    }
+                });
 
     }
 
@@ -93,9 +130,10 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
      */
     @Override
     public void onRefresh() {
+        pageNo = 1;
         data.clear();
         requestData();
-        mRecyclerView.refreshComplete();
+
 
     }
 
@@ -104,6 +142,7 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
      */
     @Override
     public void onLoadMore() {
+        pageNo++;
         requestData();
         mRecyclerView.loadMoreComplete();
     }
