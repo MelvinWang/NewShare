@@ -10,6 +10,7 @@ import com.melvin.share.R;
 import com.melvin.share.databinding.ReceiveAddressItemBinding;
 import com.melvin.share.databinding.SearchProductItemBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.Product;
 import com.melvin.share.model.User;
 import com.melvin.share.modelview.item.ManageAddressItemViewModel;
 import com.melvin.share.modelview.item.SearchProductItemViewModel;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/7/25
+ * Data： 2017/4/4
  * <p>
  * 描述： 搜索出商品来的页面Adapter
  */
@@ -44,7 +45,7 @@ public class SearchProductAdapter extends BaseAdapter<SearchProductAdapter.Bindi
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((Product) list.get(position));
     }
 
     @Override
@@ -64,11 +65,11 @@ public class SearchProductAdapter extends BaseAdapter<SearchProductAdapter.Bindi
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final Product bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new SearchProductItemViewModel(context, user));
+                binding.setViewModel(new SearchProductItemViewModel(context, bean));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(bean);
             }
         }
     }

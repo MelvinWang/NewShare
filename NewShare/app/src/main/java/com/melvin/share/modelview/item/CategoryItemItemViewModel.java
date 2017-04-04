@@ -12,18 +12,18 @@ import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 
 /**
- * Created Time: 2016/8/4.
+ * Created Time: 2017/4/4.
  * <p/>
  * Author:Melvin
  * <p/>
- * 功能：服装页面item的ViewModel
+ * 功能：分类页面item的ViewModel
  */
-public class ClothItemViewModel extends BaseObservable {
+public class CategoryItemItemViewModel extends BaseObservable {
 
     private Product product;
     private Context context;
 
-    public ClothItemViewModel(Context context, Product product) {
+    public CategoryItemItemViewModel(Context context, Product product) {
         this.product = product;
         this.context = context;
     }
@@ -35,7 +35,7 @@ public class ClothItemViewModel extends BaseObservable {
     }
 
     public String getImgUrl() {
-        String[] split = product.picture.split("\\|");
+        String[] split = product.mainPicture.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.SERVICE_URL + split[0];
             LogUtils.e("哈哈"+url);
@@ -49,7 +49,7 @@ public class ClothItemViewModel extends BaseObservable {
     }
 
     public String getProductName() {
-        return product.productName;
+        return product.name;
     }
 
     public String getPrice() {

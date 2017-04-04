@@ -28,9 +28,9 @@ public class CategoryItemViewModel extends BaseObservable {
         this.context = context;
     }
     public void onItemClick(View view) {
-//        Intent intent = new Intent(context, ProductInfoActivity.class);
-//        intent.putExtra("productId",product.id);
-//        context.startActivity(intent);
+        Intent intent = new Intent(context, ProductInfoActivity.class);
+        intent.putExtra("productId",bean.id);
+        context.startActivity(intent);
     }
 
     public String getImgUrl() {

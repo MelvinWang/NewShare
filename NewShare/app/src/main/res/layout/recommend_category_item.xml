@@ -13,35 +13,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="185dp"
+        android:layout_height="95dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:onClick="@{viewModel.onItemClick}"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@color/color_999"
-           >
             <ImageView
                 android:id="@+id/product_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:onClick="@{viewModel.onItemClick}"
                 android:src="@mipmap/logo"
-                app:imageUrl="@{viewModel.imgUrl}" />
-        </RelativeLayout>
+                app:imageTagUrl="@{viewModel.imgUrl}" />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_999"
-            android:paddingTop="2dp"
+            android:background="@color/f2f2f2"
             tools:listitem="@layout/category_item" />
     </LinearLayout>
 </layout>

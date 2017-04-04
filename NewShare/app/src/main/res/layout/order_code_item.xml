@@ -71,7 +71,7 @@
                     android:layout_marginTop="27dp"
                     android:layout_toRightOf="@id/product_rate"
                     android:background="@null"
-                    android:src="@mipmap/share" />
+                    android:src="@mipmap/code_create" />
 
             </RelativeLayout>
 

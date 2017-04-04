@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -76,10 +77,6 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
     }
 
 
-    public void toSearchActivity(View v) {
-        startActivity(new Intent(mContext, SearchActivity.class));
-    }
-
     private void ininData() {
         map = new HashMap();
         recyclerView = binding.recyclerView;
@@ -130,15 +127,17 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
                     protected void myNext(ShopBean bean) {
                         shopName.setText(bean.name);
                         collection.setChecked(bean.collected);
-                        String[] split = bean.picture.split("\\|");
-                        if (split != null && split.length >= 1) {
-                            String url = GlobalUrl.SERVICE_URL + split[0];
-                            imgUrl = url;
+                        if (!TextUtils.isEmpty(bean.picture)) {
+                            String[] split = bean.picture.split("\\|");
+                            if (split != null && split.length >= 1) {
+                                String url = GlobalUrl.SERVICE_URL + split[0];
+                                imgUrl = url;
+                            }
+                            Glide.with(mContext)
+                                    .load(imgUrl)
+                                    .centerCrop()
+                                    .into(shopImg);
                         }
-                        Glide.with(mContext)
-                                .load(imgUrl)
-                                .centerCrop()
-                                .into(shopImg);
                         collection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

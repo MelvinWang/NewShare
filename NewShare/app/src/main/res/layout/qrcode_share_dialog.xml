@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="10dp"
-            android:src="@mipmap/pay_alipay" />
+            android:src="@mipmap/new_share" />
 
         <TextView
             android:id="@+id/title"

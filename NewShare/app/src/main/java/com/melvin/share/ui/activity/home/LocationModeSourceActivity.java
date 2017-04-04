@@ -49,6 +49,7 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
     private AMapLocationClientOption mLocationOption;
     private MarkerOptions markerOption;
     private TextView mLocationErrText;
+    //纬度 经度
     private LatLng latlng = new LatLng(30.628489, 104.05638);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +140,7 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
                 String locationStr = MapUtils.getLocationStr(amapLocation);
                 Log.i("哈哈", locationStr);
                 aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
-                askServer(locationStr);
+                askServer(locationStr,amapLocation);
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
@@ -150,8 +151,10 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
         }
     }
 
-    private void askServer(String locationStr) {
+    private void askServer(String locationStr,AMapLocation amapLocation) {
         Log.i("哈哈22", locationStr);
+        latlng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+        onMapLoaded();
 //        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
 //        addMarkersToMap(30.628489, 104.05434, "店铺名2", "具体位置2");
 //        addMarkersToMap(30.628489, 104.05744, "店铺名3", "具体位置3");
@@ -174,9 +177,11 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
     @Override
     public void onMapLoaded() {
         // 设置所有maker显示在当前可视区域地图中
-        LatLngBounds bounds = new LatLngBounds.Builder()
-                .include(new LatLng(30.628489, 104.05540)).include(new LatLng(30.628489, 104.05434))
-                .include(new LatLng(30.628489, 104.05744)).include(latlng).build();
+//        LatLngBounds bounds = new LatLngBounds.Builder()
+//                .include(new LatLng(30.628489, 104.05540)).include(new LatLng(30.628489, 104.05434))
+//                .include(new LatLng(30.628489, 104.05744)).include(latlng).build();
+
+        LatLngBounds bounds = new LatLngBounds.Builder().include(latlng).build();
         aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
 //        aMap.moveCamera(CameraUpdateFactory.zoomTo(12));
     }

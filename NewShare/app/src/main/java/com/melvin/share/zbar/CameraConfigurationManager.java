@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.melvin.share.zxing.camera;
+package com.melvin.share.zbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -30,21 +30,21 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 
+ *
  * 邮箱: 1076559197@qq.com | tauchen1990@gmail.com
- * 
+ *
  * 作者: 陈涛
- * 
+ *
  * 日期: 2014年8月20日
  * 
  * 描述: 该类主要负责设置相机的参数信息，获取最佳的预览界面
- * 
+ *
  */
 public final class CameraConfigurationManager {
 
 	private static final String TAG = "CameraConfiguration";
 
-	private static final int MIN_PREVIEW_PIXELS = 480 * 320;
+	private static final int MIN_PREVIEW_PIXELS = 960 * 640;
 	private static final double MAX_ASPECT_DISTORTION = 0.15;
 
 	private final Context context;

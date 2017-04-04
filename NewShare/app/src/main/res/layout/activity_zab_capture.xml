@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.xunjie.skuaike.ui.activity.bill.NewBillActivity">
 
-    <data class="ActivityCaptureBinding">
+    <data class="ActivityZbarCaptureBinding">
 
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
@@ -33,41 +32,66 @@
                 android:textSize="@dimen/page_18" />
         </android.support.v7.widget.Toolbar>
 
-        <SurfaceView
-            android:id="@+id/capture_preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar" />
-
         <RelativeLayout
             android:id="@+id/capture_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
+
+            <FrameLayout
+                android:id="@+id/capture_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <ImageView
                 android:id="@+id/capture_mask_top"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="80dp"
                 android:layout_alignParentTop="true"
-                android:background="@mipmap/shadow" />
+                android:background="@drawable/shadow" />
 
-            <RelativeLayout
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/scan_up" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="340dp"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/scan_down" />
+
+            <LinearLayout
                 android:id="@+id/capture_crop_view"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_below="@id/capture_mask_top"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/qr_code_bg">
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/capture_mask_top"
+                android:background="@color/transparent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="300dp"
+                    android:background="@drawable/shadow" />
 
                 <ImageView
                     android:id="@+id/capture_scan_line"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="2dp"
                     android:layout_marginTop="5dp"
-                    android:src="@mipmap/scan_line" />
-            </RelativeLayout>
+                    android:background="@drawable/red_line"
+                   />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="300dp"
+                    android:background="@drawable/shadow" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/capture_mask_bottom"
@@ -75,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@id/capture_crop_view"
-                android:background="@mipmap/shadow" />
+                android:background="@drawable/shadow" />
 
             <ImageView
                 android:id="@+id/capture_mask_left"
@@ -85,7 +109,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/capture_mask_top"
                 android:layout_toLeftOf="@id/capture_crop_view"
-                android:background="@mipmap/shadow" />
+                android:background="@drawable/shadow" />
 
             <ImageView
                 android:id="@+id/capture_mask_right"
@@ -95,7 +119,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/capture_mask_top"
                 android:layout_toRightOf="@id/capture_crop_view"
-                android:background="@mipmap/shadow" />
+                android:background="@drawable/shadow" />
         </RelativeLayout>
 
     </RelativeLayout>

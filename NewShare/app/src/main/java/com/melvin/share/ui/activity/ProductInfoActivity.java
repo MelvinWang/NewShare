@@ -23,6 +23,7 @@ import com.melvin.share.adapter.ProductAttriAdapter;
 import com.melvin.share.adapter.ProductInfoAdapter;
 import com.melvin.share.databinding.ActivityProductInfoBinding;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.ScanProduct;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
@@ -51,7 +52,7 @@ public class ProductInfoActivity extends BaseActivity {
     private Context mContext = null;
     private PurchasePopupWindow menuWindow;
     private boolean flag = true;//true代表购买,false代表加入购物车
-    public static String productId="";
+    public static String productId = "";
     public static ProductDetailBean productDetail;
     private Map map;
     private Map attriMap;//请求具体库存的
@@ -79,6 +80,8 @@ public class ProductInfoActivity extends BaseActivity {
     private String repertoryId;
     private String repertoryProductName;
     private String repertoryProductPrice;
+    private boolean scan;//true代表扫码进入
+    private String scanCode;
 
 
     @Override
@@ -88,6 +91,8 @@ public class ProductInfoActivity extends BaseActivity {
         menuWindow = new PurchasePopupWindow((Activity) mContext, itemsOnClick);
         initAdapter();
         productId = getIntent().getStringExtra("productId");
+        scan = getIntent().getBooleanExtra("scan", false);
+        scanCode = getIntent().getStringExtra("scanCode");
         LogUtils.i("ProductInfoActivity哈哈" + productId);
         initWindow();
         initToolbar(binding.toolbar);
@@ -99,14 +104,64 @@ public class ProductInfoActivity extends BaseActivity {
      */
     private void initData() {
         attriMap = new HashMap();
-        attriMap.put("productId", productId);
-
-
         map = new HashMap();
+        if (scan) {
+            getDataFromScan();
+        } else {
+            getDataFromId();
+        }
+
+    }
+
+    /**
+     * 通过扫描获取数据
+     */
+    private void getDataFromScan() {
+        fromNetwork.scanOrderItem(scanCode, ShapreUtils.getCustomerId())
+                .compose(new RxActivityHelper<CommonReturnModel<ScanProduct>>().ioMain(ProductInfoActivity.this, true))
+                .subscribe(new RxModelSubscribe<CommonReturnModel<ScanProduct>>(mContext, true) {
+                    @Override
+                    protected void myNext(final CommonReturnModel<ScanProduct> bean) {
+                        productDetail = bean.result.product;
+                        productId = productDetail.id;
+                        attriMap.put("productId", productId);
+                        map.put("productId", productId);
+                        ShapreUtils.putParamCustomerId(map);
+
+                        binding.collection.setChecked(productDetail.collected);
+                        binding.collection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                collectProductOrDeleteProduct(isChecked);
+                            }
+                        });
+                        binding.shopImg.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, ShopInformationActivity.class);
+                                intent.putExtra("userId", productDetail.userId);
+                                startActivity(intent);
+                            }
+                        });
+                        initTable();
+                        setValueToDialog();
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        LogUtils.i("哈findProductDetail");
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
+    /**
+     * 通过ID获取数据
+     */
+    private void getDataFromId() {
+        attriMap.put("productId", productId);
         map.put("productId", productId);
         ShapreUtils.putParamCustomerId(map);
-
-
         fromNetwork.findProductDetail(productId, ShapreUtils.getCustomerId())
                 .compose(new RxActivityHelper<ProductDetailBean>().ioMain(ProductInfoActivity.this, true))
                 .subscribe(new RxModelSubscribe<ProductDetailBean>(mContext, true) {
@@ -138,7 +193,6 @@ public class ProductInfoActivity extends BaseActivity {
                         Utils.showToast(mContext, message);
                     }
                 });
-
     }
 
 
@@ -395,14 +449,17 @@ public class ProductInfoActivity extends BaseActivity {
                         Product product = new Product();
                         product.productNumber = menuWindow.productNumber + "";
                         product.productNum = menuWindow.productNumber + "";
+                        product.mainPicture = productDetail.mainPicture;
                         product.picture = productDetail.mainPicture;
                         product.productName = repertoryProductName;
                         product.repertoryName = repertoryProductName;
                         product.price = repertoryProductPrice;
                         product.postage = productDetail.postage;
+                        product.stockId =repertoryId;
                         products.add(product);
                         Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
                         intent.putParcelableArrayListExtra("products", (ArrayList<? extends Parcelable>) products);
+                        intent.putExtra("fromCat",false);
                         startActivity(intent);
                     } else { //加入到购物车
                         Map carMap = new HashMap();

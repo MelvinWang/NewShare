@@ -15,19 +15,13 @@
  */
 package com.melvin.share.zxing.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -51,8 +45,6 @@ import com.melvin.share.zxing.utils.BeepManager;
 import com.melvin.share.zxing.utils.CaptureActivityHandler;
 import com.melvin.share.zxing.utils.InactivityTimer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 

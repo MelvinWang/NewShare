@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.melvin.share.modelview.item.ClothItemViewModel" />
+            type="com.melvin.share.modelview.item.CategoryItemItemViewModel" />
 
     </data>
 

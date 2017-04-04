@@ -48,7 +48,11 @@ public class ConfirmOrderActivity extends BaseActivity {
     private BigDecimal totalPriceBigcimal = new BigDecimal(0);
     private BigDecimal totalPostage = new BigDecimal(0);
     private AddressBean addressBean;
+    private String stockId = "";
+    private String postage = "";
+    private String totalNum = "";
     private String cartIds = "";
+    private boolean fromCat;//true代表购物车进入
 
     @Override
     protected void initView() {
@@ -60,8 +64,13 @@ public class ConfirmOrderActivity extends BaseActivity {
     }
 
     private void ininData() {
+        fromCat = getIntent().getBooleanExtra("fromCat", true);
         products = getIntent().getParcelableArrayListExtra("products");
-        setTotalFee();
+        if (fromCat) {
+            setTotalFee();
+        } else {
+            setOtherTotalFee();
+        }
         getDefaultAddress();
         mRecyclerView = binding.recyclerView;
 
@@ -72,7 +81,7 @@ public class ConfirmOrderActivity extends BaseActivity {
     }
 
     /**
-     * 设置运费及总计费用
+     * 设置运费及总计费用 购物车
      */
     private void setTotalFee() {
         for (int i = 0; i < products.size(); i++) {
@@ -91,6 +100,24 @@ public class ConfirmOrderActivity extends BaseActivity {
         binding.freight.setText("￥ " + totalPostage);
         binding.totalFee.setText("￥ " + totalPriceBigcimal);
     }
+
+    /**
+     * 设置运费及总计费用  直接购买
+     */
+    private void setOtherTotalFee() {
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            stockId = product.stockId;
+            postage = product.postage;
+            totalNum = product.productNum;
+            BigDecimal multiply = new BigDecimal((product.price)).multiply(new BigDecimal((product.productNum)));
+            totalPriceBigcimal = totalPriceBigcimal.add(multiply);
+            totalPostage = totalPostage.add(new BigDecimal((product.postage)));
+        }
+        binding.freight.setText("￥ " + totalPostage);
+        binding.totalFee.setText("￥ " + totalPriceBigcimal);
+    }
+
 
     /**
      * 获取默认地址
@@ -124,13 +151,17 @@ public class ConfirmOrderActivity extends BaseActivity {
      */
     public void goToPay(View v) {
         Intent intent = new Intent(mContext, WaitPayOrderActivity.class);
-        String nameS= binding.name.getText().toString();
+        String nameS = binding.name.getText().toString();
         String phoneS = binding.phone.getText().toString();
         String addressS = binding.address.getText().toString();
-        intent.putExtra("name",nameS);
-        intent.putExtra("phone",phoneS);
-        intent.putExtra("address",addressS);
-        intent.putExtra("cartIds",cartIds);
+        intent.putExtra("name", nameS);
+        intent.putExtra("phone", phoneS);
+        intent.putExtra("address", addressS);
+        intent.putExtra("cartIds", cartIds);
+        intent.putExtra("stockId", stockId);
+        intent.putExtra("postage", postage);
+        intent.putExtra("fromCat", fromCat);
+        intent.putExtra("totalNum", totalNum);
         startActivity(intent);
     }
 

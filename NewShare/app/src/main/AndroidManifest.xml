@@ -55,7 +55,7 @@
     <application
         android:name="com.melvin.share.app.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
@@ -241,7 +241,7 @@
 
         <!-- 扫描页面 -->
         <activity
-            android:name="com.melvin.share.zxing.activity.CaptureActivity"
+            android:name="com.melvin.share.zbar.ZbarCaptureActivity"
             android:screenOrientation="portrait" />
 
         <!-- 首页的几个大分类 -->
@@ -255,7 +255,7 @@
             android:name=".ui.activity.home.DeliciousActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.home.ClothActivity"
+            android:name=".ui.activity.order.CategoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.home.DigitalActivity"

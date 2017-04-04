@@ -44,7 +44,7 @@ public abstract class BaseActivity extends RxActivity {
     //一定得重写，初始化页面
     protected abstract void initView();
 
-    //一定得重写，初始化页面
+    //地图
     protected void initMapView(Bundle savedInstanceState) {
     }
 

@@ -73,17 +73,15 @@
                 android:id="@+id/shop_img"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="2.5"
                 android:src="@mipmap/productinfo_shop" />
             <CheckBox
                 android:id="@+id/collection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:button="@drawable/collection_select"
                 />
-
-
             <Button
                 style="@style/CircularBtnStyle"
                 android:layout_width="0dp"

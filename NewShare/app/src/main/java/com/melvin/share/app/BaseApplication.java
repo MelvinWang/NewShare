@@ -24,9 +24,9 @@ public class BaseApplication extends Application {
         super.onCreate();
         application = this;
         mPre = Utils.getShare(application);
-        if (!isNetworkAvailable(application)) {
-            Toast.makeText(application, "当前无可用网络，请检查是否连接网络!!!", Toast.LENGTH_LONG).show();
-        }
+//        if (!isNetworkAvailable(application)) {
+//            Toast.makeText(application, "当前无可用网络，请检查是否连接网络!!!", Toast.LENGTH_LONG).show();
+//        }
     }
 
     public static Context getApplication() {

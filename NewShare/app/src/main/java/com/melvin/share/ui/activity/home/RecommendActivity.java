@@ -91,7 +91,14 @@ public class RecommendActivity extends BaseActivity implements MyRecyclerView.Lo
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         headerView = layoutInflater.inflate(R.layout.category_title, null, false);
         mLBanners = (LMBanners) headerView.findViewById(R.id.banners);
+        ImageView backImg = (ImageView) headerView.findViewById(R.id.back);
         RelativeLayout searchEnterBtn = (RelativeLayout) headerView.findViewById(R.id.search_enter);
+        backImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         searchEnterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

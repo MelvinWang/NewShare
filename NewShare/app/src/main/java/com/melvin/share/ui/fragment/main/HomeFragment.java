@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.melvin.share.R;
-import com.melvin.share.Utils.DateUtil;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
@@ -24,17 +23,14 @@ import com.melvin.share.adapter.ShareHotAdapter;
 import com.melvin.share.databinding.FragmentHomeBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Reward;
-import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.list.HomeHotProduct;
-import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxFragmentHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
 import com.melvin.share.ui.activity.home.RecommendActivity;
-import com.melvin.share.ui.activity.order.WaitPayOrderActivity;
 import com.melvin.share.view.MyRecyclerView;
-import com.melvin.share.zxing.activity.CaptureActivity;
+import com.melvin.share.zbar.ZbarCaptureActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,7 +98,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openCameraIntent = new Intent(mContext, CaptureActivity.class);
+                Intent openCameraIntent = new Intent(mContext, ZbarCaptureActivity.class);
                 startActivityForResult(openCameraIntent, 0);
             }
         });

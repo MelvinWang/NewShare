@@ -8,6 +8,7 @@ import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.Reward;
+import com.melvin.share.model.ScanProduct;
 import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.model.WalletProduct;
 import com.melvin.share.model.customer.Customer;
@@ -161,11 +162,19 @@ public class NetworkUtil {
         @POST("/app/product/findMainPageProduct")
         Observable<CommonList<CategoryBean>> findMainPageProduct(@Body JsonObject json);
 
+        //按分类查询商品接口
+        @POST("/app/product/findProductByCategory")
+        Observable<CommonList<Product>> findProductByCategory(@Body JsonObject json);
+
+        //关键字全文检索商品
+        @POST("/app/product/searchProductByKeywords")
+        Observable<CommonList<Product>> searchProductByKeywords(@Body JsonObject json);
+
         /**
          * 商品相关东西
          */
 
-        //首页推荐商家
+        //首页推荐商品 按分享热度查询商品接口
         @POST("/app/product/findHotProduct")
         Observable<CommonList<HomeHotProduct>> findHotProduct(@Body JsonObject json);
 
@@ -173,6 +182,11 @@ public class NetworkUtil {
         @GET("/app/product/findProductDetail")
         Observable<ProductDetailBean> findProductDetail(@Query("id") String id,
                                                         @Query("customerId") String customerId);
+
+        //查看商品详情,通过扫码
+        @GET("/app/scanCode/scanOrderItem")
+        Observable<CommonReturnModel<ScanProduct>> scanOrderItem(@Query("code") String code,
+                                                                 @Query("customerId") String customerId);
 
         //收藏商品或者取消收藏商品接口
         @FormUrlEncoded
@@ -227,9 +241,13 @@ public class NetworkUtil {
         /**
          * 订单
          */
-        //确认订单
+        //确认订单 购物车
         @POST("/app/order/makeSureOrder")
         Observable<CommonReturnModel<WaitPayOrderInfo>> makeSureOrder(@Body JsonObject json);
+
+        //确认订单  直接购买
+        @POST("/app/order/directBuyProduct")
+        Observable<CommonReturnModel<WaitPayOrderInfo>> directBuyProduct(@Body JsonObject json);
 
         //查看全部订单
         @POST("/app/order/findOrderByCustomer")

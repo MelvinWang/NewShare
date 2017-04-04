@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.melvin.share.modelview.item.SingleOrderItemViewModel" />
@@ -50,7 +50,16 @@
                     android:layout_marginTop="20dp"
                     android:text="@{viewModel.name}"
                     android:textColor="@color/color_333"
+                    tools:text="商品名称"
                     android:textSize="@dimen/page_18" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{viewModel.onCrateCode}"
+                    android:visibility="@{viewModel.codeShow?  View.VISIBLE:  View.GONE}"
+                    android:src="@mipmap/code_create" />
 
                 <TextView
                     android:id="@+id/product_rate"
@@ -60,6 +69,7 @@
                     android:layout_marginBottom="20dp"
                     android:text="@{viewModel.total}"
                     android:textColor="@color/ff9000"
+                    tools:text="￥ 332.00"
                     android:textSize="@dimen/page_18" />
             </RelativeLayout>
 
@@ -71,6 +81,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
                 android:text="@{viewModel.totalNum}"
+                tools:text="2"
                 android:textSize="@dimen/page_15" />
         </RelativeLayout>
     </LinearLayout>

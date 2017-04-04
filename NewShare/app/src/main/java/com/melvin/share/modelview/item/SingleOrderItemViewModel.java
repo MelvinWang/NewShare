@@ -1,12 +1,17 @@
 package com.melvin.share.modelview.item;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.model.list.HomeHotProduct;
 import com.melvin.share.network.GlobalUrl;
+import com.melvin.share.ui.activity.ShopInformationActivity;
 
 /**
  * Created Time: 2017/4/1.
@@ -26,15 +31,32 @@ public class SingleOrderItemViewModel extends BaseObservable {
         this.context = context;
     }
 
+    public void onCrateCode(View view) {
+        Utils.showToast(context, "生成二维码");
+    }
 
     public String getName() {
         return bean.productName;
     }
+
     public String getTotal() {
-        return "￥"+bean.total;
+        return "￥" + bean.total;
     }
+
     public String getTotalNum() {
-        return "X"+bean.totalNum;
+        return "X" + bean.totalNum;
+    }
+
+    public boolean getCodeShow() {
+        try {
+            if (TextUtils.isEmpty(bean.orderItemStatus) && Integer.parseInt(bean.orderItemStatus) > 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+        return false;
     }
 
     public String getImgUrl() {
@@ -45,6 +67,7 @@ public class SingleOrderItemViewModel extends BaseObservable {
         }
         return "";
     }
+
     public void setEntity(WaitPayOrderInfo.OrderBean.OrderItemResponsesBean bean) {
         this.bean = bean;
         notifyChange();

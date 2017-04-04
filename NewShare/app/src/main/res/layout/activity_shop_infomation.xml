@@ -22,24 +22,37 @@
             app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:title=" ">
 
-            <EditText
-                android:layout_width="1dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/search_enter"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/edit_redline_background"
-                android:drawableLeft="@mipmap/search"
-                android:drawablePadding="10dp"
-                android:focusable="true"
-                android:hint="搜索店铺内宝贝"
-                android:onClick="toSearchActivity"
-                android:padding="8dp"
-                android:textColor="@color/color_777"
-                android:textColorHint="@color/color_777" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/search_enter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="6"
+                    android:background="@drawable/edit_redline_background"
+                    android:drawableLeft="@mipmap/search"
+                    android:drawablePadding="10dp"
+                    android:hint="搜索店铺内宝贝"
+                    android:textColor="@color/color_777"
+                    android:textColorHint="@color/color_777"
+                    android:padding="4dp" />
+
+                <TextView
+                    android:onClick="search"
+                    android:id="@+id/search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="搜索" />
+            </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
 

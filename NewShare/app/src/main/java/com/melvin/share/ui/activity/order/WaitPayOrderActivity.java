@@ -59,7 +59,11 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
     private String phone;
     private String address;
     private String cartIds;
+    private String stockId;
+    private String postage;
+    private String totalNum;
     private boolean fromAllOrder;
+    private boolean fromCat;
     private String orderId;
 
     @Override
@@ -77,6 +81,12 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         phone = intent.getStringExtra("phone");
         address = intent.getStringExtra("address");
         cartIds = intent.getStringExtra("cartIds");
+        stockId = intent.getStringExtra("stockId");
+        postage = intent.getStringExtra("postage");
+        postage = intent.getStringExtra("postage");
+        totalNum = intent.getStringExtra("totalNum");
+        fromCat = intent.getBooleanExtra("fromCat", true);
+
         //是否从全部订单页面过来，true代表是
         fromAllOrder = intent.getBooleanExtra("fromAllOrder", false);
         orderId = intent.getStringExtra("orderId");
@@ -90,7 +100,11 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         if (fromAllOrder) {
             findOrderById();
         } else {
-            makeSureOrder();
+            if (fromCat) {
+                makeSureOrder();
+            }else{
+                makeOtherSureOrder();
+            }
         }
 
 
@@ -125,7 +139,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
     }
 
     /**
-     * 确认订单
+     * 确认订单 购物车
      */
     private void makeSureOrder() {
         Map orderMap = new HashMap();
@@ -137,6 +151,46 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(orderMap)));
         fromNetwork.makeSureOrder(jsonObject)
+                .compose(new RxActivityHelper<CommonReturnModel<WaitPayOrderInfo>>().ioMain(WaitPayOrderActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel<WaitPayOrderInfo>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel<WaitPayOrderInfo> commonReturnModel) {
+                        binding.name.setText(commonReturnModel.result.order.receiver);
+                        binding.phone.setText(commonReturnModel.result.order.recevierPhone);
+                        binding.address.setText(commonReturnModel.result.order.receiveAddress);
+
+                        binding.freight.setText("￥ " + commonReturnModel.result.order.postage);
+                        binding.totalFee.setText("￥ " + commonReturnModel.result.order.total);
+
+                        binding.orderNumber.setText(commonReturnModel.result.order.orderNumber);
+                        binding.createTime.setText(DateUtil.getDateString(commonReturnModel.result.order.createTime));
+
+                        waitPayOrderViewModel.requestData(commonReturnModel.result.order.orderItemResponses);
+
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
+    /**
+     * 确认订单 直接购买
+     */
+    private void makeOtherSureOrder() {
+        Map orderMap = new HashMap();
+        orderMap.put("receiver", name);
+        orderMap.put("recevierPhone", phone);
+        orderMap.put("receiveAddress", address);
+        orderMap.put("totalNum", totalNum);
+        orderMap.put("stockId", stockId);
+        orderMap.put("postage", postage);
+        ShapreUtils.putParamCustomerId(orderMap);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(orderMap)));
+        fromNetwork.directBuyProduct(jsonObject)
                 .compose(new RxActivityHelper<CommonReturnModel<WaitPayOrderInfo>>().ioMain(WaitPayOrderActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<WaitPayOrderInfo>>(mContext, true) {
                     @Override
@@ -198,6 +252,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
 
 
     }
+
     private void pay() {
         Map payMap = new HashMap();
         payMap.put("id", orderId);

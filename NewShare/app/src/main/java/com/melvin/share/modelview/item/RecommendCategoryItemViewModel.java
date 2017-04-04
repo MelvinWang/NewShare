@@ -14,6 +14,7 @@ import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ShopInformationActivity;
+import com.melvin.share.ui.activity.order.CategoryActivity;
 
 /**
  * Created Time: 2017/3/31.
@@ -43,9 +44,10 @@ public class RecommendCategoryItemViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-//        Intent intent = new Intent(context, ShopInformationActivity.class);
-//        intent.putExtra("shopBean", bean);
-//        context.startActivity(intent);
+        Intent intent = new Intent(context, CategoryActivity.class);
+        intent.putExtra("categoryId", bean.categoryId);
+        intent.putExtra("categoryName", bean.categoryName);
+        context.startActivity(intent);
 
     }
 

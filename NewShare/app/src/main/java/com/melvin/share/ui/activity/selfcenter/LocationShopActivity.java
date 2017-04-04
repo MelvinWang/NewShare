@@ -167,8 +167,11 @@ public class LocationShopActivity extends BaseActivity implements LocationSource
     }
 
     private void askServer(String locationStr, AMapLocation amapLocation) {
-        binding.locatioAddress.setText(amapLocation.getAddress());
 
+        latlng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+        onMapLoaded();
+
+        binding.locatioAddress.setText(amapLocation.getAddress());
         addressLongitude = amapLocation.getLongitude() + "";
         addressLatitude = amapLocation.getLatitude() + "";
 //        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
@@ -220,9 +223,10 @@ public class LocationShopActivity extends BaseActivity implements LocationSource
     @Override
     public void onMapLoaded() {
         // 设置所有maker显示在当前可视区域地图中
-        LatLngBounds bounds = new LatLngBounds.Builder()
-                .include(new LatLng(30.628489, 104.05540)).include(new LatLng(30.628489, 104.05434))
-                .include(new LatLng(30.628489, 104.05744)).include(latlng).build();
+//        LatLngBounds bounds = new LatLngBounds.Builder()
+//                .include(new LatLng(30.628489, 104.05540)).include(new LatLng(30.628489, 104.05434))
+//                .include(new LatLng(30.628489, 104.05744)).include(latlng).build();
+        LatLngBounds bounds = new LatLngBounds.Builder().include(latlng).build();
         aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
 //        aMap.moveCamera(CameraUpdateFactory.zoomTo(12));
 

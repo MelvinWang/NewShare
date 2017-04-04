@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.model.Product;
 import com.melvin.share.model.User;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 
 /**
- * Created Time: 2016/7/25.
+ * Created Time: 2017/4/4.
  * <p/>
  * Author:Melvin
  * <p/>
@@ -17,24 +20,47 @@ import com.melvin.share.ui.activity.ProductInfoActivity;
  */
 public class SearchProductItemViewModel extends BaseObservable {
 
-    private User user;
+    private Product bean;
     private Context context;
 
-    public SearchProductItemViewModel(Context context, User user) {
-        this.user = user;
+    public SearchProductItemViewModel(Context context, Product bean) {
+        this.bean = bean;
         this.context = context;
     }
 
     public void onItemClick(View view) {
-        context.startActivity(new Intent(context, ProductInfoActivity.class));
+        Intent intent = new Intent(context, ProductInfoActivity.class);
+        intent.putExtra("productId",bean.id);
+        context.startActivity(intent);
     }
 
     public String getImgUrl() {
-        return "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+        String[] split = bean.mainPicture.split("\\|");
+        if (split != null && split.length >= 1) {
+            String url = GlobalUrl.SERVICE_URL + split[0];
+            LogUtils.e("哈哈"+url);
+            return url;
+        }
+        return "";
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+    public String getShareTimes() {
+        return bean.shareTimes;
+    }
+
+    public String getProductName() {
+        return bean.name;
+    }
+
+    public String getPrice() {
+        return "￥:"+bean.price;
+    }
+
+    public String getPlace() {
+        return bean.place;
+    }
+    public void setEntity(Product bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

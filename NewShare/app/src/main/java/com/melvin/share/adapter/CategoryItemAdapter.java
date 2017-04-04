@@ -7,37 +7,34 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.melvin.share.R;
-import com.melvin.share.databinding.ClothItemBinding;
-import com.melvin.share.databinding.DeliciousItemBinding;
+import com.melvin.share.databinding.CategoryItemItemBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
-import com.melvin.share.model.User;
-import com.melvin.share.modelview.item.ClothItemViewModel;
-import com.melvin.share.modelview.item.DeliciousItemViewModel;
+import com.melvin.share.modelview.item.CategoryItemItemViewModel;
 
 import java.util.List;
 
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/4
+ * Data： 2017/4/4
  * <p>
- * 描述： 服装页面Adapter
+ * 描述： 分类页面Adapter
  */
-public class ClothAdapter extends BaseAdapter<ClothAdapter.BindingHolder> {
+public class CategoryItemAdapter extends BaseAdapter<CategoryItemAdapter.BindingHolder> {
     private List<BaseModel> list;
     private Context context;
 
-    public ClothAdapter(Context context, List<BaseModel> list) {
+    public CategoryItemAdapter(Context context, List<BaseModel> list) {
         this.list = list;
         this.context = context;
     }
 
     @Override
-    public ClothAdapter.BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ClothItemBinding binding = DataBindingUtil.inflate(
+    public CategoryItemAdapter.BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        CategoryItemItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
-                R.layout.cloth_item,
+                R.layout.category_item_item,
                 parent,
                 false);
         return new BindingHolder(binding);
@@ -58,16 +55,16 @@ public class ClothAdapter extends BaseAdapter<ClothAdapter.BindingHolder> {
      * Holder
      */
     public class BindingHolder extends RecyclerView.ViewHolder {
-        final ClothItemBinding binding;
+        final CategoryItemItemBinding binding;
 
-        public BindingHolder(ClothItemBinding binding) {
+        public BindingHolder(CategoryItemItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         void bindObject(final Product product) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new ClothItemViewModel(context, product));
+                binding.setViewModel(new CategoryItemItemViewModel(context, product));
             } else {
                 binding.getViewModel().setEntity(product);
             }
