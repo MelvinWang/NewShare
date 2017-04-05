@@ -22,6 +22,8 @@ public class ShopBean extends BaseModel implements Parcelable {
     public boolean isChecked=false;
     public boolean isShow=false;
     public boolean collected=false;
+    public String scanCode;
+    public boolean scanFlag;//true代表订单码，false代表店铺码
 
 
     @Override

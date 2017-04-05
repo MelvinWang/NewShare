@@ -11,14 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.GlideImgManager;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.ShareHotAdapter;
 import com.melvin.share.databinding.FragmentSelfBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.list.HomeHotProduct;
+import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.LoginActivity;
 import com.melvin.share.ui.activity.selfcenter.AboutUsActivity;
 import com.melvin.share.ui.activity.order.AllOrderActivity;
@@ -33,12 +41,14 @@ import com.melvin.share.ui.activity.selfcenter.ShopCollectionActivity;
 import com.melvin.share.ui.activity.shopcar.ShoppingCarActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Melvin
  * <p/>
- * Data： 2016/11/29
+ * Data： 2017/4/5
  * <p/>
  * 描述：个人中心
  */
@@ -50,6 +60,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     private RecyclerView recyclerView;
     private ShareHotAdapter adpter;
     private List<BaseModel> dataList = new ArrayList<>();
+    private Map map;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -92,6 +103,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
      * 初始化数据
      */
     private void initData() {
+        map = new HashMap();
         recyclerView = binding.recyclerView;
     }
 
@@ -203,12 +215,24 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
      * 请求网络，分享热度商品
      */
     private void requestData() {
-//        for (int i = 0; i <= 10; i++) {
-//            User user = new User();
-//            user.username = "username" + i;
-//            dataList.add(user);
-//        }
-//        adpter.notifyDataSetChanged();
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findHistoryProduct(jsonObject)
+                .compose(new RxFragmentHelper<CommonList<HomeHotProduct>>().ioMain(mContext, SelfFragment.this, true))
+                .subscribe(new RxModelSubscribe<CommonList<HomeHotProduct>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonList<HomeHotProduct> commonList) {
+                        dataList.addAll(commonList.rows);
+                        adpter.notifyDataSetChanged();
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
 
     }
 }

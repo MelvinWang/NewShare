@@ -14,15 +14,17 @@ import android.view.ViewGroup;
 import com.google.zxing.WriterException;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
-import com.melvin.share.network.GlobalFlag;
 import com.melvin.share.Utils.LogUtils;
-import com.melvin.share.rx.RxBus;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.QrcodeAdapter;
 import com.melvin.share.databinding.FragmentQrCodeBinding;
 import com.melvin.share.dialog.QrCodeShareDialog;
+import com.melvin.share.model.Product;
+import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.popwindow.SelectPicPopupWindow;
+import com.melvin.share.rx.RxBus;
+import com.melvin.share.rx.RxShareBus;
 import com.melvin.share.zxing.encoding.EncodingHandler;
 
 /**
@@ -71,6 +73,7 @@ public class QrcodeFragment extends BaseFragment {
                     break;
                 case R.id.qq_share:
                     Utils.showToast(mContext, "qq_share");
+                    RxShareBus.get().post("qq_share");
                     break;
                 case R.id.qq_zone_share:
                     Utils.showToast(mContext, "qq_zone_share");
@@ -99,25 +102,48 @@ public class QrcodeFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void qrcode(final String qrcodeString) {
-        LogUtils.i("QrcodeFragment+qrcode" + qrcodeString);
+    public void productCode(final Product bean) {
+        LogUtils.i("QrcodeFragment+qrcode" + bean.scanCode);
+        if (TextUtils.isEmpty(bean.scanCode)) {
+            Utils.showToast(mContext, "没有分享码");
+            return;
+        }
         dialog.setOnClickListener(new QrCodeShareDialog.OnCliclListener() {
             @Override
             public void share() {
-                sharePlace(qrcodeString);
+                sharePlace(bean.scanCode);
             }
         });
-        //订单
-        if (TextUtils.equals(GlobalFlag.ordercodeFlag, qrcodeString)) {
-            dialog.setTitle("订单");
-            dialog.setDetail("订单");
-        } else if (TextUtils.equals(GlobalFlag.shopcodeFlag, qrcodeString)) {
-            dialog.setTitle("商店");
-            dialog.setDetail("商店");
-        }
+        dialog.setTitle(bean.productName);
+        dialog.setDetail("扫一扫，可购买此商品返利");
         dialog.show();
         try {
-            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(qrcodeString, 1000);
+            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(bean.scanCode, 1000);
+            dialog.setImgview(qrCodeBitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Subscribe
+    public void shpoCode(final ShopBean bean) {
+        LogUtils.i("QrcodeFragment+qrcode" + bean.scanCode);
+        if (TextUtils.isEmpty(bean.scanCode)) {
+            Utils.showToast(mContext, "没有分享码");
+            return;
+        }
+        dialog.setOnClickListener(new QrCodeShareDialog.OnCliclListener() {
+            @Override
+            public void share() {
+                sharePlace(bean.scanCode);
+            }
+        });
+        dialog.setTitle(bean.name);
+        dialog.setDetail("扫一扫，可进入此店购买商品返利");
+        dialog.show();
+        try {
+            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(bean.scanCode, 1000);
             dialog.setImgview(qrCodeBitmap);
         } catch (WriterException e) {
             e.printStackTrace();

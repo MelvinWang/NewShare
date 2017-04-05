@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.network.GlobalFlag;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.ShopInformationActivity;
 
 /**
- * Created Time: 2016/7/23.
+ * Created Time: 2017/4/5.
  * <p>
  * Author:Melvin
  * <p>
@@ -19,11 +21,11 @@ import com.melvin.share.ui.activity.ShopInformationActivity;
  */
 public class ShopCodeItemViewModel extends BaseObservable {
 
-    private User user;
+    private ShopBean bean;
     private Context context;
 
-    public ShopCodeItemViewModel(Context context, User user) {
-        this.user = user;
+    public ShopCodeItemViewModel(Context context, ShopBean bean){
+        this.bean = bean;
         this.context = context;
     }
 
@@ -31,14 +33,23 @@ public class ShopCodeItemViewModel extends BaseObservable {
         context.startActivity(new Intent(context, ShopInformationActivity.class));
     }
     public void onclickShare(View view) {
-        RxBus.get().post(GlobalFlag.shopcodeFlag);
+        bean.scanFlag=false;
+        RxBus.get().post(bean);
+    }
+    public String getName() {
+        return bean.name;
     }
     public String getImgUrl() {
-        return "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+        String[] split = bean.picture.split("\\|");
+        if (split != null && split.length >= 1) {
+            String url = GlobalUrl.SERVICE_URL + split[0];
+            return url;
+        }
+        return "";
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+    public void setEntity(ShopBean bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

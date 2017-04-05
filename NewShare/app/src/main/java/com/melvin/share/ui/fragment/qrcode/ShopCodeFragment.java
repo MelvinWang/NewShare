@@ -7,17 +7,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
+import com.melvin.share.Utils.ShapreUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.ShopCodeAdapter;
 import com.melvin.share.databinding.FragmentShopCodeBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.Product;
 import com.melvin.share.model.User;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.serverReturn.ShopBean;
+import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.view.MyRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Melvin
@@ -31,10 +43,11 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
     private FragmentShopCodeBinding binding;
     private Context mContext;
     private MyRecyclerView mRecyclerView;
-    private ShopCodeAdapter orderCodeAdapter;
+    private ShopCodeAdapter shopCodeAdapter;
     private List<BaseModel> data = new ArrayList<>();
     private View root;
-
+    private int pageNo = 1;
+    private Map map;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shop_code, container, false);
@@ -57,6 +70,7 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
      * 初始化数据
      */
     private void initData() {
+        map = new HashMap();
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
@@ -69,8 +83,8 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        orderCodeAdapter = new ShopCodeAdapter(mContext, data);
-        mRecyclerView.setAdapter(orderCodeAdapter);
+        shopCodeAdapter = new ShopCodeAdapter(mContext, data);
+        mRecyclerView.setAdapter(shopCodeAdapter);
     }
 
 
@@ -78,15 +92,33 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
      * 请求网络
      */
     private void requestData() {
-        List list = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            User user = new User();
-            user.password = i + "";
-            user.username = i + "";
-            list.add(user);
-        }
-        data.addAll(list);
-        orderCodeAdapter.notifyDataSetChanged();
+        map.put("pageNo", pageNo);
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findUserScanCode(jsonObject)
+                .compose(new RxFragmentHelper<CommonList<ShopBean>>().ioMain(mContext, ShopCodeFragment.this, true))
+                .subscribe(new RxModelSubscribe<CommonList<ShopBean>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonList<ShopBean> commonList) {
+                        data.addAll(commonList.rows);
+                        shopCodeAdapter.notifyDataSetChanged();
+                        if (pageNo == 1) {
+                            mRecyclerView.refreshComplete();
+                        } else {
+                            mRecyclerView.loadMoreComplete();
+                        }
+
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        mRecyclerView.refreshComplete();
+                        mRecyclerView.loadMoreComplete();
+                        Utils.showToast(mContext, message);
+                    }
+                });
 
     }
 
@@ -95,9 +127,9 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
      */
     @Override
     public void onRefresh() {
+        pageNo = 1;
         data.clear();
         requestData();
-        mRecyclerView.refreshComplete();
 
     }
 
@@ -106,8 +138,8 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
      */
     @Override
     public void onLoadMore() {
+        pageNo++;
         requestData();
-        mRecyclerView.loadMoreComplete();
     }
 }
 

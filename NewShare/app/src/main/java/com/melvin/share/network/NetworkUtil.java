@@ -177,6 +177,9 @@ public class NetworkUtil {
         //首页推荐商品 按分享热度查询商品接口
         @POST("/app/product/findHotProduct")
         Observable<CommonList<HomeHotProduct>> findHotProduct(@Body JsonObject json);
+        //历史浏览记录接口
+        @POST("/app/product/findHistoryProduct")
+        Observable<CommonList<HomeHotProduct>> findHistoryProduct(@Body JsonObject json);
 
         //查看商品详情
         @GET("/app/product/findProductDetail")
@@ -273,6 +276,12 @@ public class NetworkUtil {
         @POST("/app/reward/findMyReward")
         Observable<CommonList<WalletProduct>> findMyReward(@Body JsonObject json);
 
+        //POST  商品二维码列表
+        @POST("/app/scanCode/findProductScanCode")
+        Observable<CommonList<Product>> findProductScanCode(@Body JsonObject json);
+        //POST  店铺二维码列表
+        @POST("/app/scanCode/findUserScanCode")
+        Observable<CommonList<ShopBean>> findUserScanCode(@Body JsonObject json);
 
 
 

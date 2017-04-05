@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.melvin.share.R;
 import com.melvin.share.databinding.OrderCodeItemBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.Product;
 import com.melvin.share.model.User;
 import com.melvin.share.modelview.item.OrderCodeItemViewModel;
 
@@ -43,7 +44,7 @@ public class OrderCodeAdapter extends BaseAdapter<OrderCodeAdapter.BindingHolder
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((Product) list.get(position));
     }
 
     @Override
@@ -62,11 +63,11 @@ public class OrderCodeAdapter extends BaseAdapter<OrderCodeAdapter.BindingHolder
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final Product bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new OrderCodeItemViewModel(context, user));
+                binding.setViewModel(new OrderCodeItemViewModel(context, bean));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(bean);
             }
         }
     }

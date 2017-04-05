@@ -6,26 +6,27 @@ import android.databinding.BaseObservable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
+import com.melvin.share.model.Product;
 import com.melvin.share.network.GlobalFlag;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 import com.melvin.share.ui.activity.common.CommonImageActivity;
 
 /**
- * Created Time: 2016/7/23.
+ * Created Time: 2017/4/5.
  * <p>
  * Author:Melvin
  * <p>
  * 功能：订单码item的ViewModel
  */
 public class OrderCodeItemViewModel extends BaseObservable {
-        String url="http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
-    private User user;
+    private Product bean;
     private Context context;
 
-    public OrderCodeItemViewModel(Context context, User user) {
-        this.user = user;
+    public OrderCodeItemViewModel(Context context, Product bean) {
+        this.bean = bean;
         this.context = context;
     }
 
@@ -36,19 +37,27 @@ public class OrderCodeItemViewModel extends BaseObservable {
     public void onImageClick(View view) {
         Intent intent=new Intent(context, CommonImageActivity.class);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, 0, 0);
-        intent.putExtra("imageUrl",url);
+        intent.putExtra("imageUrl",getImgUrl());
         context.startActivity(intent,options.toBundle());
     }
     public void onclickShare(View view) {
-        RxBus.get().post(GlobalFlag.ordercodeFlag);
+        bean.scanFlag=true;
+        RxBus.get().post(bean);
     }
-
+    public String getName() {
+        return bean.productName;
+    }
     public String getImgUrl() {
-        return url;
+        String[] split = bean.mainPicture.split("\\|");
+        if (split != null && split.length >= 1) {
+            String url = GlobalUrl.SERVICE_URL + split[0];
+            return url;
+        }
+        return "";
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+    public void setEntity(Product bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

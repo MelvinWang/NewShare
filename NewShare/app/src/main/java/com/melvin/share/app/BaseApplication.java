@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.melvin.share.Utils.Utils;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 /**
  * Author: Melvin
@@ -17,11 +20,20 @@ import com.melvin.share.Utils.Utils;
  * 描述：初始App
  */
 public class BaseApplication extends Application {
+
+    {
+        Config.DEBUG = true;
+        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+//        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setQQZone("1106081788", "50VFVIoculvhthJz");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+    }
     private static BaseApplication application;
     public static SharedPreferences mPre;
     @Override
     public void onCreate() {
         super.onCreate();
+        UMShareAPI.get(this);
         application = this;
         mPre = Utils.getShare(application);
 //        if (!isNetworkAvailable(application)) {

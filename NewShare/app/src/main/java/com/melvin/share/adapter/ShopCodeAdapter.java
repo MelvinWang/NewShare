@@ -10,13 +10,14 @@ import com.melvin.share.R;
 import com.melvin.share.databinding.ShopCodeItemBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.User;
+import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.modelview.item.ShopCodeItemViewModel;
 
 import java.util.List;
 
 
 /**
- * Created Time: 2016/7/23.
+ * Created Time: 2017/5/5.
  * <p>
  * Author:Melvin
  * <p>
@@ -43,7 +44,7 @@ public class ShopCodeAdapter extends BaseAdapter<ShopCodeAdapter.BindingHolder> 
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((ShopBean) list.get(position));
     }
 
     @Override
@@ -62,11 +63,11 @@ public class ShopCodeAdapter extends BaseAdapter<ShopCodeAdapter.BindingHolder> 
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final ShopBean bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new ShopCodeItemViewModel(context, user));
+                binding.setViewModel(new ShopCodeItemViewModel(context, bean));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(bean);
             }
         }
     }

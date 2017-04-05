@@ -45,6 +45,8 @@ public class Product  extends BaseModel implements Parcelable {
     public String stockId;
     public String productNum;
     public String postage;
+    public String scanCode;
+    public boolean scanFlag;//true代表订单码，false代表店铺码
 
     @Override
     public String toString() {
@@ -69,6 +71,7 @@ public class Product  extends BaseModel implements Parcelable {
                 ", stockId='" + stockId + '\'' +
                 ", productNum='" + productNum + '\'' +
                 ", postage='" + postage + '\'' +
+                ", scanCode='" + scanCode + '\'' +
                 '}';
     }
 
@@ -99,6 +102,7 @@ public class Product  extends BaseModel implements Parcelable {
         dest.writeString(this.stockId);
         dest.writeString(this.productNum);
         dest.writeString(this.postage);
+        dest.writeString(this.scanCode);
     }
 
     public Product() {
@@ -125,6 +129,7 @@ public class Product  extends BaseModel implements Parcelable {
         this.stockId = in.readString();
         this.productNum = in.readString();
         this.postage = in.readString();
+        this.scanCode = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

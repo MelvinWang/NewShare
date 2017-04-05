@@ -48,8 +48,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="店铺名称"
+                    android:text="@{viewModel.name}"
                     android:textColor="@color/color_333"
+                    tools:text="店铺名称"
                     android:textSize="@dimen/page_18" />
 
                 <TextView
