@@ -10,6 +10,7 @@ import com.melvin.share.R;
 import com.melvin.share.databinding.OrderInformationItemBinding;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.User;
+import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.modelview.item.OrderInformationItemViewModel;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/4
+ * Data： 2017/4/8
  * <p>
  * 描述： 订单信息Adapter
  */
@@ -42,7 +43,7 @@ public class OrderInformationAdapter extends BaseAdapter<OrderInformationAdapter
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((WaitPayOrderInfo.OrderBean.OrderItemResponsesBean) list.get(position));
     }
 
     @Override
@@ -62,11 +63,11 @@ public class OrderInformationAdapter extends BaseAdapter<OrderInformationAdapter
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final WaitPayOrderInfo.OrderBean.OrderItemResponsesBean bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new OrderInformationItemViewModel(context, user));
+                binding.setViewModel(new OrderInformationItemViewModel(context, bean));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(bean);
             }
         }
     }

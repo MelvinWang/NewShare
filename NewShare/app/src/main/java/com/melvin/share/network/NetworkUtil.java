@@ -6,6 +6,7 @@ import com.melvin.share.model.Category;
 import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.MessageInfo;
+import com.melvin.share.model.PicturePath;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.Reward;
 import com.melvin.share.model.ScanProduct;
@@ -16,6 +17,7 @@ import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.list.HomeHotProduct;
 import com.melvin.share.model.serverReturn.AddressBean;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
+import com.melvin.share.model.serverReturn.OnlineStore;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
 import com.melvin.share.model.serverReturn.SelfInformation;
@@ -141,6 +143,18 @@ public class NetworkUtil {
         Observable<ShopBean> findShopById(@Query("userId") String userId,
                                           @Query("customerId") String customerId);
 
+        //扫描店铺二维码
+        @GET("/app/scanCode/scanUser")
+        Observable<CommonReturnModel<ShopBean>> scanUser(@Query("shareId") String shareId,
+                                                            @Query("code") String code,
+                                                            @Query("customerId") String customerId);
+
+        //附近实体店查询接口,参数:longitude为经度,latitude为纬度
+        @GET("/app/customer/findStore")
+        Observable<ArrayList<OnlineStore>> findStore(@Query("latitude") String latitude,
+                                                      @Query("longitude") String longitude);
+
+
         //按商家查询商品接口
         @POST("/app/product/findProductByUser")
         Observable<CommonList<Product>> findProductByUser(@Body JsonObject json);
@@ -209,10 +223,14 @@ public class NetworkUtil {
         /**
          * 商品评价
          */
+
+        //通过商品查询出商品评价
         @POST("/app/evaluation/findEvaluationsByProduct")
         Observable<CommonList<Evaluation>> findEvaluationsByProduct(@Body JsonObject json);
 
-
+        //评价订单明细商品
+        @POST("/app/evaluation/insertOderItemEvaluation")
+        Observable<CommonReturnModel> insertOderItemEvaluation(@Body JsonObject json);
         /**
          * 消息操作接口
          */
@@ -290,7 +308,9 @@ public class NetworkUtil {
         @POST("/app/customer/applyExperience")
         Observable<CommonReturnModel> applyExperience(@Body JsonObject json);
 
-
+        //  申请成为店铺接口
+        @POST("/app/user/applyUser")
+        Observable<CommonReturnModel> applyUser(@Body JsonObject json);
 
 
 
@@ -349,8 +369,9 @@ public class NetworkUtil {
 
 
         @Multipart
-        @POST("/common/uploadPicture")
-        Observable<CommonReturnModel> uploadFile(@Part("file\"; filename=\"real.jpg\"") RequestBody file);
+        @POST("/common/picture/loadFileUpload")
+        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\"; filename=\"real.jpg\"") RequestBody file);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture") RequestBody  file);
 
     }
 

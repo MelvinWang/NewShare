@@ -32,6 +32,7 @@ public class WaitEvaluateOrderFragment extends BaseFragment implements MyRecycle
     private MyRecyclerView mRecyclerView;
     private AllOrderViewModel allOrderViewModel;
     private Map map;
+    private int pageNo = 1;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_order, container, false);
@@ -51,6 +52,7 @@ public class WaitEvaluateOrderFragment extends BaseFragment implements MyRecycle
      */
     private void initData() {
         map=new HashMap();
+        map.put("pageNo", pageNo);
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
@@ -62,11 +64,15 @@ public class WaitEvaluateOrderFragment extends BaseFragment implements MyRecycle
 
     @Override
     public void onRefresh() {
+        pageNo = 1;
+        map.put("pageNo", pageNo);
         allOrderViewModel.requestData(map);
     }
 
     @Override
     public void onLoadMore() {
-
+        pageNo++;
+        map.put("pageNo", pageNo);
+        allOrderViewModel.requestQueryData(map);
     }
 }

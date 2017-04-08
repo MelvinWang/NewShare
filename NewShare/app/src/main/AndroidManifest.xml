@@ -102,7 +102,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent100424468" />
+                <data android:scheme="tencent1106081788" />
             </intent-filter>
         </activity>
 
@@ -191,6 +191,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.selfcenter.UploadCertificateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.UploadCertificateDoneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.selfcenter.SettingActivity"

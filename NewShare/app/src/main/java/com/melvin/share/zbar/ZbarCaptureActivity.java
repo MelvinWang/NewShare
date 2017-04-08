@@ -30,6 +30,7 @@ import com.melvin.share.R;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.databinding.ActivityZbarCaptureBinding;
 import com.melvin.share.ui.activity.ProductInfoActivity;
+import com.melvin.share.ui.activity.ShopInformationActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
 
 import java.io.IOException;
@@ -148,10 +149,19 @@ public class ZbarCaptureActivity extends BaseActivity {
      * @param result
      */
     private void getScanResult(String result) {
-        Intent intent = new Intent(this, ProductInfoActivity.class);
-        intent.putExtra("scan", true);
-        intent.putExtra("scanCode", result);
-        startActivity(intent);
+        String[] split = result.split(",");
+        if (split.length==2){
+            Intent intent = new Intent(this, ShopInformationActivity.class);
+            intent.putExtra("scan", true);
+            intent.putExtra("code ", split[0]);
+            intent.putExtra("shareId", split[1]);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, ProductInfoActivity.class);
+            intent.putExtra("scan", true);
+            intent.putExtra("scanCode", result);
+            startActivity(intent);
+        }
         finish();
 
     }

@@ -47,6 +47,10 @@ public class RatingBar extends LinearLayout {
         this.starCount = starCount;
     }
 
+    public int getStarCount() {
+        return starCount;
+    }
+
     public void setStarImageSize(float starImageSize) {
         this.starImageSize = starImageSize;
     }

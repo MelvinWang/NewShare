@@ -1,51 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ratingbar="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data class="ActivityOrderEvaluateBinding">
 
-        <variable
-            name="viewModel"
-            type="com.melvin.share.modelview.acti.OrderEvaluateViewModel" />
-
     </data>
 
-        <LinearLayout
-            android:background="@color/f2f2f2"
-            android:id="@+id/root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/f2f2f2"
+        android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:title=" ">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="订单评价"
+                android:textColor="@color/color_333"
+                android:textSize="@dimen/page_18" />
+        </android.support.v7.widget.Toolbar>
+
+        <TextView
+            style="@style/CommonLine"
+            android:layout_marginTop="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/list_background"
+            android:orientation="vertical"
+            android:padding="2dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:title=" ">
+                android:layout_height="100dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/logo"
+                   />
+
+                <EditText
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/edit_rectangle"
+                    android:gravity="top|left"
+                    android:hint="写下对宝贝的看法" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/up_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:text="订单评价"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/page_18" />
-            </android.support.v7.widget.Toolbar>
+                    android:padding="7dp"
+                    android:text=""
+                    android:textSize="18sp" />
 
-            <com.melvin.share.view.MyRecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                app:adapter="@{viewModel.adapter}"
-                app:data="@{viewModel.data}"
-                app:layoutManager="@{viewModel.linearLayoutManager}"
-                tools:listitem="@layout/order_evaluate_item" />
+                <com.melvin.share.view.RatingBar
+                    android:id="@+id/ratingbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    ratingbar:clickable="true"
+                    ratingbar:starCount="5"
+                    ratingbar:starEmpty="@mipmap/star_white"
+                    ratingbar:starFill="@mipmap/star_red"
+                    ratingbar:starHalf="@mipmap/star_white"
+                    ratingbar:starImageSize="25dp" />
+
+            </RelativeLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/next"
+            style="@style/CircularBtnStyle"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/btn_redline_background"
+            android:onClick="submit"
+            android:paddingLeft="12dp"
+            android:text="提交"
+            android:textColor="@color/app_common_red"
+            android:textSize="15sp" />
+    </LinearLayout>
 </layout>

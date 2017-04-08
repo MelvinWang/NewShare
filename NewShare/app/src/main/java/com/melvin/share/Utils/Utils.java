@@ -2,6 +2,7 @@ package com.melvin.share.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Environment;
 import android.support.v4.view.MotionEventCompat;
@@ -10,6 +11,15 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Created Time: 2016/7/17.
@@ -75,6 +85,34 @@ public class Utils {
     public static float dip2Dimension(float dip, Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, displayMetrics);
+    }
+
+    public static Bitmap getBitmap(String qrcode) {
+        Bitmap bitmap = null;
+        try {
+            Map hints = new Hashtable();
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);//纠错能力低（7%）
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(qrcode, BarcodeFormat.QR_CODE, 400, 400, hints);
+            //产生位图
+            int w = bitMatrix.getWidth();
+            int h = bitMatrix.getHeight();
+            int[] data = new int[w * h];
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    if (bitMatrix.get(x, y))
+                        data[y * w + x] = 0xff000000;// 黑色
+                    else
+                        data[y * w + x] = -1;// -1 相当于0xffffffff 白色
+                }
+            }
+            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(data, 0, w, 0, 0, w, h);
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

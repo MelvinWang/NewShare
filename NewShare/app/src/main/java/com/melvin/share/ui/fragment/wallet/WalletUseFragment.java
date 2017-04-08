@@ -186,6 +186,7 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
     public void onRefresh() {
         pageNo = 1;
         dataList.clear();
+        adpter.notifyDataSetChanged();
         requestProduct();
     }
 

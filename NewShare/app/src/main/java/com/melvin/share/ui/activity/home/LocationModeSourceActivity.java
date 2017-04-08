@@ -1,18 +1,19 @@
 package com.melvin.share.ui.activity.home;
 
 
-import android.app.Activity;
+import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -29,37 +30,64 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.bumptech.glide.Glide;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.MapUtils;
+import com.melvin.share.Utils.Utils;
+import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
+import com.melvin.share.model.serverReturn.OnlineStore;
+import com.melvin.share.model.serverReturn.ShopBean;
+import com.melvin.share.network.GlobalUrl;
+import com.melvin.share.network.NetworkUtil;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
+import com.melvin.share.rx.RxSubscribe;
+import com.melvin.share.ui.activity.ShopInformationActivity;
+import com.melvin.share.ui.activity.common.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Retrofit;
+
+import static com.melvin.share.R.id.collection;
 
 /**
  * AMapV2地图中介绍定位三种模式的使用，包括定位，追随，旋转
  * 经    度    : 104.05638
  * 纬    度    : 30.628489
  */
-public class LocationModeSourceActivity extends Activity implements LocationSource,
+public class LocationModeSourceActivity extends BaseActivity implements LocationSource,
         AMapLocationListener, AMap.OnMapLoadedListener, AMap.InfoWindowAdapter, AMap.OnMarkerClickListener {
     private AMap aMap;
     private MapView mapView;
+    private Context mContext = null;
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
     private MarkerOptions markerOption;
     private TextView mLocationErrText;
-    //纬度 经度
+    //纬度latitude   经度longitude
     private LatLng latlng = new LatLng(30.628489, 104.05638);
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initView() {
+    }
+
+    @Override
+    protected void initMapView(Bundle savedInstanceState) {
+        super.initMapView(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 不显示程序的标题栏
         setContentView(R.layout.locationmodesource_activity);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
+        mContext = this;
+        initWindow();
         init();
     }
+
 
     /**
      * 初始化
@@ -140,7 +168,7 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
                 String locationStr = MapUtils.getLocationStr(amapLocation);
                 Log.i("哈哈", locationStr);
                 aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
-                askServer(locationStr,amapLocation);
+                askServer(locationStr, amapLocation);
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
@@ -151,14 +179,45 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
         }
     }
 
-    private void askServer(String locationStr,AMapLocation amapLocation) {
+    private void askServer(String locationStr, AMapLocation amapLocation) {
         Log.i("哈哈22", locationStr);
         latlng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+        fromNetwork.findStore(amapLocation.getLatitude() + "", amapLocation.getLongitude() + "")
+                .compose(new RxActivityHelper<ArrayList<OnlineStore>>().ioMain(LocationModeSourceActivity.this, true))
+                .subscribe(new RxModelSubscribe<ArrayList<OnlineStore>>(mContext, true) {
+                    @Override
+                    protected void myNext(ArrayList<OnlineStore> bean) {
+                        LogUtils.i(" 哈哈哈");
+                        if (bean != null && bean.size() > 0) {
+                            setData(bean);
+                        }
+
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+
         onMapLoaded();
-//        addMarkersToMap(30.628489, 104.05540, "店铺名1", "具体位置1");
-//        addMarkersToMap(30.628489, 104.05434, "店铺名2", "具体位置2");
-//        addMarkersToMap(30.628489, 104.05744, "店铺名3", "具体位置3");
+
     }
+
+    public void setData(ArrayList<OnlineStore> data) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        LatLng latlngL = new LatLng(30.628489, 104.05638);
+        builder.include(latlng);
+        for (OnlineStore onlineStore : data) {
+            addMarkersToMap(onlineStore.latitude, onlineStore.longitude,
+                    onlineStore.experience_name, "距离当前距离" + onlineStore.distance);
+            latlngL = new LatLng(onlineStore.latitude, onlineStore.longitude);
+            builder.include(latlngL);
+        }
+        LatLngBounds bounds = builder.build();
+        aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
+    }
+
     /**
      * 在地图上添加marker
      */
@@ -174,6 +233,7 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
         markerOptionlst.add(markerOption);
         List<Marker> markerlst = aMap.addMarkers(markerOptionlst, true);
     }
+
     @Override
     public void onMapLoaded() {
         // 设置所有maker显示在当前可视区域地图中
@@ -185,6 +245,7 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
         aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
 //        aMap.moveCamera(CameraUpdateFactory.zoomTo(12));
     }
+
     /**
      * 激活定位
      */
@@ -231,7 +292,6 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
     }
 
 
-
     @Override
     public View getInfoWindow(Marker marker) {
         return null;
@@ -276,5 +336,6 @@ public class LocationModeSourceActivity extends Activity implements LocationSour
             snippetUi.setText("");
         }
     }
+
 
 }

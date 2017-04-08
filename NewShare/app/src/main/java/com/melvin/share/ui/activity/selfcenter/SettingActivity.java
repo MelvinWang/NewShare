@@ -3,15 +3,19 @@ package com.melvin.share.ui.activity.selfcenter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
@@ -41,6 +45,7 @@ public class SettingActivity extends BaseActivity {
     private SexPopupWindow sexPopupWindow;
     private SelectTimeopupWindow selectTimeopupWindow; // 自定义的头像编辑弹出框
     private String sex;
+    private String resultPicturePath;
     private Customer mCustomer;
 
     @Override
@@ -72,6 +77,14 @@ public class SettingActivity extends BaseActivity {
                     @Override
                     protected void myNext(Customer customer) {
                         mCustomer = customer;
+                        if (!TextUtils.isEmpty(customer.picture)) {
+                            Glide.with(mContext)
+                                    .load((GlobalUrl.SERVICE_URL + customer.picture))
+                                    .placeholder(R.mipmap.logo)
+                                    .centerCrop()
+                                    .into(binding.avatarPic);
+                        }
+                        LogUtils.i(mCustomer.toString());
                         binding.setModel(mCustomer);
                     }
 
@@ -134,7 +147,10 @@ public class SettingActivity extends BaseActivity {
      * @param v
      */
     public void uploadHead(View v) {
-        startActivity(new Intent(mContext, PictureActivity.class));
+        Intent intent = new Intent();
+        intent.setClass(mContext, PictureActivity.class);
+        startActivityForResult(intent, 20);
+
     }
 
     /**
@@ -206,6 +222,19 @@ public class SettingActivity extends BaseActivity {
                     binding.tvAddress.setText(split[0] + split[1] + split[2]);
                 }
             }
+        } else if (requestCode == 20) {
+            if (data != null) {
+                String result = data.getExtras().getString("result");
+
+                if (!TextUtils.isEmpty(result)) {
+                    Glide.with(mContext)
+                            .load((GlobalUrl.SERVICE_URL + result))
+                            .placeholder(R.mipmap.logo)
+                            .centerCrop()
+                            .into(binding.avatarPic);
+                }
+                resultPicturePath = result;
+            }
         }
     }
 
@@ -236,6 +265,7 @@ public class SettingActivity extends BaseActivity {
      */
     private void updateCutomerById() {
         mCustomer.customerId = mCustomer.id;
+        mCustomer.picture = resultPicturePath;
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(mCustomer)));
 

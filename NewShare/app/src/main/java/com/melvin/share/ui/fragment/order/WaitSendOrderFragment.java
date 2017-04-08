@@ -24,7 +24,7 @@ import java.util.Map;
  * <p>
  * 描述：待发货
  */
-public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerView.LoadingListener  {
+public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerView.LoadingListener {
 
     private FragmentAllOrderBinding binding;
     private Context mContext;
@@ -32,6 +32,8 @@ public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerVie
     private MyRecyclerView mRecyclerView;
     private AllOrderViewModel allOrderViewModel;
     private Map map;
+    private int pageNo = 1;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_order, container, false);
@@ -50,23 +52,28 @@ public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerVie
      * 请求数据
      */
     private void initData() {
-        map=new HashMap();
+        map = new HashMap();
+        map.put("pageNo", pageNo);
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        allOrderViewModel= new AllOrderViewModel(mContext, WaitSendOrderFragment.this,mRecyclerView);
+        allOrderViewModel = new AllOrderViewModel(mContext, WaitSendOrderFragment.this, mRecyclerView);
         binding.setViewModel(allOrderViewModel);
-        map.put("orderStatus","2");
+        map.put("orderStatus", "2");
         allOrderViewModel.requestData(map);
     }
 
     @Override
     public void onRefresh() {
+        pageNo = 1;
+        map.put("pageNo", pageNo);
         allOrderViewModel.requestData(map);
     }
 
     @Override
     public void onLoadMore() {
-
+        pageNo++;
+        map.put("pageNo", pageNo);
+        allOrderViewModel.requestQueryData(map);
     }
 }

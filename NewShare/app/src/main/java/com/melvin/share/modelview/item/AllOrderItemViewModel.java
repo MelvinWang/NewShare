@@ -59,14 +59,12 @@ public class AllOrderItemViewModel extends BaseObservable {
             intent.putExtra("fromAllOrder",true);
             intent.putExtra("orderId",bean.id);
             context.startActivity(intent);
-        } else if (TextUtils.equals("2", bean.orderStatus)) {//待发货
-            context.startActivity(new Intent(context, WaitSendProductOrderInformationActivity.class));
-
-        } else if (TextUtils.equals("3", bean.orderStatus)) {//待收货
-            context.startActivity(new Intent(context, WaitReceiveProductOrderInformationActivity.class));
-
-        } else if (TextUtils.equals("4", bean.orderStatus)) {//待评价
-            context.startActivity(new Intent(context, WaitEvaluateOrderInformationActivity.class));
+        } else if (TextUtils.equals("2", bean.orderStatus)
+                ||TextUtils.equals("3", bean.orderStatus)
+                ||TextUtils.equals("4", bean.orderStatus)) {//待发货.待收货.待评价
+            Intent intent =  new Intent(context, WaitSendProductOrderInformationActivity.class);
+            intent.putExtra("orderId",bean.id);
+            context.startActivity(intent);
 
         } else if (TextUtils.equals("5", bean.orderStatus)) {//退款
             context.startActivity(new Intent(context, RefundActivity.class));
@@ -153,7 +151,7 @@ public class AllOrderItemViewModel extends BaseObservable {
         dialog.setOnClickListener(new OrderCancelDialog.OnCliclListener() {
             @Override
             public void confirm() {
-                Utils.showToast(context, "confirm");
+                Utils.showToast(context, "待接取消订单接口");
             }
 
             @Override
@@ -168,17 +166,19 @@ public class AllOrderItemViewModel extends BaseObservable {
         context.startActivity(new Intent(context, RefundActivity.class));
     }
 
-    //查看物流
+    //查看物流，暂时不用
     public void onLookLogisticsClick(View view) {
         context.startActivity(new Intent(context, LogisticsInfoActivity.class));
     }
 
     //付款
     public void onPayClick(View view) {
-        Intent intent = new Intent(context, WaitPayOrderActivity.class);
-        intent.putExtra("fromAllOrder",true);
-        intent.putExtra("orderId",bean.id);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, WaitPayOrderActivity.class);
+//        intent.putExtra("fromAllOrder",true);
+//        intent.putExtra("orderId",bean.id);
+//        context.startActivity(intent);
+
+        Utils.showToast(context, "待接付款接口");
     }
 
     //催单
@@ -196,7 +196,7 @@ public class AllOrderItemViewModel extends BaseObservable {
         dialog.setOnClickListener(new ConfirmReceiveDialog.OnCliclListener() {
             @Override
             public void confirm() {
-                Utils.showToast(context, "confirm");
+                Utils.showToast(context, "待接确认收货接口");
             }
 
             @Override
@@ -207,7 +207,7 @@ public class AllOrderItemViewModel extends BaseObservable {
         });
     }
 
-    //评价
+    //评价，暂时不用
     public void onEvaluateClick(View view) {
         context.startActivity(new Intent(context, OderEvaluateActivity.class));
     }

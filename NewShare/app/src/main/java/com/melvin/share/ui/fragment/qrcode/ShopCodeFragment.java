@@ -129,6 +129,7 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
     public void onRefresh() {
         pageNo = 1;
         data.clear();
+        shopCodeAdapter.notifyDataSetChanged();
         requestData();
 
     }

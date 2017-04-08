@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.melvin.share.R.id.recyclerView;
+import static com.melvin.share.ui.activity.ProductInfoActivity.productId;
 
 /**
  * Author: Melvin
@@ -54,6 +55,7 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
     private View root;
     private int pageNo = 1;
     private Map map;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_evaluate, container, false);
@@ -63,8 +65,6 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
             initAdapter();
             root = binding.getRoot();
             requestData();
-        } else {
-            ViewUtils.removeParent(root);// 移除frameLayout之前的爹
         }
         return root;
     }
@@ -75,6 +75,10 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
     private void initData() {
         map = new HashMap();
         mRecyclerView = binding.recyclerView;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
     }
@@ -83,9 +87,6 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
      * 初始化Adapter
      */
     private void initAdapter() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
         productEvaluateAdapter = new ProductEvaluateAdapter(mContext, data);
         mRecyclerView.setAdapter(productEvaluateAdapter);
     }
@@ -95,13 +96,12 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
      */
     private void requestData() {
         map.put("pageNo", pageNo);
-        map.put("productId ", ProductInfoActivity.productId);
-        ShapreUtils.putParamCustomerId(map);
+        map.put("productId", productId);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
         fromNetwork.findEvaluationsByProduct(jsonObject)
-                .compose(new RxFragmentHelper<CommonList<Evaluation>>().ioMain(mContext, ProductEvaluateFragment.this, true))
-                .subscribe(new RxModelSubscribe<CommonList<Evaluation>>(mContext, true) {
+                .compose(new RxFragmentHelper<CommonList<Evaluation>>().ioMain(mContext, ProductEvaluateFragment.this, false))
+                .subscribe(new RxModelSubscribe<CommonList<Evaluation>>(mContext, false) {
                     @Override
                     protected void myNext(CommonList<Evaluation> commonList) {
                         data.addAll(commonList.rows);
@@ -132,6 +132,7 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
     public void onRefresh() {
         pageNo = 1;
         data.clear();
+        productEvaluateAdapter.notifyDataSetChanged();
         requestData();
 
 
@@ -144,6 +145,5 @@ public class ProductEvaluateFragment extends BaseFragment implements MyRecyclerV
     public void onLoadMore() {
         pageNo++;
         requestData();
-        mRecyclerView.loadMoreComplete();
     }
 }

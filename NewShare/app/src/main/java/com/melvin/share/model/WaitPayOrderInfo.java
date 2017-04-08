@@ -1,5 +1,8 @@
 package com.melvin.share.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -44,7 +47,7 @@ public class WaitPayOrderInfo extends BaseModel{
 
         public ArrayList<OrderItemResponsesBean> orderItemResponses=new ArrayList<>();
 
-        public static class OrderItemResponsesBean extends BaseModel{
+        public static class OrderItemResponsesBean extends BaseModel implements Parcelable {
             /**
              * id : 19
              * productId : 1
@@ -66,6 +69,51 @@ public class WaitPayOrderInfo extends BaseModel{
             public String postage;
             public String scanCode;
             public String orderItemStatus;
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.id);
+                dest.writeString(this.productId);
+                dest.writeString(this.productName);
+                dest.writeString(this.mainPicture);
+                dest.writeString(this.totalNum);
+                dest.writeString(this.total);
+                dest.writeString(this.postage);
+                dest.writeString(this.scanCode);
+                dest.writeString(this.orderItemStatus);
+            }
+
+            public OrderItemResponsesBean() {
+            }
+
+            protected OrderItemResponsesBean(Parcel in) {
+                this.id = in.readString();
+                this.productId = in.readString();
+                this.productName = in.readString();
+                this.mainPicture = in.readString();
+                this.totalNum = in.readString();
+                this.total = in.readString();
+                this.postage = in.readString();
+                this.scanCode = in.readString();
+                this.orderItemStatus = in.readString();
+            }
+
+            public static final Parcelable.Creator<OrderItemResponsesBean> CREATOR = new Parcelable.Creator<OrderItemResponsesBean>() {
+                @Override
+                public OrderItemResponsesBean createFromParcel(Parcel source) {
+                    return new OrderItemResponsesBean(source);
+                }
+
+                @Override
+                public OrderItemResponsesBean[] newArray(int size) {
+                    return new OrderItemResponsesBean[size];
+                }
+            };
         }
     }
 

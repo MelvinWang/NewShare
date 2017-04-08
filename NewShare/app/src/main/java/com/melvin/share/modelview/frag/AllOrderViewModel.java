@@ -62,12 +62,15 @@ public class AllOrderViewModel extends BaseRecyclerViewModel<BaseModel> implemen
 
     }
 
+    /**
+     * 第一次请求、刷新，查询
+     *
+     * @param map
+     */
     public void requestData(Map map) {
-
         ShapreUtils.putParamCustomerId(map);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
-
         fromNetwork.findOrderByCustomer(jsonObject)
                 .compose(new RxFragmentHelper<CommonList<WaitPayOrderInfo.OrderBean>>().ioMain(context, fragment, true))
                 .subscribe(new RxModelSubscribe<CommonList<WaitPayOrderInfo.OrderBean>>(context, true) {
@@ -79,16 +82,41 @@ public class AllOrderViewModel extends BaseRecyclerViewModel<BaseModel> implemen
                         mRecyclerView.refreshComplete();
                     }
 
-
                     @Override
                     protected void myError(String message) {
+                        mRecyclerView.refreshComplete();
                         Utils.showToast(context, message);
                     }
                 });
     }
 
-
+    /**
+     * 加载更多
+     *
+     * @param map
+     */
     public void requestQueryData(Map map) {
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+
+        fromNetwork.findOrderByCustomer(jsonObject)
+                .compose(new RxFragmentHelper<CommonList<WaitPayOrderInfo.OrderBean>>().ioMain(context, fragment, true))
+                .subscribe(new RxModelSubscribe<CommonList<WaitPayOrderInfo.OrderBean>>(context, true) {
+                    @Override
+                    protected void myNext(CommonList<WaitPayOrderInfo.OrderBean> bean) {
+                        data.addAll(bean.rows);
+                        onRequestSuccess(data);
+                        mRecyclerView.loadMoreComplete();
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        mRecyclerView.loadMoreComplete();
+                        Utils.showToast(context, message);
+                    }
+                });
     }
 
     public AllOrderFragAdapter getAdapter() {

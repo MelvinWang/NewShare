@@ -1,14 +1,25 @@
 package com.melvin.share.modelview.item;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.melvin.share.Utils.Utils;
+import com.melvin.share.dialog.ConfirmReceiveDialog;
+import com.melvin.share.dialog.OrderCancelDialog;
+import com.melvin.share.dialog.UrgeBillDialog;
+import com.melvin.share.model.WaitPayOrderInfo;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
+import com.melvin.share.ui.activity.OderEvaluateActivity;
+import com.melvin.share.ui.activity.order.RefundActivity;
+import com.melvin.share.ui.activity.selfcenter.LogisticsInfoActivity;
 
 /**
- * Created Time: 2016/8/4.
+ * Created Time: 2017/4/7.
  * <p>
  * Author:Melvin
  * <p>
@@ -16,26 +27,120 @@ import com.melvin.share.model.User;
  */
 public class OrderInformationItemViewModel extends BaseObservable {
 
-    private User user;
+    private WaitPayOrderInfo.OrderBean.OrderItemResponsesBean bean;
     private Context context;
 
-    public OrderInformationItemViewModel(Context context, User user) {
-        this.user = user;
+    public OrderInformationItemViewModel(Context context, WaitPayOrderInfo.OrderBean.OrderItemResponsesBean bean) {
+        this.bean = bean;
         this.context = context;
     }
 
-    public void onItemClick(View view) {
+    public String getName() {
+        return bean.productName;
+    }
 
+    public String getTotal() {
+        return "￥" + bean.total;
     }
-    public void onclickShare(View view) {
-        RxBus.get().post("hello22");
+
+    public String getTotalNum() {
+        return "X" + bean.totalNum;
     }
+
     public String getImgUrl() {
-        return "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+        String[] split = bean.mainPicture.split("\\|");
+        if (split != null && split.length >= 1) {
+            String url = GlobalUrl.SERVICE_URL + split[0];
+            return url;
+        }
+        return "";
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+
+
+    public boolean getRefundStatus() {
+        if (TextUtils.equals("2", bean.orderItemStatus) || TextUtils.equals("3", bean.orderItemStatus)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getLogisticsStatus() {
+        if (TextUtils.equals("3", bean.orderItemStatus) || TextUtils.equals("4", bean.orderItemStatus)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getReminderStatus() {
+        if (TextUtils.equals("2", bean.orderItemStatus)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getConfirmReceiveStatus() {
+        if (TextUtils.equals("3", bean.orderItemStatus)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean getEvaluateStatus() {
+        if (TextUtils.equals("4", bean.orderItemStatus)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    //退款
+    public void onRefundClick(View view) {
+        context.startActivity(new Intent(context, RefundActivity.class));
+    }
+
+    //查看物流，暂时不用
+    public void onLookLogisticsClick(View view) {
+        context.startActivity(new Intent(context, LogisticsInfoActivity.class));
+    }
+
+
+    //催单
+    public void onReminderClick(View view) {
+        final UrgeBillDialog dialog = new UrgeBillDialog(context);
+        dialog.setContentView(null);
+        dialog.show();
+    }
+
+    //确认收货
+    public void onConfirmReceiveClick(View view) {
+        final ConfirmReceiveDialog dialog = new ConfirmReceiveDialog(context);
+        dialog.setContentView(null);
+        dialog.show();
+        dialog.setOnClickListener(new ConfirmReceiveDialog.OnCliclListener() {
+            @Override
+            public void confirm() {
+                Utils.showToast(context, "待接确认收货接口");
+            }
+
+            @Override
+            public void cancel() {
+                Utils.showToast(context, "cancel");
+
+            }
+        });
+    }
+
+    //评价
+    public void onEvaluateClick(View view) {
+        Intent intent = new Intent(context, OderEvaluateActivity.class);
+        intent.putExtra("orderItemResponsesBean", bean);
+        context.startActivity(intent);
+    }
+
+
+    public void setEntity(WaitPayOrderInfo.OrderBean.OrderItemResponsesBean bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

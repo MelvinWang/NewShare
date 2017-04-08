@@ -7,8 +7,14 @@ import android.widget.LinearLayout;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
+import com.melvin.share.Utils.DateUtil;
+import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.databinding.ActivityWaitSendProdOrderInfoBinding;
+import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.modelview.acti.WaitSendProOrderInfoViewModel;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.dialog.UrgeBillDialog;
@@ -18,14 +24,15 @@ import com.melvin.share.dialog.UrgeBillDialog;
  * <p>
  * Data： 2017/4/3
  * <p>
- * 描述： 待发货订单信息
+ * 描述： 待发货、收货、评价订单信息
  */
-public class WaitSendProductOrderInformationActivity extends BaseActivity implements MyRecyclerView.LoadingListener {
+public class WaitSendProductOrderInformationActivity extends BaseActivity {
 
     private ActivityWaitSendProdOrderInfoBinding binding;
     private Context mContext = null;
     private MyRecyclerView mRecyclerView;
     private WaitSendProOrderInfoViewModel waitSendProOrderInfoViewModel;
+    private String orderId;
 
     @Override
     protected void initView() {
@@ -38,40 +45,62 @@ public class WaitSendProductOrderInformationActivity extends BaseActivity implem
     }
 
     private void ininData() {
-
+        orderId = getIntent().getStringExtra("orderId");
+        LogUtils.i("orderId"+orderId);
         mRecyclerView = binding.recyclerView;
-        mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
-        mRecyclerView.setLoadingListener(this);
         waitSendProOrderInfoViewModel = new WaitSendProOrderInfoViewModel(this, mRecyclerView);
         binding.setViewModel(waitSendProOrderInfoViewModel);
-        waitSendProOrderInfoViewModel.requestData();
+        findOrderById();
     }
 
     /**
-     * 下拉刷新
+     * 查看单个订单的详情
      */
-    @Override
-    public void onRefresh() {
-        waitSendProOrderInfoViewModel.requestData();
-        mRecyclerView.refreshComplete();
+    private void findOrderById() {
+        fromNetwork.findOrderById(orderId)
+                .compose(new RxActivityHelper<WaitPayOrderInfo.OrderBean>().ioMain(WaitSendProductOrderInformationActivity.this, true))
+                .subscribe(new RxModelSubscribe<WaitPayOrderInfo.OrderBean>(mContext, true) {
+                    @Override
+                    protected void myNext(WaitPayOrderInfo.OrderBean bean) {
+                        binding.name.setText(bean.receiver);
+                        binding.phone.setText(bean.recevierPhone);
+                        binding.address.setText(bean.receiveAddress);
+
+                        binding.freight.setText("￥ " + bean.postage);
+                        binding.totalFee.setText("￥ " + bean.total);
+
+                        binding.orderNumber.setText(bean.orderNumber);
+                        binding.createTime.setText(DateUtil.getDateString(bean.createTime));
+                        waitSendProOrderInfoViewModel.requestData(bean.orderItemResponses);
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 
-    /**
-     * 上拉加载更多
-     */
-    @Override
-    public void onLoadMore() {
 
+    /**
+     * 确认收货
+     */
+    public void onConfirmReceiveClick(View view) {
     }
 
     /**
      * 催单
      */
-    public void urgeBill(View v) {
+    public void onReminderClick(View view) {
         final UrgeBillDialog dialog = new UrgeBillDialog(mContext);
         dialog.setContentView(null);
         dialog.show();
     }
 
+    /**
+     * 退款
+     */
+    public void onRefundClick(View view) {
 
+    }
 }

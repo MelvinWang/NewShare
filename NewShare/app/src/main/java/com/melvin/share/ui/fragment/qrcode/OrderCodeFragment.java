@@ -134,6 +134,7 @@ public class OrderCodeFragment extends BaseFragment implements MyRecyclerView.Lo
     public void onRefresh() {
         pageNo = 1;
         data.clear();
+        orderCodeAdapter.notifyDataSetChanged();
         requestData();
 
     }

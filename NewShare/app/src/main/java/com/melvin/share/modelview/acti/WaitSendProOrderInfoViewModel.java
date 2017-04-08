@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.melvin.share.adapter.OrderInformationAdapter;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.User;
+import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.view.RequestView;
@@ -36,16 +37,8 @@ public class WaitSendProOrderInfoViewModel extends BaseRecyclerViewModel<BaseMod
 
     }
 
-    public void requestData() {
-        List list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            User user = new User();
-            user.password = i+"";
-            user.username = i+"";
-            list.add(user);
-        }
+    public void requestData(ArrayList<WaitPayOrderInfo.OrderBean.OrderItemResponsesBean> list) {
         data.addAll(list);
-
         onRequestSuccess(data);
     }
 

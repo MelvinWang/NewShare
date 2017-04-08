@@ -15,12 +15,14 @@ import com.google.zxing.WriterException;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.QrcodeAdapter;
 import com.melvin.share.databinding.FragmentQrCodeBinding;
 import com.melvin.share.dialog.QrCodeShareDialog;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.QrcodeShareModel;
 import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.popwindow.SelectPicPopupWindow;
 import com.melvin.share.rx.RxBus;
@@ -41,11 +43,13 @@ public class QrcodeFragment extends BaseFragment {
     private Context mContext;
     private View root;
     private QrCodeShareDialog dialog;
+    private String shareCode;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_qr_code, container, false);
         if (root == null) {
+
             mContext = getActivity();
             LogUtils.i("QrcodeFragment+initView");
             dialog = new QrCodeShareDialog(mContext);
@@ -64,22 +68,35 @@ public class QrcodeFragment extends BaseFragment {
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
         public void onClick(View v) {
             menuWindow.dismiss();
+            QrcodeShareModel qrcodeShareModel = new QrcodeShareModel();
+
             switch (v.getId()) {
                 case R.id.wechat_share:
-                    Utils.showToast(mContext, "wechat_share");
+                    Utils.showToast(mContext, "正在分享...");
+                    qrcodeShareModel.code = shareCode;
+                    qrcodeShareModel.flagCode = 1;
+                    RxShareBus.get().post(qrcodeShareModel);
                     break;
                 case R.id.friends_share:
-                    Utils.showToast(mContext, "friends_share");
+                    Utils.showToast(mContext, "正在分享...");
+                    qrcodeShareModel.code = shareCode;
+                    qrcodeShareModel.flagCode = 2;
+                    RxShareBus.get().post(qrcodeShareModel);
                     break;
                 case R.id.qq_share:
-                    Utils.showToast(mContext, "qq_share");
-                    RxShareBus.get().post("qq_share");
+                    Utils.showToast(mContext, "正在分享...");
+                    qrcodeShareModel.code = shareCode;
+                    qrcodeShareModel.flagCode = 3;
+                    RxShareBus.get().post(qrcodeShareModel);
                     break;
                 case R.id.qq_zone_share:
-                    Utils.showToast(mContext, "qq_zone_share");
+                    Utils.showToast(mContext, "正在分享...");
+                    qrcodeShareModel.code = shareCode;
+                    qrcodeShareModel.flagCode = 4;
+                    RxShareBus.get().post(qrcodeShareModel);
                     break;
                 case R.id.cancel:
-                    Utils.showToast(mContext, "cancel");
+                    menuWindow.dismiss();
                     break;
                 default:
                     break;
@@ -120,6 +137,7 @@ public class QrcodeFragment extends BaseFragment {
         try {
             Bitmap qrCodeBitmap = EncodingHandler.createQRCode(bean.scanCode, 1000);
             dialog.setImgview(qrCodeBitmap);
+            shareCode = bean.scanCode;
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -143,8 +161,10 @@ public class QrcodeFragment extends BaseFragment {
         dialog.setDetail("扫一扫，可进入此店购买商品返利");
         dialog.show();
         try {
-            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(bean.scanCode, 1000);
+            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(
+                    bean.scanCode + "," + ShapreUtils.getCustomerId(), 1000);
             dialog.setImgview(qrCodeBitmap);
+            shareCode = bean.scanCode + "," + ShapreUtils.getCustomerId();
         } catch (WriterException e) {
             e.printStackTrace();
         }

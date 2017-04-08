@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="ActivityOpenShopSBinding">
+    <data class="ActivityOpenShopDBinding">
 
     </data>
 
@@ -54,14 +54,14 @@
 
         <Button
             android:id="@+id/next"
-            android:onClick="clickNext"
+            android:onClick="done"
             style="@style/CircularBtnStyle"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="80dp"
             android:background="@drawable/btn_redline_background"
             android:paddingLeft="12dp"
-            android:text="下一步"
+            android:text="完  成"
             android:textColor="@color/app_common_red"
             android:textSize="15sp" />
 

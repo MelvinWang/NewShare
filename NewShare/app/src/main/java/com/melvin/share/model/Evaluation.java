@@ -20,8 +20,9 @@ public class Evaluation extends BaseModel{
     public String content;
     public String evaluateDate;
     public String picture;
-    public int startlevel;
+    public double startlevel;
     public String username;
+    public String productName;
 
     
 }

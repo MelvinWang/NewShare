@@ -60,12 +60,16 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
     private View headerView;
     private ImageView shopImg;
     private TextView shopName;
+    private TextView shopDesc;
     private CheckBox collection;
     private int pageNo = 1;
     private String flag = "ALL";
     private Button allProduct;
     private Button newProduct;
     private String userId;
+    private boolean scan;//true代表扫描进入
+    private String code;//二维码
+    private String shareId;//分享者ID
 
     @Override
     protected void initView() {
@@ -80,7 +84,12 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
     private void ininData() {
         map = new HashMap();
         recyclerView = binding.recyclerView;
+        scan = getIntent().getBooleanExtra("scan", false);
+
         userId = getIntent().getStringExtra("userId");
+        code = getIntent().getStringExtra("code");
+        shareId = getIntent().getStringExtra("shareId");
+
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -93,6 +102,7 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
         headerView = layoutInflater.inflate(R.layout.shop_title, null, false);
         shopImg = (ImageView) headerView.findViewById(R.id.shop_img);
         shopName = (TextView) headerView.findViewById(R.id.shop_name);
+        shopDesc = (TextView) headerView.findViewById(R.id.shop_desc);
         collection = (CheckBox) headerView.findViewById(R.id.collection);
         allProduct = (Button) headerView.findViewById(R.id.allProduct);
         newProduct = (Button) headerView.findViewById(R.id.newProduct);
@@ -112,12 +122,58 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
 
         recyclerView.addHeaderView(headerView);
         recyclerView.setLoadingListener(this);
-        getShopTitel();
-        allProduct();
+        if (scan) {
+            getScanShopTitel();
+        } else {
+            getShopTitel();
+            allProduct();
+        }
     }
 
     /**
-     * 获取头信息
+     * 获取头信息 扫描
+     */
+    private void getScanShopTitel() {
+        fromNetwork.scanUser(shareId, ShapreUtils.getCustomerId(), code)
+                .compose(new RxActivityHelper<CommonReturnModel<ShopBean>>().ioMain(ShopInformationActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel<ShopBean>>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel<ShopBean> bean) {
+                        userId = bean.result.userId;
+                        shopName.setText(bean.result.name);
+                        shopDesc.setText(bean.result.description);
+                        collection.setChecked(bean.result.collected);
+                        if (!TextUtils.isEmpty(bean.result.picture)) {
+                            String[] split = bean.result.picture.split("\\|");
+                            if (split != null && split.length >= 1) {
+                                String url = GlobalUrl.SERVICE_URL + split[0];
+                                imgUrl = url;
+                            }
+                            Glide.with(mContext)
+                                    .load(imgUrl)
+                                    .centerCrop()
+                                    .into(shopImg);
+                        }
+                        collection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                collectUserOrDeleteUser(isChecked);
+
+                                allProduct();
+                            }
+                        });
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
+
+    /**
+     * 获取头信息 正常
      */
     private void getShopTitel() {
         fromNetwork.findShopById(userId, ShapreUtils.getCustomerId())
@@ -126,6 +182,7 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
                     @Override
                     protected void myNext(ShopBean bean) {
                         shopName.setText(bean.name);
+                        shopDesc.setText(bean.description);
                         collection.setChecked(bean.collected);
                         if (!TextUtils.isEmpty(bean.picture)) {
                             String[] split = bean.picture.split("\\|");
@@ -152,6 +209,7 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
                     }
                 });
     }
+
 
     /**
      * 收藏或者取消

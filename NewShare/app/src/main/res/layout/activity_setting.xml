@@ -57,12 +57,13 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/avatar_pic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/logo" />
 
         </RelativeLayout>
 

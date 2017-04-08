@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.melvin.share.modelview.item.OrderInformationItemViewModel" />
@@ -13,44 +13,140 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:background="@drawable/list_background">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/product_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/ic_launcher"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center_vertical"
-            app:imageUrl="@{viewModel.imgUrl}" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/list_background">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="wrap_content"
-            android:text="商品名称"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            />
+            <ImageView
+                android:id="@+id/product_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/ic_launcher"
+                app:imageUrl="@{viewModel.imgUrl}" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="X2"
-            android:layout_gravity="center_vertical"
-            />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="5"
+                android:text="@{viewModel.name}"
+                tools:text="商品名称" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:text="680.00"
-            android:layout_gravity="center_vertical"
-            />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="@{viewModel.totalNum}"
+                tools:text="2" />
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:text="@{viewModel.total}"
+                tools:text="￥ 332.00" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+
+
+                <Button
+                    android:id="@+id/refund"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus999"
+                    android:onClick="@{viewModel.onRefundClick}"
+                    android:text="申请退款"
+                    android:textColor="@color/color_999"
+                    android:textSize="15sp"
+                    android:visibility="@{viewModel.refundStatus?  View.VISIBLE:  View.GONE}" />
+
+                <Button
+                    android:id="@+id/look_logistics"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus999"
+                    android:onClick="@{viewModel.onLookLogisticsClick}"
+                    android:text="查看物流"
+                    android:textColor="@color/color_999"
+                    android:textSize="15sp"
+                    android:visibility="@{viewModel.logisticsStatus?  View.VISIBLE:  View.GONE}" />
+
+
+                <Button
+                    android:id="@+id/reminder"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onReminderClick}"
+                    android:text="催单"
+                    android:textColor="@color/app_common_red"
+                    android:textSize="15sp"
+                    android:visibility="@{viewModel.reminderStatus?  View.VISIBLE:  View.GONE}" />
+
+                <Button
+                    android:id="@+id/confirm_receive"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onConfirmReceiveClick}"
+                    android:text="确认收货"
+                    android:textColor="@color/app_common_red"
+                    android:textSize="15sp"
+                    android:visibility="@{viewModel.confirmReceiveStatus?  View.VISIBLE:  View.GONE}" />
+
+                <Button
+                    android:id="@+id/evaluate"
+                    style="@style/CircularBtnStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_rectangle_withradus"
+                    android:onClick="@{viewModel.onEvaluateClick}"
+                    android:text="评价"
+                    android:textColor="@color/app_common_red"
+                    android:textSize="15sp"
+                    android:visibility="@{viewModel.evaluateStatus?  View.VISIBLE:  View.GONE}" />
+
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </layout>

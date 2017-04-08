@@ -156,7 +156,7 @@
                     android:onClick="@{viewModel.onLookLogisticsClick}"
                     android:text="查看物流"
                     android:textColor="@color/color_999"
-                    android:visibility="@{viewModel.logisticsStatus?  View.VISIBLE:  View.GONE}"
+                    android:visibility="gone"
                     android:textSize="15sp" />
 
                 <Button
@@ -214,7 +214,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/btn_rectangle_withradus"
                     android:onClick="@{viewModel.onEvaluateClick}"
-                    android:visibility="@{viewModel.evaluateStatus?  View.VISIBLE:  View.GONE}"
+                    android:visibility="gone"
                     android:text="评价"
                     android:textColor="@color/app_common_red"
                     android:textSize="15sp" />

@@ -19,6 +19,7 @@ public class ShopBean extends BaseModel implements Parcelable {
     public String logo;
     public String name;
     public String picture;
+    public String description;
     public boolean isChecked=false;
     public boolean isShow=false;
     public boolean collected=false;
@@ -38,9 +39,12 @@ public class ShopBean extends BaseModel implements Parcelable {
         dest.writeString(this.logo);
         dest.writeString(this.name);
         dest.writeString(this.picture);
+        dest.writeString(this.description);
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isShow ? (byte) 1 : (byte) 0);
         dest.writeByte(this.collected ? (byte) 1 : (byte) 0);
+        dest.writeString(this.scanCode);
+        dest.writeByte(this.scanFlag ? (byte) 1 : (byte) 0);
     }
 
     public ShopBean() {
@@ -52,9 +56,12 @@ public class ShopBean extends BaseModel implements Parcelable {
         this.logo = in.readString();
         this.name = in.readString();
         this.picture = in.readString();
+        this.description = in.readString();
         this.isChecked = in.readByte() != 0;
         this.isShow = in.readByte() != 0;
         this.collected = in.readByte() != 0;
+        this.scanCode = in.readString();
+        this.scanFlag = in.readByte() != 0;
     }
 
     public static final Creator<ShopBean> CREATOR = new Creator<ShopBean>() {

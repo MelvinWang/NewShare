@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.melvin.share.R;
 import com.melvin.share.Utils.SDcardPathUtils;
 import com.melvin.share.Utils.Utils;
+import com.melvin.share.model.PicturePath;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxSubscribe;
@@ -51,7 +52,7 @@ public class PictureActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_up_image);
-        mContext=this;
+        mContext = this;
         root = (LinearLayout) findViewById(R.id.root);
         image = (ImageView) findViewById(R.id.image);
         menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
@@ -78,19 +79,32 @@ public class PictureActivity extends BaseActivity {
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
 
         fromNetwork.uploadFile(requestBody)
-                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(PictureActivity.this,true))
-                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                .compose(new RxActivityHelper<CommonReturnModel<PicturePath>>().ioMain(PictureActivity.this, true))
+                .subscribe(new RxSubscribe<CommonReturnModel<PicturePath>>(mContext, true) {
                     @Override
-                    protected void myNext(CommonReturnModel commonReturnModel) {
-
+                    protected void myNext(CommonReturnModel<PicturePath> commonReturnModel) {
                         Utils.showToast(mContext, commonReturnModel.message);
+                        returnBack(commonReturnModel.result.path);
                     }
+
 
                     @Override
                     protected void myError(String message) {
                         Utils.showToast(mContext, message);
                     }
                 });
+    }
+
+    /**
+     * 返回上一个页面
+     *
+     * @param path 上传成功之后返回的图片路径
+     */
+    private void returnBack(String path) {
+        Intent intent = new Intent();
+        intent.putExtra("result", path);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 
@@ -144,15 +158,15 @@ public class PictureActivity extends BaseActivity {
                     break;
                 case CUTTING:// 取得裁剪后的图片
                 {
-                    Bundle extras = data.getExtras();
-                    if (extras != null) {
-                        try {
-                            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageCropUri));
-                            getImageToView(bitmap);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+//                    Bundle extras = data.getExtras();
+//                    if (extras != null) {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageCropUri));
+                        getImageToView(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+//                    }
                 }
                 break;
             }
