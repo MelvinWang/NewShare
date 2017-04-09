@@ -119,7 +119,7 @@ public class ProductInfoActivity extends BaseActivity {
     private void getDataFromScan() {
         fromNetwork.scanOrderItem(scanCode, ShapreUtils.getCustomerId())
                 .compose(new RxActivityHelper<CommonReturnModel<ScanProduct>>().ioMain(ProductInfoActivity.this, true))
-                .subscribe(new RxModelSubscribe<CommonReturnModel<ScanProduct>>(mContext, true) {
+                .subscribe(new RxSubscribe<CommonReturnModel<ScanProduct>>(mContext, true) {
                     @Override
                     protected void myNext(final CommonReturnModel<ScanProduct> bean) {
                         productDetail = bean.result.product;

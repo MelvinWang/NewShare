@@ -29,15 +29,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="成都市，已签收."
-            android:textSize="@dimen/page_18" />
+            android:text="@{viewModel.remark}"
+            android:textSize="@dimen/page_18"
+            tools:text="成都市，已签收." />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="2016-08-07  15:20" />
+            android:text="@{viewModel.time}"
+            tools:text="2016-08-07  15:20" />
     </LinearLayout>
 
 </layout>

@@ -40,21 +40,25 @@
         </android.support.v7.widget.Toolbar>
 
         <TextView
+            android:id="@+id/order_number"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="运单号：8222222222" />
+            android:text=""
+            tools:text="运单号：8222222222" />
 
         <TextView
+            android:id="@+id/company"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@color/white"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="信息来源：百世汇通" />
+            android:text=""
+            tools:text="信息来源：百世汇通" />
 
         <com.melvin.share.view.MyRecyclerView
             android:id="@+id/recyclerView"

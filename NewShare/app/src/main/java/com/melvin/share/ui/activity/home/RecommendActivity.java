@@ -163,7 +163,7 @@ public class RecommendActivity extends BaseActivity implements MyRecyclerView.Lo
      */
     private void requesRecommentCategory() {
         Map categoryMap = new HashMap();
-        categoryMap.put("pageNo", "1");
+        categoryMap.put("pageNo", pageNo);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(categoryMap)));
         fromNetwork.findMainPageProduct(jsonObject)
@@ -214,13 +214,13 @@ public class RecommendActivity extends BaseActivity implements MyRecyclerView.Lo
     public void onRefresh() {
         pageNo = 1;
         data2.clear();
-        requestData();
+        requesRecommentCategory();
     }
 
     @Override
     public void onLoadMore() {
         pageNo++;
-        requestData();
+        requesRecommentCategory();
     }
 
 

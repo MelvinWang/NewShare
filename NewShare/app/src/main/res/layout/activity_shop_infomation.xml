@@ -32,7 +32,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="1dp"
                     android:layout_weight="6"
                     android:background="@drawable/edit_redline_background"
                     android:drawableLeft="@mipmap/search"

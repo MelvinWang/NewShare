@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.melvin.share.model.User;
 import com.melvin.share.model.serverReturn.ImgUrlBean;
+import com.melvin.share.network.GlobalUrl;
 
 /**
  * Created Time: 2016/7/23.
@@ -16,11 +17,11 @@ import com.melvin.share.model.serverReturn.ImgUrlBean;
  */
 public class ProductInfoimgItemViewModel extends BaseObservable {
 
-    private ImgUrlBean imgUrlBean;
+    private String url;
     private Context context;
 
-    public ProductInfoimgItemViewModel(Context context,ImgUrlBean imgUrlBean) {
-        this.imgUrlBean = imgUrlBean;
+    public ProductInfoimgItemViewModel(Context context, String url) {
+        this.url = url;
         this.context = context;
     }
 
@@ -29,12 +30,11 @@ public class ProductInfoimgItemViewModel extends BaseObservable {
     }
 
     public String getImgUrl() {
-
-        return imgUrlBean.url;
+        return GlobalUrl.SERVICE_URL + (this.url);
     }
 
-    public void setEntity(ImgUrlBean imgUrlBean) {
-        this.imgUrlBean = imgUrlBean;
+    public void setEntity(String url) {
+        this.url = url;
         notifyChange();
     }
 }

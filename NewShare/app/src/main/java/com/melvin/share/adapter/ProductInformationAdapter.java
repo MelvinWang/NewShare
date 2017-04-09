@@ -17,17 +17,17 @@ import java.util.List;
 
 
 /**
- * Created Time: 2016/7/25.
+ * Created Time: 2017/4/9.
  * <p>
  * Author:Melvin
  * <p>
- * 功能：单个商品详细信息Adapter
+ * 功能：单个商品详细信息底部图片Adapter
  */
 public class ProductInformationAdapter extends BaseAdapter<ProductInformationAdapter.BindingHolder> {
-    private List<BaseModel> list;
+    private List<String> list;
     private Context context;
 
-    public ProductInformationAdapter(Context context, List<BaseModel> list) {
+    public ProductInformationAdapter(Context context, List<String> list) {
         this.list = list;
         this.context = context;
     }
@@ -44,7 +44,7 @@ public class ProductInformationAdapter extends BaseAdapter<ProductInformationAda
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((ImgUrlBean) list.get(position));
+        holder.bindObject(list.get(position));
     }
 
     @Override
@@ -63,11 +63,11 @@ public class ProductInformationAdapter extends BaseAdapter<ProductInformationAda
             this.binding = binding;
         }
 
-        void bindObject(final ImgUrlBean imgUrlBean) {
+        void bindObject(final String url) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new ProductInfoimgItemViewModel(context, imgUrlBean));
+                binding.setViewModel(new ProductInfoimgItemViewModel(context, url));
             } else {
-                binding.getViewModel().setEntity(imgUrlBean);
+                binding.getViewModel().setEntity(url);
             }
         }
     }

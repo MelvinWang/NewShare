@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.melvin.share.model.LogisticsModel;
 import com.melvin.share.model.User;
 
 /**
@@ -15,11 +16,11 @@ import com.melvin.share.model.User;
  */
 public class LogisticsInfoItemViewModel extends BaseObservable {
 
-    private User user;
+    private LogisticsModel.LogistBean.ListBean bean;
     private Context context;
 
-    public LogisticsInfoItemViewModel(Context context, User user) {
-        this.user = user;
+    public LogisticsInfoItemViewModel(Context context, LogisticsModel.LogistBean.ListBean bean) {
+        this.bean = bean;
         this.context = context;
     }
 
@@ -27,12 +28,17 @@ public class LogisticsInfoItemViewModel extends BaseObservable {
 
     }
 
-    public String getImgUrl() {
-        return "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+    public String getRemark() {
+        return bean.remark;
     }
 
-    public void setEntity(User user) {
-        this.user = user;
+    public String getTime() {
+        return bean.datetime;
+    }
+
+
+    public void setEntity(LogisticsModel.LogistBean.ListBean bean) {
+        this.bean = bean;
         notifyChange();
     }
 }

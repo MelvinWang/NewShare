@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:src="@mipmap/fanhui" />
+                android:src="@mipmap/cicrle_back" />
 
             <RelativeLayout
                 android:id="@+id/search_enter"

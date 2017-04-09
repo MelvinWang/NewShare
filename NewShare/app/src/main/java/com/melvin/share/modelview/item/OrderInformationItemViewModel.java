@@ -10,10 +10,12 @@ import com.melvin.share.Utils.Utils;
 import com.melvin.share.dialog.ConfirmReceiveDialog;
 import com.melvin.share.dialog.OrderCancelDialog;
 import com.melvin.share.dialog.UrgeBillDialog;
+import com.melvin.share.model.AllOrderBusFlag;
 import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
+import com.melvin.share.rx.RxOrderBus;
 import com.melvin.share.ui.activity.OderEvaluateActivity;
 import com.melvin.share.ui.activity.order.RefundActivity;
 import com.melvin.share.ui.activity.selfcenter.LogisticsInfoActivity;
@@ -99,9 +101,12 @@ public class OrderInformationItemViewModel extends BaseObservable {
         context.startActivity(new Intent(context, RefundActivity.class));
     }
 
-    //查看物流，暂时不用
+    //查看物流
     public void onLookLogisticsClick(View view) {
-        context.startActivity(new Intent(context, LogisticsInfoActivity.class));
+        Intent intent = new Intent(context, LogisticsInfoActivity.class);
+        intent.putExtra("orderItemId", bean.id);
+        context.startActivity(intent);
+
     }
 
 
@@ -120,12 +125,16 @@ public class OrderInformationItemViewModel extends BaseObservable {
         dialog.setOnClickListener(new ConfirmReceiveDialog.OnCliclListener() {
             @Override
             public void confirm() {
-                Utils.showToast(context, "待接确认收货接口");
+                AllOrderBusFlag allOrderBusFlg=new AllOrderBusFlag();
+                allOrderBusFlg.id=bean.id;
+                allOrderBusFlg.flagId=1;
+                RxOrderBus.get().post(allOrderBusFlg);
+
             }
 
             @Override
             public void cancel() {
-                Utils.showToast(context, "cancel");
+
 
             }
         });

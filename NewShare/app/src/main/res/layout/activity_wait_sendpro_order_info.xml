@@ -57,6 +57,7 @@
                     android:padding="8dp">
 
                     <ImageView
+                        android:id="@+id/status_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/wait_pay" />
@@ -285,6 +286,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/btn_rectangle_withradus999"
                     android:onClick="onRefundClick"
+                    android:visibility="gone"
                     android:text="申请退款"
                     android:textColor="@color/color_999"
                     android:textSize="15sp" />
@@ -301,6 +303,7 @@
                     android:background="@drawable/btn_rectangle_withradus"
                     android:onClick="onReminderClick"
                     android:text="催单"
+                    android:visibility="gone"
                     android:textColor="@color/app_common_red"
                     android:textSize="15sp" />
 
@@ -312,6 +315,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
+                    android:visibility="gone"
                     android:background="@drawable/btn_rectangle_withradus"
                     android:onClick="onConfirmReceiveClick"
                     android:text="确认收货"

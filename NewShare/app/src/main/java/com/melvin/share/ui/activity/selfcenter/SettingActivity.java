@@ -29,6 +29,7 @@ import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.AmendPasswordActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.CityTransparentActivity;
+import com.melvin.share.ui.activity.common.LoginActivity;
 import com.melvin.share.ui.activity.common.PictureActivity;
 import com.melvin.share.view.SelectTimeopupWindow;
 
@@ -202,6 +203,8 @@ public class SettingActivity extends BaseActivity {
         ShapreUtils.setCustomerId(null);
         ShapreUtils.setUserName(null);
         ShapreUtils.setPicture(null);
+        startActivity(new Intent(mContext, LoginActivity.class));
+        killAll();
     }
 
     @Override

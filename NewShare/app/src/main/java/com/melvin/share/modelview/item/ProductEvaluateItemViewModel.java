@@ -37,7 +37,7 @@ public class ProductEvaluateItemViewModel extends BaseObservable {
         return  bean.content;
     }
     public String getProductName() {
-        return  bean.picture;
+        return  bean.productName;
     }
     public String getTime() {
         return DateUtil.getDateString(bean.evaluateDate);

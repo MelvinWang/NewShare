@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.melvin.share.model.Category;
 import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.Evaluation;
+import com.melvin.share.model.LogisticsModel;
 import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.PicturePath;
 import com.melvin.share.model.Product;
@@ -146,13 +147,13 @@ public class NetworkUtil {
         //扫描店铺二维码
         @GET("/app/scanCode/scanUser")
         Observable<CommonReturnModel<ShopBean>> scanUser(@Query("shareId") String shareId,
-                                                            @Query("code") String code,
-                                                            @Query("customerId") String customerId);
+                                                         @Query("code") String code,
+                                                         @Query("customerId") String customerId);
 
         //附近实体店查询接口,参数:longitude为经度,latitude为纬度
         @GET("/app/customer/findStore")
         Observable<ArrayList<OnlineStore>> findStore(@Query("latitude") String latitude,
-                                                      @Query("longitude") String longitude);
+                                                     @Query("longitude") String longitude);
 
 
         //按商家查询商品接口
@@ -191,6 +192,7 @@ public class NetworkUtil {
         //首页推荐商品 按分享热度查询商品接口
         @POST("/app/product/findHotProduct")
         Observable<CommonList<HomeHotProduct>> findHotProduct(@Body JsonObject json);
+
         //历史浏览记录接口
         @POST("/app/product/findHistoryProduct")
         Observable<CommonList<HomeHotProduct>> findHistoryProduct(@Body JsonObject json);
@@ -231,6 +233,7 @@ public class NetworkUtil {
         //评价订单明细商品
         @POST("/app/evaluation/insertOderItemEvaluation")
         Observable<CommonReturnModel> insertOderItemEvaluation(@Body JsonObject json);
+
         /**
          * 消息操作接口
          */
@@ -282,6 +285,17 @@ public class NetworkUtil {
         @POST("/app/order/updateOrderStatus")
         Observable<WaitPayOrderInfo.OrderBean> updateOrderStatus(@Body JsonObject json);
 
+        //订单确认收货
+        @POST("/app/order/makeSureOrderReceived")
+        Observable<CommonReturnModel> makeSureOrderReceived(@Body JsonObject json);
+
+        //订单明细确认收货
+        @POST("/app/order/makeSureOrderItemReceived")
+        Observable<CommonReturnModel> makeSureOrderItemReceived(@Body JsonObject json);
+
+        //通过订单详情物流查询接口
+        @GET("/common/logist/findLogistByOrderItemId")
+        Observable<CommonReturnModel<LogisticsModel>> findLogistByOrderItemId(@Query("orderItemId") String id);
 
         /**
          * 返利
@@ -297,11 +311,10 @@ public class NetworkUtil {
         //POST  商品二维码列表
         @POST("/app/scanCode/findProductScanCode")
         Observable<CommonList<Product>> findProductScanCode(@Body JsonObject json);
+
         //POST  店铺二维码列表
         @POST("/app/scanCode/findUserScanCode")
         Observable<CommonList<ShopBean>> findUserScanCode(@Body JsonObject json);
-
-
 
 
         //  申请成为体验馆
@@ -311,7 +324,6 @@ public class NetworkUtil {
         //  申请成为店铺接口
         @POST("/app/user/applyUser")
         Observable<CommonReturnModel> applyUser(@Body JsonObject json);
-
 
 
         //首页推荐

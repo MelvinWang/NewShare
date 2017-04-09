@@ -9,6 +9,7 @@ import com.melvin.share.Utils.StatusBarUtils;
 import com.melvin.share.network.NetworkUtil;
 import com.melvin.share.rx.RxActivity;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,6 +101,20 @@ public abstract class BaseActivity extends RxActivity {
             activity.finish();
         }
         // 杀死当前的进程
+//        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public void killApp() {
+        // 复制了一份mActivities 集合
+        List<BaseActivity> copy;
+        synchronized (mActivities) {
+            copy = new LinkedList<BaseActivity>(mActivities);
+        }
+        Collections.reverse(copy);
+        for (BaseActivity activity : copy) {
+            activity.finish();
+        }
+//         杀死当前的进程
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 

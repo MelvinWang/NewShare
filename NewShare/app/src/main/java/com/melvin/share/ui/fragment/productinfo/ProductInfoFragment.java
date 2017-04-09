@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.allure.lbanners.LMBanners;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ViewUtils;
 import com.melvin.share.adapter.ProductDetailAdapter;
 import com.melvin.share.adapter.ProductInformationAdapter;
@@ -25,7 +26,10 @@ import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.view.ScrollRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.melvin.share.R.id.recyclerView;
 
 /**
  * Author: Melvin
@@ -42,7 +46,7 @@ public class ProductInfoFragment extends BaseFragment {
     private RecyclerView mDetailRecyclerView;
     private ProductInformationAdapter productInformationAdapter;
     private ProductDetailAdapter productDetailAdapter;
-    private List<BaseModel> data = new ArrayList<>();
+    private List<String> data = new ArrayList<>();
     private List<BaseModel> datadetail = new ArrayList<>();
     private List<ImgUrlBean> ImgUrlBeanList = new ArrayList<>();
     //网络图片
@@ -84,6 +88,8 @@ public class ProductInfoFragment extends BaseFragment {
     private void initAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         productInformationAdapter = new ProductInformationAdapter(mContext, data);
         mRecyclerView.setAdapter(productInformationAdapter);
@@ -125,8 +131,18 @@ public class ProductInfoFragment extends BaseFragment {
 
 
         //底部图片
-        data.addAll(ImgUrlBeanList);
-        productInformationAdapter.notifyDataSetChanged();
+        if (!TextUtils.isEmpty(productDetailBean.otherPicture)){
+            String[] split = productDetailBean.otherPicture.split("\\|");
+            List<String> splitList = new ArrayList<String>();
+            Collections.addAll(splitList, split);
+            for (String s:splitList) {
+                LogUtils.i("底部图片URL"+s);
+            }
+
+            data.addAll(splitList);
+            productInformationAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override

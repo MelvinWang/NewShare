@@ -45,7 +45,7 @@ public class ZbarCaptureActivity extends BaseActivity {
 
     private FrameLayout scanPreview;
     private RelativeLayout scanContainer;
-    private LinearLayout scanCropView;
+    private RelativeLayout scanCropView;
     private ImageView scanLine;
 
     private Rect mCropRect = null;
@@ -66,7 +66,7 @@ public class ZbarCaptureActivity extends BaseActivity {
     private void findViewById() {
         scanPreview = (FrameLayout) findViewById(R.id.capture_preview);
         scanContainer = (RelativeLayout) findViewById(R.id.capture_container);
-        scanCropView = (LinearLayout) findViewById(R.id.capture_crop_view);
+        scanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
         scanLine = (ImageView) findViewById(R.id.capture_scan_line);
     }
 

@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.melvin.share.adapter.LogisticsInfoAdapter;
 import com.melvin.share.adapter.ManageAddressAdapter;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.LogisticsModel;
 import com.melvin.share.model.User;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
 import com.melvin.share.view.MyRecyclerView;
@@ -18,7 +19,7 @@ import java.util.Map;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/7
+ * Data： 2017/4/9
  * <p>
  * 描述： 查看物流页面ViewModel
  */
@@ -37,16 +38,8 @@ public class LogisticsInfoViewModel extends BaseRecyclerViewModel<BaseModel> imp
 
     }
 
-    public void requestData() {
-        List list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            User user = new User();
-            user.password = i+"";
-            user.username = i+"";
-            list.add(user);
-        }
+    public void requestData(ArrayList<LogisticsModel.LogistBean.ListBean> list) {
         data.addAll(list);
-
         onRequestSuccess(data);
     }
 

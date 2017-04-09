@@ -14,7 +14,9 @@ import com.melvin.share.adapter.SingleOrderAdapter;
 import com.melvin.share.dialog.ConfirmReceiveDialog;
 import com.melvin.share.dialog.OrderCancelDialog;
 import com.melvin.share.dialog.UrgeBillDialog;
+import com.melvin.share.model.AllOrderBusFlag;
 import com.melvin.share.model.WaitPayOrderInfo;
+import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.ui.activity.OderEvaluateActivity;
 import com.melvin.share.ui.activity.order.WaitEvaluateOrderInformationActivity;
 import com.melvin.share.ui.activity.order.WaitPayOrderActivity;
@@ -196,12 +198,14 @@ public class AllOrderItemViewModel extends BaseObservable {
         dialog.setOnClickListener(new ConfirmReceiveDialog.OnCliclListener() {
             @Override
             public void confirm() {
-                Utils.showToast(context, "待接确认收货接口");
+                AllOrderBusFlag allOrderBusFlg=new AllOrderBusFlag();
+                allOrderBusFlg.id=bean.id;
+                allOrderBusFlg.flagId=1;
+                RxCommonBus.get().post(allOrderBusFlg);
             }
 
             @Override
             public void cancel() {
-                Utils.showToast(context, "cancel");
 
             }
         });

@@ -21,6 +21,7 @@
     <dimen name="page_14">14sp</dimen>
     <dimen name="page_12">12sp</dimen>
     <dimen name="page_10">10sp</dimen>
+    <dimen name="page_small">8sp</dimen>
     <!--dialog-->
     <dimen name="dialog_w">250dp</dimen>
     <dimen name="dialog_h">130dp</dimen>

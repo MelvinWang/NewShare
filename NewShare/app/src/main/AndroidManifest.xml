@@ -67,7 +67,7 @@
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService"></service>
         <activity
-            android:name=".ui.activity.common.MainActivity"
+            android:name=".ui.activity.common.SplashActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
@@ -80,8 +80,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="58e353375312dd9fd100204e" >
-        </meta-data>
+            android:value="58e353375312dd9fd100204e"></meta-data>
 
 
         <!--微信：  -->
@@ -97,28 +96,33 @@
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1106081788" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".ui.activity.common.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <!-- 注册登录，修改手机号码 -->
         <activity
             android:name=".ui.activity.common.LoginActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".ui.activity.common.RegisterFirstActivity"

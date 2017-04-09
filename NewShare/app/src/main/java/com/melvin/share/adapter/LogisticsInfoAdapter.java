@@ -10,6 +10,7 @@ import com.melvin.share.R;
 import com.melvin.share.databinding.LogisticsInfoItemBinding;
 import com.melvin.share.databinding.ReceiveAddressItemBinding;
 import com.melvin.share.model.BaseModel;
+import com.melvin.share.model.LogisticsModel;
 import com.melvin.share.model.User;
 import com.melvin.share.modelview.item.LogisticsInfoItemViewModel;
 import com.melvin.share.modelview.item.ManageAddressItemViewModel;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/7
+ * Data： 2017/4/9
  * <p>
  * 描述： 查看物流页面Adapter
  */
@@ -44,7 +45,7 @@ public class LogisticsInfoAdapter extends BaseAdapter<LogisticsInfoAdapter.Bindi
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        holder.bindObject((User) list.get(position));
+        holder.bindObject((LogisticsModel.LogistBean.ListBean) list.get(position));
     }
 
     @Override
@@ -64,11 +65,11 @@ public class LogisticsInfoAdapter extends BaseAdapter<LogisticsInfoAdapter.Bindi
             this.binding = binding;
         }
 
-        void bindObject(final User user) {
+        void bindObject(final LogisticsModel.LogistBean.ListBean bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new LogisticsInfoItemViewModel(context, user));
+                binding.setViewModel(new LogisticsInfoItemViewModel(context, bean));
             } else {
-                binding.getViewModel().setEntity(user);
+                binding.getViewModel().setEntity(bean);
             }
         }
     }

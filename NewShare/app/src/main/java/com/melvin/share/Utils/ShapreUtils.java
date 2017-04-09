@@ -35,8 +35,8 @@ public class ShapreUtils {
 
     //获取ID
     public static String getCustomerId() {
-//        String customerId = BaseApplication.mPre.getString("customerId", null);
-        String customerId = "1";
+        String customerId = BaseApplication.mPre.getString("customerId", null);
+//        String customerId = "1";
 
         return customerId;
     }
