@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.TabLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -48,6 +49,29 @@ public class LoginActivity extends BaseActivity {
         binding.viewpager.setAdapter(viewPagerAdapter);//设置适配器
         TabLayout mTabLayout = binding.tablayout;
         mTabLayout.setupWithViewPager(binding.viewpager);
+    }
+
+
+
+    /**
+     * 返回键先关闭侧滑菜单
+     */
+    @Override
+    public void onBackPressed() {
+        killApp();
+    }
+
+    /**
+     * toolbar上菜单的选择事件
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                killApp();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

@@ -113,7 +113,7 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
      */
     private void requestProduct() {
         map.put("pageNo", pageNo);
-        map.put("used ", false);
+        map.put("used", false);
         ShapreUtils.putParamCustomerId(map);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));

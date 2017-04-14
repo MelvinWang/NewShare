@@ -12,6 +12,8 @@ import com.melvin.share.rx.RxBus;
 import com.melvin.share.model.User;
 import com.melvin.share.ui.activity.ShopInformationActivity;
 
+import static com.melvin.share.ui.activity.ProductInfoActivity.productDetail;
+
 /**
  * Created Time: 2017/4/5.
  * <p>
@@ -30,7 +32,10 @@ public class ShopCodeItemViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-        context.startActivity(new Intent(context, ShopInformationActivity.class));
+        Intent intent = new Intent(context, ShopInformationActivity.class);
+        intent.putExtra("userId", bean.id);
+        context.startActivity(intent);
+
     }
     public void onclickShare(View view) {
         bean.scanFlag=false;

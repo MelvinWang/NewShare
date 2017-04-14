@@ -43,7 +43,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="@{viewModel.name}"
-                android:textColor="@color/app_common_red"
+
                 android:textSize="@dimen/page_10"
                 tools:text="商品名称" />
 

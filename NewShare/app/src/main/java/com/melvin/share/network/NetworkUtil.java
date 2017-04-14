@@ -165,6 +165,10 @@ public class NetworkUtil {
         @POST("/app/user/collectUserOrDeleteUser")
         Observable<CommonReturnModel> collectUserOrDeleteUser(@FieldMap Map<Object, Object> map);
 
+        //批量删除收藏商品
+        @DELETE("/app/product/deleteCollectByIds")
+        Observable<CommonReturnModel> deleteCollectByIds(@Query("collectIds") String[] collectIds);
+
         //批量删除收藏店铺
         @DELETE("/app/user/deleteCollectUserByIds")
         Observable<CommonReturnModel> deleteCollectUserByIds(@Query("collectionUserIds") String[] collectionUserIds);

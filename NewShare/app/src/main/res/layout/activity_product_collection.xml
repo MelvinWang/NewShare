@@ -100,7 +100,7 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/btn_rectangle_background"
-            android:onClick="delete"
+            android:onClick="@{viewModel.delete}"
             android:text="删   除"
             android:textColor="@color/white"
             android:visibility="gone" />

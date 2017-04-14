@@ -14,10 +14,12 @@ import com.melvin.share.adapter.ProductCollectionAdapter;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.list.CommonList;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
+import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.selfcenter.ProductCollectionActivity;
 import com.melvin.share.ui.activity.selfcenter.ShopCollectionActivity;
 import com.melvin.share.view.MyRecyclerView;
@@ -159,6 +161,37 @@ public class ProductCollectionViewModel extends BaseRecyclerViewModel<BaseModel>
      */
     public void delete(View v) {
 
+        final List<Product> beans = new ArrayList<>();//选中的商品
+        List<String> ids = new ArrayList<>();//选中的商品的ID
+        for (Product bean : listData) {
+            if (bean.isChecked) {
+                beans.add(bean);
+            }
+        }
+        if (beans.size() == 0) {
+            Utils.showToast(context, "至少选择一个");
+        } else {
+            for (Product bean : beans) {
+                ids.add(bean.collectId);
+            }
+
+            String[] arr = ids.toArray(new String[ids.size()]);
+            fromNetwork.deleteCollectByIds(arr)
+                    .compose(new RxActivityHelper<CommonReturnModel>().ioMain((ProductCollectionActivity) context, true))
+                    .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
+                        @Override
+                        protected void myNext(CommonReturnModel commonReturnModel) {
+                            data.removeAll(beans);
+                            onRequestSuccess(data);
+                            Utils.showToast(context, commonReturnModel.message);
+                        }
+
+                        @Override
+                        protected void myError(String message) {
+                            Utils.showToast(context, message);
+                        }
+                    });
+        }
     }
 
 }

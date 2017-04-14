@@ -31,7 +31,9 @@ public class OrderCodeItemViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-        context.startActivity(new Intent(context, ProductInfoActivity.class));
+        Intent intent = new Intent(context, ProductInfoActivity.class);
+        intent.putExtra("productId", bean.id);
+        context.startActivity(intent);
     }
 
     public void onImageClick(View view) {

@@ -204,7 +204,7 @@ public class SettingActivity extends BaseActivity {
         ShapreUtils.setUserName(null);
         ShapreUtils.setPicture(null);
         startActivity(new Intent(mContext, LoginActivity.class));
-        killAll();
+
     }
 
     @Override

@@ -37,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:text="@{viewModel.name}"
-                android:textColor="@color/app_common_red"
+
                 android:textSize="@dimen/page_small"
                 tools:text="商品名称" />
 
