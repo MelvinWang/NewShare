@@ -61,9 +61,8 @@ public class NetworkUtil {
          * 个人信息
          */
         //会员注册验证接口
-        @GET("/app/customer/findCutomerExitByPhoneOrUserName")
-        Observable<CommonReturnModel> checkCustomer(@Query("phone") String phone,
-                                                    @Query("userName") String userName);
+        @POST("/app/customer/findCutomerExitByPhoneOrUserName")
+        Observable<CommonReturnModel> checkCustomer(@Body JsonObject json);
 
         //短信验证码发送接口
         @FormUrlEncoded
@@ -109,7 +108,7 @@ public class NetworkUtil {
         @GET("/app/address/findAddressByCustomerId")
         Observable<ArrayList<AddressBean>> findAddressByCustomerId(@Query("customerId") String customerId);
 
-        //查看用户的收货地址
+        //查看用户的默认收货地址
         @GET("/app/address/findDefaultAddressByCustomerId")
         Observable<AddressBean> findDefaultAddressByCustomerId(@Query("customerId") String customerId);
 
@@ -147,8 +146,8 @@ public class NetworkUtil {
         //扫描店铺二维码
         @GET("/app/scanCode/scanUser")
         Observable<CommonReturnModel<ShopBean>> scanUser(@Query("shareId") String shareId,
-                                                         @Query("code") String code,
-                                                         @Query("customerId") String customerId);
+                                                         @Query("customerId") String customerId,
+                                                         @Query("code") String code);
 
         //附近实体店查询接口,参数:longitude为经度,latitude为纬度
         @GET("/app/customer/findStore")

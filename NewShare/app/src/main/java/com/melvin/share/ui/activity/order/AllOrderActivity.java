@@ -4,6 +4,7 @@ package com.melvin.share.ui.activity.order;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
+import com.melvin.share.ui.fragment.order.AllOrderFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class AllOrderActivity extends BaseActivity {
     private Context mContext;
     public TabLayout mTabLayout;
     private ViewPager viewpager;
+    private AllOrderAdapter viewPagerAdapter;
 
     @Override
     protected void initView() {
@@ -58,7 +61,7 @@ public class AllOrderActivity extends BaseActivity {
      * 初始化标题,绑定
      */
     protected void initData() {
-        AllOrderAdapter viewPagerAdapter = new AllOrderAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new AllOrderAdapter(getSupportFragmentManager());
         viewpager = binding.viewpager;
         viewpager.setAdapter(viewPagerAdapter);//设置适配器
         mTabLayout = binding.tablayout;
@@ -85,6 +88,8 @@ public class AllOrderActivity extends BaseActivity {
                     .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
                         @Override
                         protected void myNext(CommonReturnModel bean) {
+                            AllOrderFragment allOrderFragment = (AllOrderFragment)viewPagerAdapter.getItem(0);
+                            allOrderFragment.onRefresh();
                             Utils.showToast(mContext, bean.message);
                         }
 

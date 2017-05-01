@@ -1,4 +1,4 @@
-package com.melvin.share.ui.activity.share;
+package com.melvin.share.wxapi;
 
 
 //import com.umeng.weixin.callback.WXCallbackActivity;

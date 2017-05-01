@@ -22,7 +22,7 @@ import com.umeng.socialize.UMShareAPI;
 public class BaseApplication extends Application {
     {
 //        Config.DEBUG = true;
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setWeixin("wx472378ccc79bb5c5", "61aa6eae42a5a166f78e8fa3f4456de8");
 //        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setQQZone("1106081788", "50VFVIoculvhthJz");
     }

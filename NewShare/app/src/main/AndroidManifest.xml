@@ -85,7 +85,7 @@
 
         <!--微信：  -->
         <activity
-            android:name="com.melvin.share.ui.activity.share.WXEntryActivity"
+            android:name="com.melvin.share.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"

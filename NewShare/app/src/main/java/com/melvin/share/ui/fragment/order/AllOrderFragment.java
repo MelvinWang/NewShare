@@ -25,7 +25,7 @@ import java.util.Map;
  * <p>
  * 描述：全部订单
  */
-public class AllOrderFragment extends BaseFragment implements MyRecyclerView.LoadingListener  {
+public class AllOrderFragment extends BaseFragment implements MyRecyclerView.LoadingListener {
 
     private FragmentAllOrderBinding binding;
     private Context mContext;
@@ -34,6 +34,7 @@ public class AllOrderFragment extends BaseFragment implements MyRecyclerView.Loa
     private AllOrderViewModel allOrderViewModel;
     private Map map;
     private int pageNo = 1;
+
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_order, container, false);
@@ -48,16 +49,22 @@ public class AllOrderFragment extends BaseFragment implements MyRecyclerView.Loa
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
+
     /**
      * 请求数据
      */
     private void initData() {
-        map=new HashMap();
+        map = new HashMap();
         map.put("pageNo", pageNo);
         mRecyclerView = binding.recyclerView;
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.BallRotate);
         mRecyclerView.setLoadingListener(this);
-        allOrderViewModel= new AllOrderViewModel(mContext, AllOrderFragment.this,mRecyclerView);
+        allOrderViewModel = new AllOrderViewModel(mContext, AllOrderFragment.this, mRecyclerView);
         binding.setViewModel(allOrderViewModel);
 //        map.put("orderStatus",null);
         allOrderViewModel.requestData(map);

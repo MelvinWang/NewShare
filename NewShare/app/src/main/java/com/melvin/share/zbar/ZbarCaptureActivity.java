@@ -153,7 +153,7 @@ public class ZbarCaptureActivity extends BaseActivity {
         if (split.length==2){
             Intent intent = new Intent(this, ShopInformationActivity.class);
             intent.putExtra("scan", true);
-            intent.putExtra("code ", split[0]);
+            intent.putExtra("code", split[0]);
             intent.putExtra("shareId", split[1]);
             startActivity(intent);
         }else{

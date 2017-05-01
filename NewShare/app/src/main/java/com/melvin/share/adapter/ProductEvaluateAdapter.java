@@ -65,9 +65,9 @@ public class ProductEvaluateAdapter extends BaseAdapter<ProductEvaluateAdapter.B
 
         void bindObject(final Evaluation bean) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new ProductEvaluateItemViewModel(context, bean));
+                binding.setViewModel(new ProductEvaluateItemViewModel(context, bean,binding.ratingbar));
             } else {
-                binding.getViewModel().setEntity(bean);
+                binding.getViewModel().setEntity(bean,binding.ratingbar);
             }
         }
     }

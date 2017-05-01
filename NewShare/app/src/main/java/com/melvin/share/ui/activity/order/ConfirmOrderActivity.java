@@ -24,6 +24,7 @@ import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.LoginActivity;
 import com.melvin.share.ui.activity.selfcenter.ManageAddressActivity;
+import com.melvin.share.ui.activity.shopcar.ShoppingCarActivity;
 import com.melvin.share.view.MyRecyclerView;
 
 import java.math.BigDecimal;
@@ -53,6 +54,8 @@ public class ConfirmOrderActivity extends BaseActivity {
     private String totalNum = "";
     private String cartIds = "";
     private boolean fromCat;//true代表购物车进入
+
+
 
     @Override
     protected void initView() {
@@ -138,8 +141,7 @@ public class ConfirmOrderActivity extends BaseActivity {
 
                     @Override
                     protected void myError(String message) {
-
-                        Utils.showToast(mContext, message);
+                        Utils.showToast(mContext, "请检查是否有新默认地址...");
                     }
                 });
     }
@@ -163,6 +165,10 @@ public class ConfirmOrderActivity extends BaseActivity {
         intent.putExtra("fromCat", fromCat);
         intent.putExtra("totalNum", totalNum);
         startActivity(intent);
+        if (fromCat) {
+            ShoppingCarActivity.updateFlag = true;
+            finish();
+        }
     }
 
     /**

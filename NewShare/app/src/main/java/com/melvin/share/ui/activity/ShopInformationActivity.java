@@ -134,6 +134,9 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
      * 获取头信息 扫描
      */
     private void getScanShopTitel() {
+        LogUtils.i("shareId"+shareId);
+        LogUtils.i("ShapreUtils.getCustomerId()"+ShapreUtils.getCustomerId());
+        LogUtils.i("code"+code);
         fromNetwork.scanUser(shareId, ShapreUtils.getCustomerId(), code)
                 .compose(new RxActivityHelper<CommonReturnModel<ShopBean>>().ioMain(ShopInformationActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<ShopBean>>(mContext, true) {

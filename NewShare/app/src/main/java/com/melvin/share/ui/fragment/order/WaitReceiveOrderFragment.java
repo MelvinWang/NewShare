@@ -46,7 +46,11 @@ public class WaitReceiveOrderFragment extends BaseFragment implements MyRecycler
         return root;
 
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
     /**
      * 请求数据
      */

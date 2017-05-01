@@ -1,8 +1,6 @@
 package com.melvin.share.modelview.frag;
 
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -10,32 +8,19 @@ import com.google.gson.JsonParser;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.AllOrderFragAdapter;
-import com.melvin.share.adapter.WaitEvaluateAdapter;
 import com.melvin.share.model.BaseModel;
-import com.melvin.share.model.User;
 import com.melvin.share.model.WaitPayOrderInfo;
 import com.melvin.share.model.list.CommonList;
-import com.melvin.share.model.list.HomeHotProduct;
-import com.melvin.share.model.serverReturn.CommonReturnModel;
-import com.melvin.share.model.serverReturn.SelfInformation;
 import com.melvin.share.modelview.BaseRecyclerViewModel;
 import com.melvin.share.rx.RxFragmentHelper;
 import com.melvin.share.rx.RxModelSubscribe;
-import com.melvin.share.rx.RxSubscribe;
-import com.melvin.share.ui.activity.common.MainActivity;
-import com.melvin.share.ui.fragment.login.NormalLoginFragment;
 import com.melvin.share.ui.fragment.main.BaseFragment;
-import com.melvin.share.ui.fragment.main.HomeFragment;
-import com.melvin.share.ui.fragment.order.AllOrderFragment;
 import com.melvin.share.view.MyRecyclerView;
 import com.melvin.share.view.RequestView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.melvin.share.R.id.recyclerView;
 
 /**
  * Author: Melvin

@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity {
         } else if (4 == qrcodeShareModel.flagCode) {
             try {
                 Bitmap qrCodeBitmap = Utils.getBitmap(qrcodeShareModel.code);
-                UMImage uMImage = new UMImage(mContext, qrCodeBitmap);
+                UMImage uMImage = new UMImage(this, qrCodeBitmap);
                 UMImage thumb = new UMImage(this, R.drawable.thumb);
                 uMImage.setThumb(thumb);
                 new ShareAction(MainActivity.this).setPlatform(SHARE_MEDIA.QZONE)
@@ -107,12 +107,34 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-        } else if (2 == qrcodeShareModel.flagCode) {
-            UMImage uMImage = new UMImage(mContext, R.drawable.datu);
-            new ShareAction(MainActivity.this).setPlatform(SHARE_MEDIA.QQ)
-                    .withMedia(uMImage)
-                    .setCallback(umShareListener)
-                    .share();
+        } else if (1== qrcodeShareModel.flagCode) {
+            try {
+                Bitmap qrCodeBitmap = Utils.getBitmap(qrcodeShareModel.code);
+                UMImage uMImage = new UMImage(this, qrCodeBitmap);
+                UMImage thumb = new UMImage(this, R.drawable.thumb);
+                uMImage.setThumb(thumb);
+                new ShareAction(this).setPlatform(SHARE_MEDIA.WEIXIN)
+                        .withMedia(uMImage)
+                        .setCallback(umShareListener)
+                        .share();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }else if (2 == qrcodeShareModel.flagCode) {
+            try {
+                Bitmap qrCodeBitmap = Utils.getBitmap(qrcodeShareModel.code);
+                UMImage uMImage = new UMImage(this, qrCodeBitmap);
+                UMImage thumb = new UMImage(this, R.drawable.thumb);
+                uMImage.setThumb(thumb);
+                new ShareAction(MainActivity.this).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .withMedia(uMImage)
+                        .setCallback(umShareListener)
+                        .share();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -126,13 +148,13 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onResult(SHARE_MEDIA platform) {
             Log.e("plat", "platform" + platform);
-            Utils.showToast(mContext, platform + " 分享成功");
+            Utils.showToast(MainActivity.this, platform + " 分享成功");
 
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Utils.showToast(mContext, platform + " 分享失败");
+            Utils.showToast(MainActivity.this, platform + " 分享失败");
             if (t != null) {
                 Log.e("throw", "throw:" + t.getMessage());
             }
@@ -140,7 +162,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Utils.showToast(mContext, platform + " 分享取消");
+            Utils.showToast(MainActivity.this, platform + " 分享取消");
         }
     };
 

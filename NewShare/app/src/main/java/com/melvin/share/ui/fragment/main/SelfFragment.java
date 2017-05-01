@@ -72,7 +72,6 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
             initData();
             initAdapter();
             root = binding.getRoot();
-            requestData();
         } else {
             ViewUtils.removeParent(root);
         }
@@ -82,6 +81,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        requestData();
         String userName = ShapreUtils.getUserName();
         String picture = ShapreUtils.getPicture();
         if (!TextUtils.isEmpty(userName)) {
@@ -97,6 +97,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                     load(R.mipmap.self_center_avatar).
                     into(binding.selfCenterAvatar);
         }
+
     }
 
     /**
@@ -212,7 +213,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 请求网络，分享热度商品
+     * 历史浏览记录接口
      */
     private void requestData() {
         ShapreUtils.putParamCustomerId(map);

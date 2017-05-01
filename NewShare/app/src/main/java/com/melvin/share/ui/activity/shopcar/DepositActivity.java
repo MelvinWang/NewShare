@@ -10,7 +10,7 @@ import com.melvin.share.ui.activity.common.BaseActivity;
 /**
  * Author: Melvin
  * <p>
- * Data： 2016/8/10
+ * Data： 2017/4/30
  * <p>
  * 描述： 提现
  */

@@ -2,6 +2,10 @@ package com.melvin.share.modelview.common;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.modelview.BaseCommonViewModel;
@@ -11,6 +15,8 @@ import com.melvin.share.rx.RxSubscribe;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.melvin.share.R.id.map;
 
 /**
  * Author: Melvin
@@ -27,7 +33,13 @@ public class RegisterFirstViewModel extends BaseCommonViewModel {
     }
 
     public void requestData(String userName, final String phone) {
-        fromNetwork.checkCustomer(userName, phone)
+        Map map=new HashMap<>();
+        map.put("userName",userName);
+        map.put("phone",phone);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        LogUtils.i(jsonObject.toString());
+        fromNetwork.checkCustomer(jsonObject)
                 .compose(new RxActivityHelper<CommonReturnModel>().ioMain((RegisterFirstActivity)context,true))
                 .subscribe(new RxSubscribe<CommonReturnModel>(context, true) {
                     @Override

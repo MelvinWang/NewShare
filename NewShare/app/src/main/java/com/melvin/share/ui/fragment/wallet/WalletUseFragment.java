@@ -28,6 +28,7 @@ import com.melvin.share.model.list.HomeHotProduct;
 import com.melvin.share.rx.RxFragmentHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
+import com.melvin.share.ui.activity.home.RecommendActivity;
 import com.melvin.share.ui.activity.shopcar.DepositActivity;
 import com.melvin.share.ui.fragment.main.BaseFragment;
 import com.melvin.share.ui.fragment.main.HomeFragment;
@@ -95,6 +96,12 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
         headerView = layoutInflater.inflate(R.layout.wallet_use_title, null, false);
         sumMoneyView = (TextView) headerView.findViewById(R.id.sum_money);
         immediatelyUseButton = (Button) headerView.findViewById(R.id.immediately_use);
+        immediatelyUseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, RecommendActivity.class));
+            }
+        });
         depositButton = (Button) headerView.findViewById(R.id.deposit);
         depositButton.setOnClickListener(new View.OnClickListener() {
             @Override

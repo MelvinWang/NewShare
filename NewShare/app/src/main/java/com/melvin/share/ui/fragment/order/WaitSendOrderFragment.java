@@ -47,7 +47,11 @@ public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerVie
         return root;
 
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
     /**
      * 请求数据
      */
