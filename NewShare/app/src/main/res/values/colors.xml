@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <!--沉浸式-->
     <color name="status_bar">#ffffff</color>
-
+    <color name="navpage">#FFE1E8EB</color>
     <!--主题颜色-->
     <color name="app_common_red">#ee2a3e</color>
 
@@ -34,6 +34,16 @@
     <color name="FF9000">#FF9000</color>
 
     <color name="color_4A">#7F7F7F</color>
+
+
+    <color name="blue">#ffccddff</color>
+    <color name="grey">#58616d</color>
+    <color name="darkgrey">#ff404040</color>
+    <color name="toasterro">#9fd524</color>
+    <color name="lightgrey">#ff888888</color>
+    <color name="semitransparent">#80000000</color>
+    <color name="lightransparent">#a0000000</color>
+
 
     <!--二维码-->
     <color name="bg_color">#EDEDED</color>

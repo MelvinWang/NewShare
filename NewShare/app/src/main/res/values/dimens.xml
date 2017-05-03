@@ -11,7 +11,7 @@
     <dimen name="WheelLabelTextSize">12sp</dimen>
     <dimen name="MyTextSizeLarge">20sp</dimen>
     <dimen name="MyItemSpaceLarge">20dp</dimen>
-
+    <dimen name="BasicTextSize">15dp</dimen>
 
     <!--页面标题-->
     <dimen name="page_20">20sp</dimen>

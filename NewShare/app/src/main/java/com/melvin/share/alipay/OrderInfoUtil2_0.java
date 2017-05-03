@@ -78,7 +78,7 @@ public class OrderInfoUtil2_0 {
 		keyValues.put("app_id", app_id);
 		keyValues.put("method", "alipay.trade.app.pay");
 		keyValues.put("format", "JSON");
-		keyValues.put("notify_url", "https://api.xx.com/receive_notify.htm");
+		keyValues.put("notify_url", "http://139.129.205.111/common/pay/payByAliPay");
 
 		keyValues.put("biz_content","{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\"," +
 				"\"total_amount\":\"" + total_amount +  "\",\"subject\":\"" + subject +  "\",\"body\":\"" + body +  "\",\"out_trade_no\":\"" + payOrderNumber +  "\"}");

@@ -30,6 +30,7 @@ import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.home.LocationModeSourceActivity;
 import com.melvin.share.ui.activity.home.RecommendActivity;
 import com.melvin.share.view.MyRecyclerView;
+import com.melvin.share.wxapi.PayActivity;
 import com.melvin.share.zbar.ZbarCaptureActivity;
 
 import java.util.ArrayList;
@@ -105,7 +106,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, RecommendActivity.class));
+//                RecommendActivity
+                startActivity(new Intent(mContext, PayActivity.class));
             }
         });
         locationButton.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +120,6 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         recyclerView.addHeaderView(headerView);
         recyclerView.setLoadingListener(this);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

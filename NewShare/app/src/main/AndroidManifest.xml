@@ -9,7 +9,8 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
-
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
@@ -78,10 +79,20 @@
             </intent-filter>
         </activity>
 
+        <!--com.melvin.share.wxapi.PayActivity-->
+        <activity
+            android:name="com.melvin.share.wxapi.PayActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.melvin.share.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="58e353375312dd9fd100204e"></meta-data>
-
 
         <!--微信：  -->
         <activity
