@@ -224,6 +224,7 @@ public class SelfFragment extends BaseFragment implements View.OnClickListener {
                 .subscribe(new RxModelSubscribe<CommonList<HomeHotProduct>>(mContext, true) {
                     @Override
                     protected void myNext(CommonList<HomeHotProduct> commonList) {
+                        dataList.clear();
                         dataList.addAll(commonList.rows);
                         adpter.notifyDataSetChanged();
                     }

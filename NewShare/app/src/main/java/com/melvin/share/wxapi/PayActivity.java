@@ -2,15 +2,24 @@ package com.melvin.share.wxapi;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.Utils.Utils;
+import com.melvin.share.dialog.PaySuccessDialog;
+import com.melvin.share.rx.RxPayBus;
+import com.melvin.share.ui.activity.order.AllOrderActivity;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -26,10 +35,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.umeng.socialize.utils.DeviceConfig.context;
+
 
 public class PayActivity extends Activity {
 
-    private static final String TAG = "MicroMsg.SDKSample.PayActivity";
     //appid 微信分配的公众账号ID
     public static final String APP_ID = "wx472378ccc79bb5c5";
     //商户号 微信分配的公众账号ID
@@ -41,15 +51,16 @@ public class PayActivity extends Activity {
     TextView show;
     Map<String, String> resultunifiedorder;
     StringBuffer sb;
-
+    private Context mContext = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay);
+        mContext = this;
         show = (TextView) findViewById(R.id.editText_prepay_id);
         req = new PayReq();
         sb = new StringBuffer();
-
+        RxPayBus.get().register(this);
         //生成prepay_id
         Button payBtn = (Button) findViewById(R.id.unifiedorder_btn);
         payBtn.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +92,27 @@ public class PayActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxPayBus.get().unregister(this);
+    }
+
+    @Subscribe
+    public void wechatPayFlag(String flag) {
+        LogUtils.i("哈哈俣俣哈wechatPay");
+        if (TextUtils.equals("1",flag)) {
+            final PaySuccessDialog dialog = new PaySuccessDialog(mContext);
+            dialog.setContentView(null);
+            dialog.show();
+            startActivity(new Intent(mContext, AllOrderActivity.class));
+            finish();
+        } else {
+            Utils.showToast(mContext, "支付失败");
+            LogUtils.i("哈哈俣俣哈");
+
+        }
+    }
 
     /**
      * 生成签名
@@ -247,13 +279,13 @@ public class PayActivity extends Activity {
             xml.append("</xml>");
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
             packageParams.add(new BasicNameValuePair("appid", APP_ID));
-            packageParams.add(new BasicNameValuePair("body", "APP pay test"));
+            packageParams.add(new BasicNameValuePair("body", "从他"));
             packageParams.add(new BasicNameValuePair("mch_id", MCH_ID));
             packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
             packageParams.add(new BasicNameValuePair("notify_url", "http://121.40.35.3/test"));
             packageParams.add(new BasicNameValuePair("out_trade_no", genOutTradNo()));
             packageParams.add(new BasicNameValuePair("spbill_create_ip", "127.0.0.1"));
-            packageParams.add(new BasicNameValuePair("total_fee", "2000000"));
+            packageParams.add(new BasicNameValuePair("total_fee", "1"));
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 
 
@@ -262,8 +294,8 @@ public class PayActivity extends Activity {
 
 
             String xmlstring = toXml(packageParams);
-
-            return xmlstring;
+            return new String(xmlstring.getBytes(), "ISO8859-1");
+//            return xmlstring;
 
         } catch (Exception e) {
 //			Log.e(TAG, "----genProductArgs fail, ex = " + e.getMessage());

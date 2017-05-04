@@ -56,7 +56,6 @@ public class ConfirmOrderActivity extends BaseActivity {
     private boolean fromCat;//true代表购物车进入
 
 
-
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_confirm_order);

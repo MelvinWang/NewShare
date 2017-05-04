@@ -4,19 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
@@ -24,23 +14,14 @@ import com.melvin.share.Utils.StatusBarUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.FragmentAdapter;
 import com.melvin.share.databinding.ActivityMainBinding;
-import com.melvin.share.dialog.QrCodeShareDialog;
-import com.melvin.share.model.Product;
 import com.melvin.share.model.QrcodeShareModel;
 import com.melvin.share.rx.RxShareBus;
 import com.melvin.share.view.NoScrollViewPager;
-import com.melvin.share.zxing.encoding.EncodingHandler;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-
-import java.util.Hashtable;
-import java.util.Map;
-
-import static android.R.attr.width;
-import static com.melvin.share.Utils.Utils.getBitmap;
 
 /**
  * Created Time: 2016/7/17.

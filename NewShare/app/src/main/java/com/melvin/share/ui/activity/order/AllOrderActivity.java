@@ -2,10 +2,12 @@ package com.melvin.share.ui.activity.order;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -24,6 +26,7 @@ import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
+import com.melvin.share.ui.activity.common.MainActivity;
 import com.melvin.share.ui.fragment.order.AllOrderFragment;
 
 import java.util.HashMap;
@@ -88,7 +91,7 @@ public class AllOrderActivity extends BaseActivity {
                     .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
                         @Override
                         protected void myNext(CommonReturnModel bean) {
-                            AllOrderFragment allOrderFragment = (AllOrderFragment)viewPagerAdapter.getItem(0);
+                            AllOrderFragment allOrderFragment = (AllOrderFragment) viewPagerAdapter.getItem(0);
                             allOrderFragment.onRefresh();
                             Utils.showToast(mContext, bean.message);
                         }
@@ -100,5 +103,28 @@ public class AllOrderActivity extends BaseActivity {
                     });
         }
 
+    }
+
+    /**
+     * toolbar上菜单的选择事件
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(mContext, MainActivity.class));
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 返回键先关闭侧滑菜单
+     */
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(mContext, MainActivity.class));
+        finish();
     }
 }

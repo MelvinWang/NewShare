@@ -106,8 +106,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                RecommendActivity
-                startActivity(new Intent(mContext, PayActivity.class));
+                startActivity(new Intent(mContext, RecommendActivity.class));
             }
         });
         locationButton.setOnClickListener(new View.OnClickListener() {
