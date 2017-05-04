@@ -70,7 +70,7 @@ public class RefundOrderFragment extends BaseFragment implements MyRecyclerView.
     public void onRefresh() {
         pageNo = 1;
         map.put("pageNo", pageNo);
-        allOrderViewModel.requestData(map);
+        allOrderViewModel.requestRefresh(map,false);
     }
 
     @Override

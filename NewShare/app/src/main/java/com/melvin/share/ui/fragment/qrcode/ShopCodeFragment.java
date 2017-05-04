@@ -56,7 +56,6 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
             initData();
             initAdapter();
             root = binding.getRoot();
-            requestData();
         }
         return root;
     }
@@ -64,6 +63,7 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
     @Override
     public void onStart() {
         super.onStart();
+        onRefresh();
     }
 
     /**
@@ -97,8 +97,8 @@ public class ShopCodeFragment extends BaseFragment implements MyRecyclerView.Loa
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
         fromNetwork.findUserScanCode(jsonObject)
-                .compose(new RxFragmentHelper<CommonList<ShopBean>>().ioMain(mContext, ShopCodeFragment.this, true))
-                .subscribe(new RxModelSubscribe<CommonList<ShopBean>>(mContext, true) {
+                .compose(new RxFragmentHelper<CommonList<ShopBean>>().ioMain(mContext, ShopCodeFragment.this, false))
+                .subscribe(new RxModelSubscribe<CommonList<ShopBean>>(mContext, false) {
                     @Override
                     protected void myNext(CommonList<ShopBean> commonList) {
                         data.addAll(commonList.rows);

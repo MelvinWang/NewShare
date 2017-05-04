@@ -507,7 +507,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
             packageParams.add(new BasicNameValuePair("spbill_create_ip", "127.0.0.1"));
 
             int wechatTotalFee = (int) (Double.parseDouble(payTotalFee) * 100);
-            packageParams.add(new BasicNameValuePair("total_fee", "1" + ""));
+            packageParams.add(new BasicNameValuePair("total_fee", wechatTotalFee + ""));
             packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 
             String sign = genPackageSign(packageParams);
@@ -560,7 +560,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
      */
     private void aliPay() {
         boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, "0.01", payOrderNumber, payTitle, payBody, DateUtil.getCurrDateTime());
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, payTotalFee, payOrderNumber, payTitle, payBody, DateUtil.getCurrDateTime());
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
         String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
         String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);

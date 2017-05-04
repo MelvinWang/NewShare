@@ -59,7 +59,6 @@ public class OrderCodeFragment extends BaseFragment implements MyRecyclerView.Lo
             initData();
             initAdapter();
             root = binding.getRoot();
-            requestData();
         }
         return root;
     }
@@ -67,6 +66,7 @@ public class OrderCodeFragment extends BaseFragment implements MyRecyclerView.Lo
     @Override
     public void onStart() {
         super.onStart();
+        onRefresh();
     }
 
 
@@ -102,8 +102,8 @@ public class OrderCodeFragment extends BaseFragment implements MyRecyclerView.Lo
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
         fromNetwork.findProductScanCode(jsonObject)
-                .compose(new RxFragmentHelper<CommonList<Product>>().ioMain(mContext, OrderCodeFragment.this, true))
-                .subscribe(new RxModelSubscribe<CommonList<Product>>(mContext, true) {
+                .compose(new RxFragmentHelper<CommonList<Product>>().ioMain(mContext, OrderCodeFragment.this, false))
+                .subscribe(new RxModelSubscribe<CommonList<Product>>(mContext, false) {
                     @Override
                     protected void myNext(CommonList<Product> commonList) {
                         data.addAll(commonList.rows);

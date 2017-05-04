@@ -71,7 +71,7 @@ public class WaitSendOrderFragment extends BaseFragment implements MyRecyclerVie
     public void onRefresh() {
         pageNo = 1;
         map.put("pageNo", pageNo);
-        allOrderViewModel.requestData(map);
+        allOrderViewModel.requestRefresh(map,false);
     }
 
     @Override

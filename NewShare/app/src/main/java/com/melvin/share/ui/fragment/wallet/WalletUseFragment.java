@@ -71,7 +71,6 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
             initData();
             initAdapter();
             root = binding.getRoot();
-            requestData();
         }
         return root;
     }
@@ -79,8 +78,9 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
     @Override
     public void onStart() {
         super.onStart();
+        onRefresh();
+        requestReward();
     }
-
 
     /**
      * 初始化数据
@@ -143,8 +143,8 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
         fromNetwork.findMyReward(jsonObject)
-                .compose(new RxFragmentHelper<CommonList<WalletProduct>>().ioMain(mContext, WalletUseFragment.this, true))
-                .subscribe(new RxModelSubscribe<CommonList<WalletProduct>>(mContext, true) {
+                .compose(new RxFragmentHelper<CommonList<WalletProduct>>().ioMain(mContext, WalletUseFragment.this, false))
+                .subscribe(new RxModelSubscribe<CommonList<WalletProduct>>(mContext, false) {
                     @Override
                     protected void myNext(CommonList<WalletProduct> commonList) {
                         dataList.addAll(commonList.rows);

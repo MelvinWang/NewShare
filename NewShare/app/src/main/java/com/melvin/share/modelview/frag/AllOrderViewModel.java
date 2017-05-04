@@ -76,6 +76,33 @@ public class AllOrderViewModel extends BaseRecyclerViewModel<BaseModel> implemen
     }
 
     /**
+     刷新
+     * @param map
+     */
+    public void requestRefresh(Map map,boolean falg) {
+        ShapreUtils.putParamCustomerId(map);
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+        fromNetwork.findOrderByCustomer(jsonObject)
+                .compose(new RxFragmentHelper<CommonList<WaitPayOrderInfo.OrderBean>>().ioMain(context, fragment, falg))
+                .subscribe(new RxModelSubscribe<CommonList<WaitPayOrderInfo.OrderBean>>(context, falg) {
+                    @Override
+                    protected void myNext(CommonList<WaitPayOrderInfo.OrderBean> bean) {
+                        data.clear();
+                        data.addAll(bean.rows);
+                        onRequestSuccess(data);
+                        mRecyclerView.refreshComplete();
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        mRecyclerView.refreshComplete();
+                        Utils.showToast(context, message);
+                    }
+                });
+    }
+
+    /**
      * 加载更多
      *
      * @param map

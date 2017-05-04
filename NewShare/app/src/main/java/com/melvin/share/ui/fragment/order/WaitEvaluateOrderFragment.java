@@ -70,7 +70,7 @@ public class WaitEvaluateOrderFragment extends BaseFragment implements MyRecycle
     public void onRefresh() {
         pageNo = 1;
         map.put("pageNo", pageNo);
-        allOrderViewModel.requestData(map);
+        allOrderViewModel.requestRefresh(map,false);
     }
 
     @Override

@@ -62,7 +62,6 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
             initData();
             initAdapter();
             root = binding.getRoot();
-            requestData();
         }
         return root;
     }
@@ -70,6 +69,8 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
     @Override
     public void onStart() {
         super.onStart();
+        onRefresh();
+        requestReward();
     }
 
     /**
@@ -118,8 +119,8 @@ public class WalletWillFragment extends BaseFragment implements MyRecyclerView.L
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
         fromNetwork.findMyReward(jsonObject)
-                .compose(new RxFragmentHelper<CommonList<WalletProduct>>().ioMain(mContext, WalletWillFragment.this, true))
-                .subscribe(new RxModelSubscribe<CommonList<WalletProduct>>(mContext, true) {
+                .compose(new RxFragmentHelper<CommonList<WalletProduct>>().ioMain(mContext, WalletWillFragment.this, false))
+                .subscribe(new RxModelSubscribe<CommonList<WalletProduct>>(mContext, false) {
                     @Override
                     protected void myNext(CommonList<WalletProduct> commonList) {
                         dataList.addAll(commonList.rows);

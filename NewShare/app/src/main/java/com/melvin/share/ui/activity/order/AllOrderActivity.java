@@ -28,6 +28,11 @@ import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.MainActivity;
 import com.melvin.share.ui.fragment.order.AllOrderFragment;
+import com.melvin.share.ui.fragment.order.RefundOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitEvaluateOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitPayOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitReceiveOrderFragment;
+import com.melvin.share.ui.fragment.order.WaitSendOrderFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,14 +96,52 @@ public class AllOrderActivity extends BaseActivity {
                     .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
                         @Override
                         protected void myNext(CommonReturnModel bean) {
+                            Utils.showToast(mContext, bean.message);
                             AllOrderFragment allOrderFragment = (AllOrderFragment) viewPagerAdapter.getItem(0);
                             allOrderFragment.onRefresh();
-                            Utils.showToast(mContext, bean.message);
+                            try {
+                                WaitPayOrderFragment waitPayOrderFragment = (WaitPayOrderFragment) viewPagerAdapter.getItem(1);
+                                waitPayOrderFragment.onRefresh();
+                            }catch (Exception e){
+
+                            }
+                            try {
+                                WaitSendOrderFragment waitSendOrderFragment = (WaitSendOrderFragment) viewPagerAdapter.getItem(2);
+                                waitSendOrderFragment.onRefresh();
+                            }catch (Exception e){
+
+                            }
+                            try {
+                                WaitReceiveOrderFragment waitReceiveOrderFragment = (WaitReceiveOrderFragment) viewPagerAdapter.getItem(3);
+                                waitReceiveOrderFragment.onRefresh();
+                            }catch (Exception e){
+
+                            }
+                            try {
+                                WaitEvaluateOrderFragment waitEvaluateOrderFragment = (WaitEvaluateOrderFragment) viewPagerAdapter.getItem(4);
+                                waitEvaluateOrderFragment.onRefresh();
+                            }catch (Exception e){
+
+                            }
+                            try {
+                                RefundOrderFragment refundOrderFragment = (RefundOrderFragment) viewPagerAdapter.getItem(5);
+                                refundOrderFragment.onRefresh();
+                            }catch (Exception e){
+
+                            }
+
+
+
+
+
+
+
+
                         }
 
                         @Override
                         protected void myError(String message) {
-                            Utils.showToast(mContext, message);
+//                            Utils.showToast(mContext, message);
                         }
                     });
         }

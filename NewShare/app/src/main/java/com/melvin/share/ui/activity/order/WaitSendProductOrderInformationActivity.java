@@ -1,6 +1,7 @@
 package com.melvin.share.ui.activity.order;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -177,6 +178,8 @@ public class WaitSendProductOrderInformationActivity extends BaseActivity {
                 allOrderBusFlg.id = orderId;
                 allOrderBusFlg.flagId = 1;
                 RxCommonBus.get().post(allOrderBusFlg);
+                startActivity(new Intent(mContext, AllOrderActivity.class));
+                finish();
 //                 confirmOrder();
             }
 
