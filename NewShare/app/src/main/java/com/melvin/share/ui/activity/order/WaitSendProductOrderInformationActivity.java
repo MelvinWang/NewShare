@@ -115,12 +115,12 @@ public class WaitSendProductOrderInformationActivity extends BaseActivity {
             binding.statusImg.setImageDrawable(ContextCompat.getDrawable(mContext, R.mipmap.wait_send));
         } else if (TextUtils.equals("3", bean.orderStatus)) {//待收货
             binding.statusImg.setImageDrawable(ContextCompat.getDrawable(mContext, R.mipmap.wait_receive));
-        } else if (TextUtils.equals("3", bean.orderStatus)) {//待评价
+        } else if (TextUtils.equals("4", bean.orderStatus)) {//待评价
             binding.statusImg.setImageDrawable(ContextCompat.getDrawable(mContext, R.mipmap.wait_evaluatei));
         }
 
         if (TextUtils.equals("2", bean.orderStatus) || TextUtils.equals("3", bean.orderStatus)) {//待发货  待收货
-            binding.refund.setVisibility(View.VISIBLE);
+//            binding.refund.setVisibility(View.VISIBLE);
         }
         if (TextUtils.equals("2", bean.orderStatus)) {//待发货
             binding.reminder.setVisibility(View.VISIBLE);

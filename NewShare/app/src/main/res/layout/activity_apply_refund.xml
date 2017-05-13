@@ -52,23 +52,23 @@
                     android:text="退款类型"
                     android:textSize="@dimen/page_17" />
 
-                <EditText
+                <TextView
                     android:id="@+id/refund_type"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/tv1_title"
                     android:background="@null"
                     android:hint="请选择退款类型"
+                    android:onClick="selectRefundType"
                     android:textSize="@dimen/page_18" />
-
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:onClick="selectRefundType"
+
                     android:paddingBottom="20dp"
                     android:paddingLeft="80dp"
                     android:paddingRight="10dp"
@@ -95,19 +95,19 @@
                     android:text="退款原因"
                     android:textSize="@dimen/page_17" />
 
-                <EditText
+                <TextView
                     android:id="@+id/refund_reason"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/tv2_title"
                     android:background="@null"
                     android:hint="请选择退款原因"
+                    android:onClick="selectRefundReason"
                     android:textSize="@dimen/page_18" />
 
                 <ImageView
-                    android:onClick="selectRefundReason"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -141,13 +141,15 @@
                     android:textSize="@dimen/page_17" />
 
                 <EditText
+                    android:id="@+id/refund_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/tv3_title"
                     android:background="@null"
-                    android:text="请输入退款金额"
+                    android:hint="请输入退款金额"
+                    android:textColorHint="@color/color_999"
                     android:textSize="@dimen/page_18" />
             </RelativeLayout>
 
@@ -173,13 +175,15 @@
                     android:textSize="@dimen/page_17" />
 
                 <EditText
+                    android:id="@+id/refund_remark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/tv4_title"
                     android:background="@null"
-                    android:text="请输入退款说明"
+                    android:hint="请输入退款说明"
+                    android:textColorHint="@color/color_999"
                     android:textSize="@dimen/page_18" />
             </RelativeLayout>
 
@@ -189,6 +193,7 @@
                 android:layout_marginTop="2dp" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

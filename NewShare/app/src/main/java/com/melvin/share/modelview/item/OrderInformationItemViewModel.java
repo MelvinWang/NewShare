@@ -18,6 +18,7 @@ import com.melvin.share.model.User;
 import com.melvin.share.rx.RxOrderBus;
 import com.melvin.share.ui.activity.OderEvaluateActivity;
 import com.melvin.share.ui.activity.order.RefundActivity;
+import com.melvin.share.ui.activity.selfcenter.ApplyRefundActivity;
 import com.melvin.share.ui.activity.selfcenter.LogisticsInfoActivity;
 
 /**
@@ -98,7 +99,7 @@ public class OrderInformationItemViewModel extends BaseObservable {
 
     //退款
     public void onRefundClick(View view) {
-        context.startActivity(new Intent(context, RefundActivity.class));
+        context.startActivity(new Intent(context, ApplyRefundActivity.class));
     }
 
     //查看物流

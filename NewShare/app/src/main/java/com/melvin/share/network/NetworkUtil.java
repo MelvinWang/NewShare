@@ -283,6 +283,9 @@ public class NetworkUtil {
         //查看单个订单的详情
         @GET("/app/order/findOrderById")
         Observable<WaitPayOrderInfo.OrderBean> findOrderById(@Query("id") String id);
+        //订单删除
+        @POST("/app/order/deleteOrder")
+        Observable<CommonReturnModel> deleteOrder(@Query("orderId") String id);
 
         //改变订单状态已经付款
         @POST("/app/order/updateOrderStatus")

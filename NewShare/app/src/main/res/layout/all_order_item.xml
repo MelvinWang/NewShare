@@ -141,7 +141,7 @@
                     android:onClick="@{viewModel.onRefundClick}"
                     android:text="申请退款"
                     android:textColor="@color/color_999"
-                    android:visibility="@{viewModel.refundStatus?  View.VISIBLE:  View.GONE}"
+                    android:visibility="gone"
                     android:textSize="15sp" />
 
                 <Button

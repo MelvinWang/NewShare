@@ -2,17 +2,29 @@ package com.melvin.share.ui.activity.selfcenter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.databinding.ActivityApplyRefundBinding;
 import com.melvin.share.dialog.RefundDialog;
 import com.melvin.share.popwindow.RefundReasonPopupWindow;
 import com.melvin.share.popwindow.RefundTypePopupWindow;
 import com.melvin.share.ui.activity.common.BaseActivity;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.R.attr.phoneNumber;
 
 /**
  * Author: Melvin
@@ -27,6 +39,10 @@ public class ApplyRefundActivity extends BaseActivity {
     private RefundTypePopupWindow refundTypePopupWindow;
     private RefundReasonPopupWindow refundReasonPopupWindow;
     private String refundType;
+    private TextView refundType1;
+    private TextView refundReason;
+    private EditText refundAmount;
+    private EditText refundRemark;
 
     @Override
     protected void initView() {
@@ -40,6 +56,12 @@ public class ApplyRefundActivity extends BaseActivity {
     }
 
     private void ininData() {
+
+        refundType1 = binding.refundType;
+        refundReason = binding.refundReason;
+        refundAmount = binding.refundAmount;
+        refundRemark = binding.refundRemark;
+
 
     }
 
@@ -96,7 +118,41 @@ public class ApplyRefundActivity extends BaseActivity {
         final RefundDialog dialog = new RefundDialog(mContext);
         dialog.setContentView(null);
         dialog.show();
+        if (TextUtils.isEmpty(refundType1.getText().toString())) {
+            Utils.showToast(mContext, "请选择退款类型");
+            return;
+        }
+        if (TextUtils.isEmpty(refundReason.getText().toString())) {
+            Utils.showToast(mContext, "请选择退款原因");
+            return;
+        }
+        if (TextUtils.isEmpty(refundAmount.getText().toString())) {
+            Utils.showToast(mContext, "请输入退款金额");
+            return;
+        }
+        confirmRefund();
+    }
 
+    /**
+     * 申请退款
+     */
+    private void confirmRefund() {
+        String scash = refundType1.getText().toString();
+        String salipayNumber = refundReason.getText().toString();
+        String sphoneNumber = refundAmount.getText().toString();
+        String svaliNumber = refundRemark.getText().toString();
+        Map map=new HashMap();
+
+
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
+
+
+
+
+        final RefundDialog dialog = new RefundDialog(mContext);
+        dialog.setContentView(null);
+        dialog.show();
     }
 
 

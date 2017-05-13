@@ -22,6 +22,7 @@ import com.melvin.share.ui.activity.order.WaitEvaluateOrderInformationActivity;
 import com.melvin.share.ui.activity.order.WaitPayOrderActivity;
 import com.melvin.share.ui.activity.order.WaitReceiveProductOrderInformationActivity;
 import com.melvin.share.ui.activity.order.WaitSendProductOrderInformationActivity;
+import com.melvin.share.ui.activity.selfcenter.ApplyRefundActivity;
 import com.melvin.share.ui.activity.selfcenter.LogisticsInfoActivity;
 import com.melvin.share.ui.activity.order.RefundActivity;
 
@@ -69,7 +70,7 @@ public class AllOrderItemViewModel extends BaseObservable {
             context.startActivity(intent);
 
         } else if (TextUtils.equals("5", bean.orderStatus)) {//退款
-            context.startActivity(new Intent(context, RefundActivity.class));
+            context.startActivity(new Intent(context, ApplyRefundActivity.class));
 
         }
     }
@@ -147,25 +148,29 @@ public class AllOrderItemViewModel extends BaseObservable {
 
     //取消订单
     public void onCancelOrderClick(View view) {
-        final OrderCancelDialog dialog = new OrderCancelDialog(context);
-        dialog.setContentView(null);
-        dialog.show();
-        dialog.setOnClickListener(new OrderCancelDialog.OnCliclListener() {
-            @Override
-            public void confirm() {
-                Utils.showToast(context, "待接取消订单接口");
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-        });
+//        final OrderCancelDialog dialog = new OrderCancelDialog(context);
+//        dialog.setContentView(null);
+//        dialog.show();
+//        dialog.setOnClickListener(new OrderCancelDialog.OnCliclListener() {
+//            @Override
+//            public void confirm() {
+//
+//            }
+//
+//            @Override
+//            public void cancel() {
+//
+//            }
+//        });
+        Intent intent = new Intent(context, WaitPayOrderActivity.class);
+        intent.putExtra("fromAllOrder",true);
+        intent.putExtra("orderId",bean.id);
+        context.startActivity(intent);
     }
 
     //退款
     public void onRefundClick(View view) {
-        context.startActivity(new Intent(context, RefundActivity.class));
+        context.startActivity(new Intent(context, ApplyRefundActivity.class));
     }
 
     //查看物流，暂时不用
@@ -175,12 +180,10 @@ public class AllOrderItemViewModel extends BaseObservable {
 
     //付款
     public void onPayClick(View view) {
-//        Intent intent = new Intent(context, WaitPayOrderActivity.class);
-//        intent.putExtra("fromAllOrder",true);
-//        intent.putExtra("orderId",bean.id);
-//        context.startActivity(intent);
-
-        Utils.showToast(context, "待接付款接口");
+        Intent intent = new Intent(context, WaitPayOrderActivity.class);
+        intent.putExtra("fromAllOrder",true);
+        intent.putExtra("orderId",bean.id);
+        context.startActivity(intent);
     }
 
     //催单

@@ -28,7 +28,7 @@ android {
             storeFile file('share.jks')
             storePassword "456789"
             keyAlias "share1"
-            keyPassword "56789"
+            keyPassword "456789"
         }
     }
     dataBinding {

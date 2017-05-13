@@ -61,8 +61,6 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.socialize.utils.DeviceConfig.context;
-
 /**
  * Author: Melvin
  * <p>
@@ -129,7 +127,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
 
     @Subscribe
     public void wechatPayFlag(String flag) {
-        if (TextUtils.equals("1",flag)) {
+        if (TextUtils.equals("1", flag)) {
             final PaySuccessDialog dialog = new PaySuccessDialog(mContext);
             dialog.setContentView(null);
             dialog.show();
@@ -642,7 +640,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         dialog.setOnClickListener(new OrderCancelDialog.OnCliclListener() {
             @Override
             public void confirm() {
-                Utils.showToast(mContext, "confirm");
+                cancelOrder();
             }
 
             @Override
@@ -650,5 +648,26 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
 
             }
         });
+    }
+
+    /**
+     * 取消订单
+     */
+    private void cancelOrder() {
+        fromNetwork.deleteOrder(orderId)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(WaitPayOrderActivity.this, true))
+                .subscribe(new RxModelSubscribe<CommonReturnModel>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel bean) {
+                        Utils.showToast(mContext, "取消成功");
+                        startActivity(new Intent(mContext, AllOrderActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
     }
 }
