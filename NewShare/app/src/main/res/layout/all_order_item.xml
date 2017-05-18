@@ -139,7 +139,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/btn_rectangle_withradus999"
                     android:onClick="@{viewModel.onRefundClick}"
-                    android:text="申请退款"
+                    android:text="申请售后"
                     android:textColor="@color/color_999"
                     android:visibility="gone"
                     android:textSize="15sp" />

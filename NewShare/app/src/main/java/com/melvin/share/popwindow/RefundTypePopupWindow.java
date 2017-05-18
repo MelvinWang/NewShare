@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.melvin.share.R;
+import com.melvin.share.event.PostType;
 import com.melvin.share.rx.RxCommonBus;
 
 /**
@@ -30,6 +31,8 @@ public class RefundTypePopupWindow extends PopupWindow {
     private Button refund_type_confirm;
     private View mMenuView;
     private final RadioGroup refund_radio_group;
+    private PostType postType = new PostType();
+    ;
 
     public RefundTypePopupWindow(Activity context, OnClickListener itemsOnClick) {
         super(context);
@@ -42,16 +45,21 @@ public class RefundTypePopupWindow extends PopupWindow {
         //设置按钮监听
         refund_type_cancel.setOnClickListener(itemsOnClick);
         refund_type_confirm.setOnClickListener(itemsOnClick);
+        postType.type = 1;
         //设置选项选中事件
         refund_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.refund_type_refund:
-                        RxCommonBus.get().post("我要退款");
+                        postType.typeName = "我要退款" ;
+                        postType.typeId = "1" ;
+                        RxCommonBus.get().post(postType);
                         break;
                     case R.id.refund_type_refundp:
-                        RxCommonBus.get().post("我要退货");
+                        postType.typeName = "我要退货" ;
+                        postType.typeId = "2" ;
+                        RxCommonBus.get().post(postType);
                         break;
                 }
             }

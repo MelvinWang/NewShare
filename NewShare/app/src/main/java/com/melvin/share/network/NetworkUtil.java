@@ -9,6 +9,7 @@ import com.melvin.share.model.LogisticsModel;
 import com.melvin.share.model.MessageInfo;
 import com.melvin.share.model.PicturePath;
 import com.melvin.share.model.Product;
+import com.melvin.share.model.RefundModel;
 import com.melvin.share.model.Reward;
 import com.melvin.share.model.ScanProduct;
 import com.melvin.share.model.WaitPayOrderInfo;
@@ -26,8 +27,10 @@ import com.melvin.share.model.serverReturn.ShopBean;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
 
+
 import java.util.ArrayList;
 import java.util.Map;
+
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -303,6 +306,13 @@ public class NetworkUtil {
         @GET("/common/logist/findLogistByOrderItemId")
         Observable<CommonReturnModel<LogisticsModel>> findLogistByOrderItemId(@Query("orderItemId") String id);
 
+        //申请售后
+        @POST("/app/sellService/applyOrderItemSellService")
+        Observable<CommonReturnModel> applyOrderItemSellService(@Body JsonObject json);
+        //订单详情售后查看接口
+        @GET("/app/sellService/findSellServiceByOrderItemId")
+        Observable<RefundModel> findSellServiceByOrderItemId(@Query("orderItemId") String orderItemId);
+
         /**
          * 返利
          */
@@ -388,8 +398,9 @@ public class NetworkUtil {
 
         @Multipart
         @POST("/common/picture/loadFileUpload")
-        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\"; filename=\"real.jpg\"") RequestBody file);
-//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture") RequestBody  file);
+        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Body MultipartBody imgs);
 
     }
 

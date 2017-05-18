@@ -19,15 +19,18 @@ import com.melvin.share.model.PicturePath;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxSubscribe;
-import com.melvin.share.ui.activity.selfcenter.ManageAddressActivity;
 import com.melvin.share.view.SelectPicPopupWindow;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import okhttp3.MultipartBody;
+
 
 /**
  * Author: Melvin
@@ -74,10 +77,49 @@ public class PictureActivity extends BaseActivity {
                 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
-    public void upload(View v) {
+
+    public static byte[] File2byte(String filePath)
+   {
+              byte[] buffer = null;
+               try
+             {
+                     File file = new File(filePath);
+                    FileInputStream fis = new FileInputStream(file);
+                       ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                      byte[] b = new byte[1024];
+                      int n;
+                  while ((n = fis.read(b)) != -1)
+                           {
+                              bos.write(b, 0, n);
+                          }
+                       fis.close();
+                      bos.close();
+                      buffer = bos.toByteArray();
+                 }
+               catch (FileNotFoundException e)
+              {
+                      e.printStackTrace();
+                  }
+             catch (IOException e)
+                {
+                     e.printStackTrace();
+                    }
+                return buffer;
+            }
+
+
+    public void upload(View v){
+//        byte[] bytes = File2byte(SDcardPathUtils.getSDCardPath() + "/real.jpg");
         File file = new File(SDcardPathUtils.getSDCardPath() + "/real.jpg");
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), bytes);
 
+// RequestBody requestBody=  RequestBody.create(
+//                MediaType.parse("multipart/form-data"), file);
+//        MultipartBody.Builder builder = new MultipartBody.Builder();
+//        builder.setType(MultipartBody.FORM);
+//        builder.addFormDataPart("picture", file.getName(), requestBody);
+//        MultipartBody body=builder.build();//调用即可
         fromNetwork.uploadFile(requestBody)
                 .compose(new RxActivityHelper<CommonReturnModel<PicturePath>>().ioMain(PictureActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<PicturePath>>(mContext, true) {

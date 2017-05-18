@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.melvin.share.R;
+import com.melvin.share.event.PostType;
 import com.melvin.share.rx.RxCommonBus;
 
 /**
@@ -30,6 +31,7 @@ public class RefundReasonPopupWindow extends PopupWindow {
     private Button refund_reason_confirm;
     private View mMenuView;
     private final RadioGroup refund_reason_group;
+    private PostType postType=new PostType();;
 
     public RefundReasonPopupWindow(Activity context, OnClickListener itemsOnClick) {
         super(context);
@@ -42,25 +44,31 @@ public class RefundReasonPopupWindow extends PopupWindow {
         //设置按钮监听
         refund_reason_cancel.setOnClickListener(itemsOnClick);
         refund_reason_confirm.setOnClickListener(itemsOnClick);
+        postType.type=2;
         //设置选项选中事件
         refund_reason_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.refund_reason_quality:
-                        RxCommonBus.get().post("质量问题");
+                        postType.typeName="质量问题";
+                        RxCommonBus.get().post(postType);
                         break;
                     case R.id.refund_reason_element:
-                        RxCommonBus.get().post("成分与商品描述不符");
+                        postType.typeName="成分与商品描述不符";
+                        RxCommonBus.get().post(postType);
                         break;
                     case R.id.refund_reason_effect:
-                        RxCommonBus.get().post("效果与商品描述不符");
+                        postType.typeName="效果与商品描述不符";
+                        RxCommonBus.get().post(postType);
                         break;
                     case R.id.refund_reason_date:
-                        RxCommonBus.get().post("生产日期/保质期与商品描述不符");
+                        postType.typeName="保质期与商品描述不符";
+                        RxCommonBus.get().post(postType);
                         break;
                     case R.id.refund_reason_leak:
-                        RxCommonBus.get().post("少发漏件");
+                        postType.typeName="少发漏件";
+                        RxCommonBus.get().post(postType);
                         break;
                 }
             }

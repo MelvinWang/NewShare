@@ -14,32 +14,31 @@ import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
 import com.melvin.share.Utils.Utils;
-import com.melvin.share.event.PostType;
-import com.melvin.share.model.serverReturn.CommonReturnModel;
-import com.melvin.share.rx.RxActivityHelper;
-import com.melvin.share.rx.RxCommonBus;
-import com.melvin.share.databinding.ActivityApplyRefundBinding;
+import com.melvin.share.databinding.ActivityBackRefundBinding;
 import com.melvin.share.dialog.RefundDialog;
+import com.melvin.share.event.PostType;
+import com.melvin.share.model.RefundModel;
+import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.popwindow.RefundReasonPopupWindow;
 import com.melvin.share.popwindow.RefundTypePopupWindow;
+import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxCommonBus;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
-import com.melvin.share.ui.activity.order.WaitSendProductOrderInformationActivity;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.R.attr.phoneNumber;
 
 /**
  * Author: Melvin
  * <p>
  * Data： 2017/5/18
  * <p>
- * 描述： 申请退款
+ * 描述： 查看申请退款
  */
-public class ApplyRefundActivity extends BaseActivity {
-    private ActivityApplyRefundBinding binding;
+public class ApplyRefundBackActivity extends BaseActivity {
+    private ActivityBackRefundBinding binding;
     private Context mContext = null;
     private RefundTypePopupWindow refundTypePopupWindow;
     private RefundReasonPopupWindow refundReasonPopupWindow;
@@ -53,7 +52,7 @@ public class ApplyRefundActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_apply_refund);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_applyback_refund);
         mContext = this;
         refundTypePopupWindow = new RefundTypePopupWindow(this, itemsOnClick);
         refundReasonPopupWindow = new RefundReasonPopupWindow(this, itemsOnClick);
@@ -68,6 +67,34 @@ public class ApplyRefundActivity extends BaseActivity {
         refundTypeTV = binding.refundType;
         refundReasonTV = binding.refundReason;
         refundNumber = binding.refundNumber;
+        fromNetwork.findSellServiceByOrderItemId(orderItemId)
+                .compose(new RxActivityHelper<RefundModel>().ioMain(ApplyRefundBackActivity.this, true))
+                .subscribe(new RxModelSubscribe<RefundModel>(mContext, true) {
+                    @Override
+                    protected void myNext(RefundModel bean) {
+                        if (bean.status == 1) {
+                            binding.refundStatus.setText("售后中");
+                        } else {
+                            binding.refundStatus.setText("售后已结束");
+                        }
+                        if (bean.serviceMethod == 2) {
+                            binding.isBack.setVisibility(View.VISIBLE);
+                            binding.refundType.setText("换货");
+                        } else {
+                            binding.isBack.setVisibility(View.GONE);
+                            binding.refundType.setText("退货");
+                        }
+                        binding.backNubmer.setText(bean.backTrackingNumber);
+                        binding.refundReason.setText(bean.reason);
+                        binding.refundNumber.setText(bean.trackingNumber);
+                    }
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+
 
     }
 
@@ -99,7 +126,7 @@ public class ApplyRefundActivity extends BaseActivity {
     public void refundTypeSelect(PostType postType) {
         if (postType.type == 1) {
             this.refundType = postType.typeName;
-            refundTypeId=postType.typeId;
+            refundTypeId = postType.typeId;
         } else {
             this.refundReason = postType.typeName;
         }
@@ -126,6 +153,9 @@ public class ApplyRefundActivity extends BaseActivity {
      * 提交申请退款
      */
     public void applyRefund(View v) {
+        final RefundDialog dialog = new RefundDialog(mContext);
+        dialog.setContentView(null);
+        dialog.show();
         if (TextUtils.isEmpty(refundTypeTV.getText().toString())) {
             Utils.showToast(mContext, "请选择退款类型");
             return;
@@ -156,7 +186,7 @@ public class ApplyRefundActivity extends BaseActivity {
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
 
         fromNetwork.applyOrderItemSellService(jsonObject)
-                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ApplyRefundActivity.this, true))
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(ApplyRefundBackActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
                     @Override
                     protected void myNext(CommonReturnModel bean) {

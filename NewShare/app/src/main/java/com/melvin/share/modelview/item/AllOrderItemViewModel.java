@@ -64,15 +64,17 @@ public class AllOrderItemViewModel extends BaseObservable {
             context.startActivity(intent);
         } else if (TextUtils.equals("2", bean.orderStatus)
                 ||TextUtils.equals("3", bean.orderStatus)
-                ||TextUtils.equals("4", bean.orderStatus)) {//待发货.待收货.待评价
+                ||TextUtils.equals("5", bean.orderStatus)
+                ||TextUtils.equals("4", bean.orderStatus)) {//待发货.待收货.待评价 退款
             Intent intent =  new Intent(context, WaitSendProductOrderInformationActivity.class);
             intent.putExtra("orderId",bean.id);
             context.startActivity(intent);
 
-        } else if (TextUtils.equals("5", bean.orderStatus)) {//退款
-            context.startActivity(new Intent(context, ApplyRefundActivity.class));
-
         }
+//        else if (TextUtils.equals("5", bean.orderStatus)) {//退款
+//            context.startActivity(new Intent(context, ApplyRefundActivity.class));
+//
+//        }
     }
 
     public String getOrderNumber() {
@@ -170,7 +172,12 @@ public class AllOrderItemViewModel extends BaseObservable {
 
     //退款
     public void onRefundClick(View view) {
-        context.startActivity(new Intent(context, ApplyRefundActivity.class));
+        Intent intent =  new Intent(context, WaitSendProductOrderInformationActivity.class);
+        intent.putExtra("orderId",bean.id);
+        context.startActivity(intent);
+
+
+//        context.startActivity(new Intent(context, ApplyRefundActivity.class));
     }
 
     //查看物流，暂时不用

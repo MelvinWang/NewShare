@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.databinding.ActivityOpenShopFBinding;
 import com.melvin.share.model.query.OpenShop;
@@ -92,7 +93,7 @@ public class OpenshopFirstActivity extends BaseActivity {
         if (requestCode == 20) {
             if (data != null) {
                 String result = data.getExtras().getString("result");
-
+                LogUtils.i(result);
                 if (!TextUtils.isEmpty(result)) {
                     Glide.with(context)
                             .load((GlobalUrl.SERVICE_URL + result))

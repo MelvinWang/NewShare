@@ -242,6 +242,9 @@
         <activity
             android:name=".ui.activity.selfcenter.ApplyRefundActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.ApplyRefundBackActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.selfcenter.WaitPayOrderInformationActivity"
