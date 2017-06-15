@@ -7,9 +7,11 @@ import android.support.design.widget.TabLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.melvin.share.R;
 import com.melvin.share.Utils.CodeUtils;
+import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.LoginAdapter;
 import com.melvin.share.adapter.QrcodeAdapter;
 import com.melvin.share.databinding.ActivityLoginBinding;
@@ -30,6 +32,7 @@ public class LoginActivity extends BaseActivity {
     //产生的验证码
     private String realCode;
     private ImageView iv_showCode;
+    private long firstClickTime;
 
     //初始化界面
     @Override
@@ -38,7 +41,7 @@ public class LoginActivity extends BaseActivity {
         context = this;
         initWindow();
         initTable();
-        initToolbar(binding.toolbar);
+//        initToolbar(binding.toolbar);
     }
 
     /**
@@ -52,13 +55,22 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-
     /**
      * 返回键先关闭侧滑菜单
      */
     @Override
     public void onBackPressed() {
-        killApp();
+        if (firstClickTime > 0) {// 发现之前点击过一次
+            if (System.currentTimeMillis() - firstClickTime < 1000) {// 判断两次点击是否小于1000毫秒
+                killApp();
+                return;
+            }
+            firstClickTime = 0;//重置时间, 重新开始
+        } else {
+            Utils.showToast(context, "请再点击一次退出");
+            firstClickTime = System.currentTimeMillis();
+        }
+
     }
 
     /**
@@ -73,7 +85,6 @@ public class LoginActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

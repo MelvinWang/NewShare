@@ -135,14 +135,14 @@ public class NormalLoginFragment extends BaseFragment implements View.OnClickLis
             Utils.showToast(mContext, "请输入密码");
             return;
         }
-        if (TextUtils.isEmpty(cerificationCodeEt.getText().toString())) {
-            Utils.showToast(mContext, "请输入图片验证码");
-            return;
-        }
-        if (!cerificationCodeEt.getText().toString().equalsIgnoreCase(realCode)) {
-            Utils.showToast(mContext, "图片验证码不一致");
-            return;
-        }
+//        if (TextUtils.isEmpty(cerificationCodeEt.getText().toString())) {
+//            Utils.showToast(mContext, "请输入图片验证码");
+//            return;
+//        }
+//        if (!cerificationCodeEt.getText().toString().equalsIgnoreCase(realCode)) {
+//            Utils.showToast(mContext, "图片验证码不一致");
+//            return;
+//        }
         Map map = new HashMap();
         map.put("account", phoneEt.getText().toString());
         map.put("password", passwordEt.getText().toString());

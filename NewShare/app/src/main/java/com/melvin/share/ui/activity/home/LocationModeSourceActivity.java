@@ -50,7 +50,6 @@ import com.melvin.share.ui.activity.common.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.Retrofit;
 
 import static com.melvin.share.R.id.collection;
 

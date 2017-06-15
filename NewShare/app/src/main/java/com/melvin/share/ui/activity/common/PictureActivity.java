@@ -20,8 +20,7 @@ import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.view.SelectPicPopupWindow;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,7 +28,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 /**
@@ -109,18 +110,17 @@ public class PictureActivity extends BaseActivity {
 
 
     public void upload(View v){
-//        byte[] bytes = File2byte(SDcardPathUtils.getSDCardPath() + "/real.jpg");
-        File file = new File(SDcardPathUtils.getSDCardPath() + "/real.jpg");
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), bytes);
 
-// RequestBody requestBody=  RequestBody.create(
-//                MediaType.parse("multipart/form-data"), file);
+        File file = new File(SDcardPathUtils.getSDCardPath() + "/real.jpg");
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        RequestBody requestBody=  RequestBody.create(
+                MediaType.parse("multipart/form-data"), file);
 //        MultipartBody.Builder builder = new MultipartBody.Builder();
 //        builder.setType(MultipartBody.FORM);
 //        builder.addFormDataPart("picture", file.getName(), requestBody);
 //        MultipartBody body=builder.build();//调用即可
-        fromNetwork.uploadFile(requestBody)
+        MultipartBody.Part part = MultipartBody.Part.createFormData("picture", file.getName(), requestBody);
+        fromNetwork.uploadFile(part)
                 .compose(new RxActivityHelper<CommonReturnModel<PicturePath>>().ioMain(PictureActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<PicturePath>>(mContext, true) {
                     @Override
@@ -136,6 +136,48 @@ public class PictureActivity extends BaseActivity {
                     }
                 });
     }
+
+
+//    public void upload(View v){
+////        final Map<String, String> params = new HashMap<String, String>();
+////        params.put("send_userId", String.valueOf(id));
+////        params.put("send_email", address);
+////        params.put("send_name", name);
+////        params.put("receive_email", emails);
+////        final Map<String, File> files = new HashMap<String, File>();
+////        files.put("uploadfile", file);
+////        final String request = UploadUtil.post(requestURL, params, files);
+//
+//
+//
+//
+////        byte[] bytes = File2byte(SDcardPathUtils.getSDCardPath() + "/real.jpg");
+//        File file = new File(SDcardPathUtils.getSDCardPath() + "/real.jpg");
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+////        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), bytes);
+//
+//// RequestBody requestBody=  RequestBody.create(
+////                MediaType.parse("multipart/form-data"), file);
+////        MultipartBody.Builder builder = new MultipartBody.Builder();
+////        builder.setType(MultipartBody.FORM);
+////        builder.addFormDataPart("picture", file.getName(), requestBody);
+////        MultipartBody body=builder.build();//调用即可
+//        fromNetwork.uploadFile(requestBody)
+//                .compose(new RxActivityHelper<CommonReturnModel<PicturePath>>().ioMain(PictureActivity.this, true))
+//                .subscribe(new RxSubscribe<CommonReturnModel<PicturePath>>(mContext, true) {
+//                    @Override
+//                    protected void myNext(CommonReturnModel<PicturePath> commonReturnModel) {
+//                        Utils.showToast(mContext, commonReturnModel.message);
+//                        returnBack(commonReturnModel.result.path);
+//                    }
+//
+//
+//                    @Override
+//                    protected void myError(String message) {
+//                        Utils.showToast(mContext, message);
+//                    }
+//                });
+//    }
 
     /**
      * 返回上一个页面

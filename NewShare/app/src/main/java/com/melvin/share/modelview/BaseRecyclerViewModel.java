@@ -11,7 +11,8 @@ import com.melvin.share.network.NetworkUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
+
 
 /**
  * Created Time: 2016/7/24.

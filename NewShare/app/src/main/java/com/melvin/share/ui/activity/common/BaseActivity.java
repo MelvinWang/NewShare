@@ -13,7 +13,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
+
 
 /**
  * Created Time: 2016/7/17.

@@ -23,6 +23,8 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 
+import static com.umeng.socialize.utils.DeviceConfig.context;
+
 /**
  * Created Time: 2016/7/17.
  * <p/>
@@ -36,7 +38,7 @@ public class MainActivity extends BaseActivity {
     NoScrollViewPager mViewPager;
     RadioGroup mRadioGroup;
     private FragmentAdapter mFragmentAdapter;
-
+    private long firstClickTime;
 
     @Override
     protected void initView() {
@@ -190,10 +192,23 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    /**
+     * 返回键先关闭侧滑菜单
+     */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        killApp();
+        if (firstClickTime > 0) {// 发现之前点击过一次
+            if (System.currentTimeMillis() - firstClickTime < 1000) {// 判断两次点击是否小于1000毫秒
+                super.onBackPressed();
+                killApp();
+                return;
+            }
+            firstClickTime = 0;//重置时间, 重新开始
+        } else {
+            Utils.showToast(context, "请再点击一次退出");
+            firstClickTime = System.currentTimeMillis();
+        }
+
     }
 
     @Override

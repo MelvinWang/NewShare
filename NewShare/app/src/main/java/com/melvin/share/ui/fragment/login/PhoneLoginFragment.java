@@ -159,14 +159,14 @@ public class PhoneLoginFragment extends BaseFragment implements View.OnClickList
             Utils.showToast(mContext, "请输入验证码");
             return;
         }
-        if (TextUtils.isEmpty(cerificationCodeEt.getText().toString())) {
-            Utils.showToast(mContext, "请输入图片验证码");
-            return;
-        }
-        if (!cerificationCodeEt.getText().toString().equalsIgnoreCase(realCode)) {
-            Utils.showToast(mContext, "图片验证码不一致");
-            return;
-        }
+//        if (TextUtils.isEmpty(cerificationCodeEt.getText().toString())) {
+//            Utils.showToast(mContext, "请输入图片验证码");
+//            return;
+//        }
+//        if (!cerificationCodeEt.getText().toString().equalsIgnoreCase(realCode)) {
+//            Utils.showToast(mContext, "图片验证码不一致");
+//            return;
+//        }
         fromNetwork.loginByPhoneCode(phoneEt.getText().toString(), codeEt.getText().toString())
                 .compose(new RxFragmentHelper<CommonReturnModel<SelfInformation>>().ioMain(mContext, PhoneLoginFragment.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<SelfInformation>>(mContext, true) {

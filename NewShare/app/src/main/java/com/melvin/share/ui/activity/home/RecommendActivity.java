@@ -17,13 +17,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.Utils;
-import com.melvin.share.adapter.HomeProductAdapter;
 import com.melvin.share.adapter.HomeShopAdapter;
 import com.melvin.share.adapter.RecommendCategoryAdapter;
 import com.melvin.share.adapter.UrlImgAdapter;
 import com.melvin.share.databinding.ActivityRecommendBinding;
 import com.melvin.share.model.BaseModel;
-import com.melvin.share.model.Category;
 import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.serverReturn.ShopBean;
@@ -38,11 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.http.GET;
-import rx.Observable;
 
-import static com.melvin.share.R.id.map;
-import static com.melvin.share.R.id.recyclerView;
 
 /**
  * Author: Melvin

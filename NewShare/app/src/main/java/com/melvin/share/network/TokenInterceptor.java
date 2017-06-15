@@ -3,11 +3,13 @@ package com.melvin.share.network;
 
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.app.BaseApplication;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+
 
 import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created Time: 2016/7/17

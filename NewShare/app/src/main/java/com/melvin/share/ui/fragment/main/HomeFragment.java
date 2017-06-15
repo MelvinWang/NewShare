@@ -59,8 +59,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
     private ImageView locationButton;
     private Map map;
     private int pageNo = 1;
+    private TextView cashbackTotal;
     private TextView cashbackUse;
-    private TextView cashbackWill;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -93,8 +93,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         recommendButton = (ImageView) headerView.findViewById(R.id.recommend);
         locationButton = (ImageView) headerView.findViewById(R.id.location);
 
+        cashbackTotal = (TextView) headerView.findViewById(R.id.cashback_total);
         cashbackUse = (TextView) headerView.findViewById(R.id.cashback_use);
-        cashbackWill = (TextView) headerView.findViewById(R.id.cashback_will);
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,8 +187,8 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
                 .subscribe(new RxModelSubscribe<Reward>(mContext, false) {
                     @Override
                     protected void myNext(Reward bean) {
+                        cashbackTotal.setText(bean.cashbackWill);
                         cashbackUse.setText(bean.cashbackUse);
-                        cashbackWill.setText(bean.cashbackWill);
                     }
 
                     @Override

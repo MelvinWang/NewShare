@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 
 import com.melvin.share.network.NetworkUtil;
 
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
+
 
 /**
  * Created Time: 2016/8/24.

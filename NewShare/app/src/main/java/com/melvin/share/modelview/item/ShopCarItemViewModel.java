@@ -26,7 +26,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
+
 
 /**
  * Created Time: 2017/3/31.

@@ -2,7 +2,6 @@ package com.melvin.share.network;
 
 
 import com.google.gson.JsonObject;
-import com.melvin.share.model.Category;
 import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.Evaluation;
 import com.melvin.share.model.LogisticsModel;
@@ -24,26 +23,25 @@ import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
 import com.melvin.share.model.serverReturn.SelfInformation;
 import com.melvin.share.model.serverReturn.ShopBean;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
-
 
 import java.util.ArrayList;
 import java.util.Map;
 
-
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
-import retrofit.http.Body;
-import retrofit.http.DELETE;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.Part;
-import retrofit.http.Query;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -70,7 +68,7 @@ public class NetworkUtil {
         //短信验证码发送接口
         @FormUrlEncoded
         @POST("/sendMessageByPhone")
-        Observable<CommonReturnModel> sendMessage(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> sendMessage(@FieldMap Map<String, Object> map);
 
         //会员注册接口
         @POST("/app/customer/insert")
@@ -93,7 +91,7 @@ public class NetworkUtil {
         //忘记密码
         @FormUrlEncoded
         @POST("/app/customer/forgetPassword")
-        Observable<CommonReturnModel> forgetPassword(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> forgetPassword(@FieldMap Map<String, Object> map);
 
         //获取个人基本信息
         @GET("/app/customer/findCustomerById")
@@ -122,7 +120,7 @@ public class NetworkUtil {
         //设置默认收货地址
         @FormUrlEncoded
         @POST("/app/address/updateDefaultAddress")
-        Observable<CommonReturnModel> updateDefaultAddress(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> updateDefaultAddress(@FieldMap Map<String, Object> map);
 
         //修改用户地址
         @POST("/app/address/updateAddressByAddressId")
@@ -165,7 +163,7 @@ public class NetworkUtil {
         //收藏或者取消收藏接口
         @FormUrlEncoded
         @POST("/app/user/collectUserOrDeleteUser")
-        Observable<CommonReturnModel> collectUserOrDeleteUser(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> collectUserOrDeleteUser(@FieldMap Map<String, Object> map);
 
         //批量删除收藏商品
         @DELETE("/app/product/deleteCollectByIds")
@@ -216,7 +214,7 @@ public class NetworkUtil {
         //收藏商品或者取消收藏商品接口
         @FormUrlEncoded
         @POST("/app/product/collectProductOrDeleteProduct")
-        Observable<CommonReturnModel> collectProductOrDeleteProduct(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> collectProductOrDeleteProduct(@FieldMap Map<String, Object> map);
 
 
         //查询收藏商品接口
@@ -226,7 +224,7 @@ public class NetworkUtil {
         //查询到具体商品的库存量等信息
         @FormUrlEncoded
         @POST("/app/stock/findStockByAttributeValueIds")
-        Observable<ProductStore> findProductByAttributeValueIds(@FieldMap Map<Object, Object> map);
+        Observable<ProductStore> findProductByAttributeValueIds(@FieldMap Map<String, Object> map);
 
         /**
          * 商品评价
@@ -345,69 +343,84 @@ public class NetworkUtil {
         //首页推荐
         @FormUrlEncoded
         @POST("/app/product/findProductsInHomePage")
-        Observable<ArrayList<Product>> findProductsInHomePage(@FieldMap Map<Object, Object> map);
+        Observable<ArrayList<Product>> findProductsInHomePage(@FieldMap Map<String, Object> map);
 
 
         //查看分类下的商品
         @FormUrlEncoded
         @POST("/app/product/findProductsByCategory")
-        Observable<ArrayList<Product>> findProductsByCategory(@FieldMap Map<Object, Object> map);
+        Observable<ArrayList<Product>> findProductsByCategory(@FieldMap Map<String, Object> map);
 
 
         //删除浏览记录
         @FormUrlEncoded
         @POST("/app/product/deleteRecord")
-        Observable<CommonReturnModel> deleteRecord(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> deleteRecord(@FieldMap Map<String, Object> map);
 
         //查询某款具体商品的价格,数量
         @FormUrlEncoded
         @POST("/app/product/findProduct")
-        Observable<CommonReturnModel> findProduct(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findProduct(@FieldMap Map<String, Object> map);
 
         //查看用户收藏的商品
         @FormUrlEncoded
         @POST("/app/product/findProductsByCustomer")
-        Observable<ArrayList<Product>> findProductsByCustomer(@FieldMap Map<Object, Object> map);
+        Observable<ArrayList<Product>> findProductsByCustomer(@FieldMap Map<String, Object> map);
 
         //查看店铺的商品
         @FormUrlEncoded
         @POST("/app/product/findProductsBySeller")
-        Observable<ArrayList<Product>> findProductsBySeller(@FieldMap Map<Object, Object> map);
+        Observable<ArrayList<Product>> findProductsBySeller(@FieldMap Map<String, Object> map);
 
         //查看用户的浏览记录
         @FormUrlEncoded
         @POST("/app/product/findRecords")
-        Observable<ArrayList<Product>> findRecords(@FieldMap Map<Object, Object> map);
+        Observable<ArrayList<Product>> findRecords(@FieldMap Map<String, Object> map);
 
         //查看用户收藏的店铺
         @FormUrlEncoded
         @POST("/app/seller/findSellersByCustomer")
-        Observable<CommonReturnModel> findSellersByCustomer(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findSellersByCustomer(@FieldMap Map<String, Object> map);
 
         //附近实体店查询接口
         @FormUrlEncoded
         @POST("/app/customer/findStore")
-        Observable<CommonReturnModel> findStore(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findStore(@FieldMap Map<String, Object> map);
 
 
         //Banner图展示
         @FormUrlEncoded
         @POST("/app/banner/findAll")
-        Observable<CommonReturnModel> findAll(@FieldMap Map<Object, Object> map);
+        Observable<CommonReturnModel> findAll(@FieldMap Map<String, Object> map);
+
+
+//        @Multipart
+//        @POST("/common/picture/loadFileUpload")
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Body MultipartBody imgs);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Body MultipartBody imgs);
 
 
         @Multipart
         @POST("/common/picture/loadFileUpload")
-        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
-//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
+        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part() MultipartBody.Part file);
 //        Observable<CommonReturnModel<PicturePath>> uploadFile(@Body MultipartBody imgs);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
+        //  Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture") MultipartBody.Part photo);
+//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") MultipartBody.Part file);
+//
 
+//        compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+//        compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+//        compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
     }
 
     public static Retrofit getRetrofit() {
         if (sRetrofit == null) {
-            OkHttpClient httpClient = new OkHttpClient();
-            httpClient.interceptors().add(new TokenInterceptor());
+             OkHttpClient httpClient = new OkHttpClient();
+            httpClient.newBuilder().addInterceptor(new TokenInterceptor());
+//            httpClient.interceptors().add(new TokenInterceptor());
             sRetrofit = new Retrofit.Builder()
                     .client(httpClient)
                     .baseUrl(API_URL)

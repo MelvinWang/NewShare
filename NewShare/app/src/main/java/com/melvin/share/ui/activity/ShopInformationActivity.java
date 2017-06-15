@@ -142,7 +142,8 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
                 .subscribe(new RxSubscribe<CommonReturnModel<ShopBean>>(mContext, true) {
                     @Override
                     protected void myNext(CommonReturnModel<ShopBean> bean) {
-                        userId = bean.result.userId;
+                        userId = bean.result.id;
+                        allProduct();
                         shopName.setText(bean.result.name);
                         shopDesc.setText(bean.result.description);
                         collection.setChecked(bean.result.collected);
@@ -161,8 +162,6 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                 collectUserOrDeleteUser(isChecked);
-
-                                allProduct();
                             }
                         });
                     }

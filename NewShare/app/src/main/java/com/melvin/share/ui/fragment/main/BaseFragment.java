@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.melvin.share.network.NetworkUtil;
 import com.melvin.share.rx.RxFragment;
 
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
 
 
 /**

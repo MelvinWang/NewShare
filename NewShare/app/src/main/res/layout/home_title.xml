@@ -72,7 +72,7 @@
                 android:textSize="@dimen/page_14" />
 
             <TextView
-                android:id="@+id/cashback_use"
+                android:id="@+id/cashback_total"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -110,7 +110,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:id="@+id/cashback_will"
+                android:id="@+id/cashback_use"
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/page_14" />

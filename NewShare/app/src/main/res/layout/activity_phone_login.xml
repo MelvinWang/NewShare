@@ -52,7 +52,7 @@
                     android:drawablePadding="20dp"
                     android:hint="手机号"
                     android:paddingLeft="20dp"
-                    android:textColor="@color/color_999"
+                    android:textColor="@color/contents_text"
                     android:textColorHint="@color/color_999"
                     android:textSize="@dimen/page_18" />
 
@@ -74,7 +74,7 @@
                         android:hint="验证码"
                         android:paddingLeft="20dp"
                         android:inputType="number"
-                        android:textColor="@color/color_999"
+                        android:textColor="@color/contents_text"
                         android:textColorHint="@color/color_999"
                         android:textSize="@dimen/page_18" />
 
@@ -111,7 +111,7 @@
                         android:drawablePadding="10dp"
                         android:hint="请输入图片中验证码"
                         android:paddingLeft="20dp"
-                        android:textColor="@color/color_999"
+                        android:textColor="@color/contents_text"
                         android:textColorHint="@color/color_999"
                         android:textSize="@dimen/page_18" />
 
