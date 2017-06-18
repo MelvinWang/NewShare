@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/product_name"
                     android:layout_marginTop="30dp"
-                    android:text="分享给好友享10%的返现"
+                    android:text="分享给好友享5%的返现"
                     android:textSize="@dimen/page_12" />
 
                 <ImageButton

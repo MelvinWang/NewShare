@@ -195,6 +195,7 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
         dataList.clear();
         adpter.notifyDataSetChanged();
         requestProduct();
+        requestReward();
     }
 
     /**

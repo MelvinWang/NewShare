@@ -16,5 +16,6 @@ public class Reward extends BaseModel{
 
     public String cashbackUse;
     public String cashbackWill;
+    public String cashTotal;
 
 }

@@ -62,6 +62,7 @@ public class ShareHotItemViewModel extends BaseObservable {
         String[] split = model.picture.split("\\|");
         if (split != null && split.length >= 1) {
             String url = GlobalUrl.PICTURE_URL + split[0];
+            LogUtils.i(url);
             return url;
         }
         return "";

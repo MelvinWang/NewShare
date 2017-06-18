@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-        } else if (1== qrcodeShareModel.flagCode) {
+        } else if (1 == qrcodeShareModel.flagCode) {
             try {
                 Bitmap qrCodeBitmap = Utils.getBitmap(qrcodeShareModel.code);
                 UMImage uMImage = new UMImage(this, qrCodeBitmap);
@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-        }else if (2 == qrcodeShareModel.flagCode) {
+        } else if (2 == qrcodeShareModel.flagCode) {
             try {
                 Bitmap qrCodeBitmap = Utils.getBitmap(qrcodeShareModel.code);
                 UMImage uMImage = new UMImage(this, qrCodeBitmap);
@@ -205,9 +205,9 @@ public class MainActivity extends BaseActivity {
             }
             firstClickTime = 0;//重置时间, 重新开始
         } else {
-            Utils.showToast(context, "请再点击一次退出");
             firstClickTime = System.currentTimeMillis();
         }
+        Utils.showToast(context, "请再点击一次退出");
 
     }
 

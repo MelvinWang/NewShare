@@ -67,9 +67,9 @@ public class LoginActivity extends BaseActivity {
             }
             firstClickTime = 0;//重置时间, 重新开始
         } else {
-            Utils.showToast(context, "请再点击一次退出");
             firstClickTime = System.currentTimeMillis();
         }
+            Utils.showToast(context, "请再点击一次退出");
 
     }
 

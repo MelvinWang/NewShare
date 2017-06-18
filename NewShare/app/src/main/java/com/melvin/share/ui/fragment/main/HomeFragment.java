@@ -187,7 +187,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
                 .subscribe(new RxModelSubscribe<Reward>(mContext, false) {
                     @Override
                     protected void myNext(Reward bean) {
-                        cashbackTotal.setText(bean.cashbackWill);
+                        cashbackTotal.setText(bean.cashTotal);
                         cashbackUse.setText(bean.cashbackUse);
                     }
 
@@ -206,6 +206,7 @@ public class HomeFragment extends BaseFragment implements MyRecyclerView.Loading
         pageNo = 1;
         dataList.clear();
         requestHotProduct();
+        requestReward();
 
 
     }

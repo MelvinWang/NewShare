@@ -78,6 +78,7 @@ public class SettingActivity extends BaseActivity {
                     @Override
                     protected void myNext(Customer customer) {
                         mCustomer = customer;
+                        resultPicturePath=customer.picture;
                         if (!TextUtils.isEmpty(customer.picture)) {
                             Glide.with(mContext)
                                     .load((GlobalUrl.SERVICE_URL + customer.picture))
@@ -269,6 +270,8 @@ public class SettingActivity extends BaseActivity {
     private void updateCutomerById() {
         mCustomer.customerId = mCustomer.id;
         mCustomer.picture = resultPicturePath;
+        ShapreUtils.setUserName(mCustomer.nickName);
+        ShapreUtils.setPicture(GlobalUrl.SERVICE_URL+mCustomer.picture);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(mCustomer)));
 
