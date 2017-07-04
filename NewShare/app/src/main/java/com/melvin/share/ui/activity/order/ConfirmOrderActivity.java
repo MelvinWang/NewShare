@@ -54,7 +54,8 @@ public class ConfirmOrderActivity extends BaseActivity {
     private String totalNum = "";
     private String cartIds = "";
     private boolean fromCat;//true代表购物车进入
-
+    private String scanCode= "";
+//    private String scanCodes = "";
 
     @Override
     protected void initView() {
@@ -90,8 +91,10 @@ public class ConfirmOrderActivity extends BaseActivity {
             Product product = products.get(i);
             if (i == 0) {
                 cartIds = cartIds + product.id;//这个时候的ID是购物车里带过来的ID
+//                scanCodes = scanCodes + product.scanCode;
             } else {
                 cartIds = cartIds + "," + product.id;
+//                scanCodes = scanCodes + "," + product.scanCode;
             }
             BigDecimal multiply = new BigDecimal((product.price)).multiply(new BigDecimal((product.productNum)));
             totalPriceBigcimal = totalPriceBigcimal.add(multiply);
@@ -112,6 +115,7 @@ public class ConfirmOrderActivity extends BaseActivity {
             stockId = product.stockId;
             postage = product.postage;
             totalNum = product.productNum;
+            scanCode = product.scanCode;
             BigDecimal multiply = new BigDecimal((product.price)).multiply(new BigDecimal((product.productNum)));
             totalPriceBigcimal = totalPriceBigcimal.add(multiply);
             totalPostage = totalPostage.add(new BigDecimal((product.postage)));
@@ -163,6 +167,8 @@ public class ConfirmOrderActivity extends BaseActivity {
         intent.putExtra("postage", postage);
         intent.putExtra("fromCat", fromCat);
         intent.putExtra("totalNum", totalNum);
+//        intent.putExtra("scanCodes", scanCodes);
+        intent.putExtra("scanCode", scanCode);
         startActivity(intent);
         if (fromCat) {
             ShoppingCarActivity.updateFlag = true;

@@ -9,6 +9,7 @@ import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.User;
 import com.melvin.share.network.GlobalUrl;
+import com.melvin.share.rx.RxOtherBus;
 import com.melvin.share.ui.activity.ProductInfoActivity;
 
 /**
@@ -29,9 +30,10 @@ public class AllProductItemViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-        Intent intent = new Intent(context, ProductInfoActivity.class);
-        intent.putExtra("productId",product.id);
-        context.startActivity(intent);
+        RxOtherBus.get().post(product.id);
+//        Intent intent = new Intent(context, ProductInfoActivity.class);
+//        intent.putExtra("productId",product.id);
+//        context.startActivity(intent);
     }
 
     public String getProductName() {

@@ -32,6 +32,16 @@
                 android:text="提  现"
                 android:textColor="@color/color_333"
                 android:textSize="@dimen/page_18" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="right"
+                android:paddingRight="15dp"
+                android:onClick="toRecord"
+                android:text="提现记录"
+                android:textColor="@color/color_333"
+                android:textSize="@dimen/page_14" />
         </android.support.v7.widget.Toolbar>
 
         <TextView
@@ -51,7 +61,7 @@
             android:paddingLeft="20dp"
             android:textColor="@color/color_999"
             android:textColorHint="@color/color_999"
-            android:textSize="@dimen/page_18" />
+            android:textSize="@dimen/page_15" />
 
         <TextView
             android:layout_width="match_parent"
@@ -77,6 +87,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
+                android:textColor="@color/black"
                 android:text="支付宝账号：" />
 
             <EditText
@@ -86,17 +97,44 @@
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:textColorHint="@color/color_999"
+                android:textSize="@dimen/page_15"
                 android:hint="请输入支付宝账号" />
         </LinearLayout>
 
         <TextView
             style="@style/CommonLine"
             android:layout_marginTop="1dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:text="姓名：" />
+
+            <EditText
+                android:id="@+id/real_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:textColorHint="@color/color_999"
+                android:textSize="@dimen/page_15"
+                android:hint="支付宝对应的真实姓名" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:visibility="gone"
             android:padding="10dp">
 
             <TextView
@@ -113,6 +151,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:textColorHint="@color/color_999"
+                android:textSize="@dimen/page_15"
                 android:hint="请输入手机号码" />
         </LinearLayout>
 
@@ -123,6 +162,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             android:background="@color/white">
 
             <TextView
@@ -170,7 +210,7 @@
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="注意事项："
-            android:textColor="@color/color_4A"
+            android:textColor="@color/black"
             android:textSize="@dimen/page_20" />
 
         <TextView
@@ -191,20 +231,6 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:text="2.提现将会在三个工作日内到账。" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:onClick="confirmDeposit"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/btn_rectangle_background"
-                android:text="确认提现"
-                android:textColor="@color/white" />
-        </RelativeLayout>
 
     </LinearLayout>
 </layout>

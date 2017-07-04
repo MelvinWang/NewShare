@@ -18,12 +18,14 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.adapter.AllProductAdapter;
 import com.melvin.share.databinding.ActivityShopInformationBinding;
+import com.melvin.share.event.PostEvent;
 import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.Product;
 import com.melvin.share.model.list.CommonList;
@@ -31,15 +33,20 @@ import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.ShopBean;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxCarBus;
 import com.melvin.share.rx.RxModelSubscribe;
+import com.melvin.share.rx.RxOtherBus;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.view.MyRecyclerView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Author: Melvin
@@ -76,10 +83,31 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
         binding = DataBindingUtil.setContentView(this, R.layout.activity_shop_infomation);
         mContext = this;
         initWindow();
+        RxOtherBus.get().register(this); //注册
         initToolbar(binding.toolbar);
         ininData();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxOtherBus.get().unregister(this); //注销
+    }
+
+    /**
+     * 接收一个消息
+     */
+    @Subscribe
+    public void flag(String productId) {
+        Intent intent = new Intent(mContext, ProductInfoActivity.class);
+        intent.putExtra("productId", productId);
+        if (scan){
+            intent.putExtra("shopScanCode", code);
+            intent.putExtra("shopScanCodeFlag", true);
+        }
+        startActivity(intent);
+
+    }
 
     private void ininData() {
         map = new HashMap();

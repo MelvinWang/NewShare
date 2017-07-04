@@ -83,6 +83,9 @@ public class ProductInfoActivity extends BaseActivity {
     private boolean scan;//true代表扫码进入
     private String scanCode;
 
+    private boolean shopScanCodeFlag;//代表从店铺进入
+    private String shopScanCode;
+
 
     @Override
     protected void initView() {
@@ -93,6 +96,10 @@ public class ProductInfoActivity extends BaseActivity {
         productId = getIntent().getStringExtra("productId");
         scan = getIntent().getBooleanExtra("scan", false);
         scanCode = getIntent().getStringExtra("scanCode");
+
+        shopScanCodeFlag = getIntent().getBooleanExtra("shopScanCodeFlag", false);
+        shopScanCode = getIntent().getStringExtra("shopScanCode");
+
         LogUtils.i("ProductInfoActivity哈哈" + productId);
         initWindow();
         initToolbar(binding.toolbar);
@@ -456,6 +463,12 @@ public class ProductInfoActivity extends BaseActivity {
                         product.price = repertoryProductPrice;
                         product.postage = productDetail.postage;
                         product.stockId =repertoryId;
+                        if (scan) {
+                            product.scanCode =scanCode;
+                        }
+                        if (shopScanCodeFlag) {
+                            product.scanCode =shopScanCode;
+                        }
                         products.add(product);
                         Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
                         intent.putParcelableArrayListExtra("products", (ArrayList<? extends Parcelable>) products);
@@ -465,6 +478,12 @@ public class ProductInfoActivity extends BaseActivity {
                         Map carMap = new HashMap();
                         carMap.put("stockId", repertoryId);
                         carMap.put("productNumber", menuWindow.productNumber);
+                        if (scan) {
+                            carMap.put("scanCode", scanCode);
+                        }
+                        if (shopScanCodeFlag) {
+                            carMap.put("scanCode", shopScanCode);
+                        }
                         ShapreUtils.putParamCustomerId(carMap);
                         LogUtils.i("哈insertProductToCart" + carMap.toString());
                         JsonParser jsonParser = new JsonParser();

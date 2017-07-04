@@ -81,6 +81,8 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
     private String stockId;
     private String postage;
     private String totalNum;
+    private String scanCode;
+//    private String scanCodes ;
     private boolean fromAllOrder;
     private boolean fromCat;
     private String orderId;
@@ -149,6 +151,8 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         postage = intent.getStringExtra("postage");
         postage = intent.getStringExtra("postage");
         totalNum = intent.getStringExtra("totalNum");
+//        scanCodes = intent.getStringExtra("scanCodes");
+        scanCode = intent.getStringExtra("scanCode");
         fromCat = intent.getBooleanExtra("fromCat", true);
 
         //是否从全部订单页面过来，true代表是
@@ -216,6 +220,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         orderMap.put("recevierPhone", phone);
         orderMap.put("receiveAddress", address);
         orderMap.put("cartIds", cartIds);
+//        orderMap.put("scanCodes", scanCodes);
         ShapreUtils.putParamCustomerId(orderMap);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(orderMap)));
@@ -261,6 +266,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
         orderMap.put("totalNum", totalNum);
         orderMap.put("stockId", stockId);
         orderMap.put("postage", postage);
+        orderMap.put("scanCode", scanCode);
         ShapreUtils.putParamCustomerId(orderMap);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(orderMap)));
@@ -559,7 +565,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
     private void aliPay() {
         boolean rsa2 = (RSA2_PRIVATE.length() > 0);
 //        payTotalFee
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, payTotalFee, payOrderNumber, payTitle, payBody, DateUtil.getCurrDateTime());
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, "0.01", payOrderNumber, payTitle, payBody, DateUtil.getCurrDateTime());
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
         String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
         String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);

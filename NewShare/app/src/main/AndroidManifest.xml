@@ -265,6 +265,9 @@
         <activity
             android:name=".ui.activity.shopcar.DepositActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.selfcenter.DepositRecordActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.shopcar.ShoppingCarEditActivity"

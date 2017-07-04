@@ -18,6 +18,7 @@ import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.list.HomeHotProduct;
 import com.melvin.share.model.serverReturn.AddressBean;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
+import com.melvin.share.model.serverReturn.DepositRecordBean;
 import com.melvin.share.model.serverReturn.OnlineStore;
 import com.melvin.share.model.serverReturn.ProductDetailBean;
 import com.melvin.share.model.serverReturn.ProductStore;
@@ -405,15 +406,16 @@ public class NetworkUtil {
         @Multipart
         @POST("/common/picture/loadFileUpload")
         Observable<CommonReturnModel<PicturePath>> uploadFile(@Part() MultipartBody.Part file);
-//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Body MultipartBody imgs);
-//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") RequestBody file);
-        //  Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture") MultipartBody.Part photo);
-//        Observable<CommonReturnModel<PicturePath>> uploadFile(@Part("picture\";filename=\"real.jpg\"") MultipartBody.Part file);
-//
 
-//        compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-//        compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-//        compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+
+
+        //查询提现记录
+        @POST("/app/reward/findWithdrawCashByCustomer")
+        Observable<CommonList<DepositRecordBean>> findWithdrawCashByCustomer(@Body JsonObject json);
+
+        //个人提现
+        @POST("/app/reward/withdrawCash")
+        Observable<CommonReturnModel> withdrawCash(@Body JsonObject json);
     }
 
     public static Retrofit getRetrofit() {
