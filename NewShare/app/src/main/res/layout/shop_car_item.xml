@@ -19,16 +19,15 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/list_background"
-        >
+        android:background="@drawable/list_background">
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
             android:button="@drawable/dot_select"
             android:checked="@{viewModel.isChecked}"
             android:onClick="@{viewModel.oncheckProduct}"
-            android:layout_marginLeft="4dp"
             android:paddingLeft="6dp"
             android:paddingRight="4dp" />
 
@@ -51,13 +50,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:onClick="@{viewModel.onItemClick}"
-            android:layout_toRightOf="@id/product_img">
+            android:layout_toRightOf="@id/product_img"
+            android:onClick="@{viewModel.onItemClick}">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:visibility="@{viewModel.isShowProductCode?View.VISIBLE : View.GONE}"
+                    android:src="@mipmap/car_product_code" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:visibility="@{viewModel.isShowShopCode?View.VISIBLE : View.GONE}"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/car_shop_code" />
 
                 <TextView
                     android:id="@+id/product_name"

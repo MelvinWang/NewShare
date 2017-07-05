@@ -31,7 +31,7 @@ public class DepositRecordItemViewModel extends BaseObservable {
     }
 
     public String getAccount() {
-        return bean.account;
+        return bean.money+"元";
     }
 
     public String getApplyDate() {

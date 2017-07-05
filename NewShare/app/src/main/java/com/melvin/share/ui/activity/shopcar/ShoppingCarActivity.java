@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.melvin.share.R;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.rx.RxCarBus;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
@@ -183,6 +184,7 @@ public class ShoppingCarActivity extends BaseActivity implements MyRecyclerView.
      */
     private void requestData(final boolean flag) {
         ShapreUtils.putParamCustomerId(map);
+        LogUtils.i(ShapreUtils.getCustomerId()+"哈哈哈");
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(map)));
         fromNetwork.findCartByCustomer(jsonObject)

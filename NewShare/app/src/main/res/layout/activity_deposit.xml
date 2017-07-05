@@ -32,13 +32,14 @@
                 android:text="提  现"
                 android:textColor="@color/color_333"
                 android:textSize="@dimen/page_18" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="right"
-                android:paddingRight="15dp"
                 android:onClick="toRecord"
+                android:paddingRight="15dp"
                 android:text="提现记录"
                 android:textColor="@color/color_333"
                 android:textSize="@dimen/page_14" />
@@ -58,8 +59,8 @@
             android:layout_height="50dp"
             android:drawablePadding="20dp"
             android:hint="请输入提现金额"
+            android:inputType="numberDecimal"
             android:paddingLeft="20dp"
-            android:textColor="@color/color_999"
             android:textColorHint="@color/color_999"
             android:textSize="@dimen/page_15" />
 
@@ -87,8 +88,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:text="支付宝账号：" />
+                android:text="支付宝账号："
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/alipay_number"
@@ -96,14 +97,15 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
+                android:hint="请输入支付宝账号"
                 android:textColorHint="@color/color_999"
-                android:textSize="@dimen/page_15"
-                android:hint="请输入支付宝账号" />
+                android:textSize="@dimen/page_15" />
         </LinearLayout>
 
         <TextView
             style="@style/CommonLine"
             android:layout_marginTop="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,8 +117,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:text="姓名：" />
+                android:text="姓名："
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/real_name"
@@ -124,9 +126,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
+                android:hint="支付宝对应的真实姓名"
                 android:textColorHint="@color/color_999"
-                android:textSize="@dimen/page_15"
-                android:hint="支付宝对应的真实姓名" />
+                android:textSize="@dimen/page_15" />
         </LinearLayout>
 
 
@@ -134,8 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:visibility="gone"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -150,9 +152,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
+                android:hint="请输入手机号码"
                 android:textColorHint="@color/color_999"
-                android:textSize="@dimen/page_15"
-                android:hint="请输入手机号码" />
+                android:textSize="@dimen/page_15" />
         </LinearLayout>
 
         <TextView
@@ -162,8 +164,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="gone"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_verification"
@@ -232,5 +234,18 @@
             android:paddingLeft="10dp"
             android:text="2.提现将会在三个工作日内到账。" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/btn_rectangle_background"
+                android:onClick="confirmDeposit"
+                android:text="确认提现"
+                android:textColor="@color/white" />
+        </RelativeLayout>
     </LinearLayout>
 </layout>

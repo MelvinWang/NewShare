@@ -76,7 +76,7 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
     private String userId;
     private boolean scan;//true代表扫描进入
     private String code;//二维码
-    private String shareId;//分享者ID
+
 
     @Override
     protected void initView() {
@@ -116,7 +116,6 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
 
         userId = getIntent().getStringExtra("userId");
         code = getIntent().getStringExtra("code");
-        shareId = getIntent().getStringExtra("shareId");
 
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
@@ -162,10 +161,9 @@ public class ShopInformationActivity extends BaseActivity implements MyRecyclerV
      * 获取头信息 扫描
      */
     private void getScanShopTitel() {
-        LogUtils.i("shareId"+shareId);
         LogUtils.i("ShapreUtils.getCustomerId()"+ShapreUtils.getCustomerId());
         LogUtils.i("code"+code);
-        fromNetwork.scanUser(shareId, ShapreUtils.getCustomerId(), code)
+        fromNetwork.scanUser(ShapreUtils.getCustomerId(), code)
                 .compose(new RxActivityHelper<CommonReturnModel<ShopBean>>().ioMain(ShopInformationActivity.this, true))
                 .subscribe(new RxSubscribe<CommonReturnModel<ShopBean>>(mContext, true) {
                     @Override

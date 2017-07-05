@@ -161,10 +161,12 @@ public class QrcodeFragment extends BaseFragment {
         dialog.setDetail("扫一扫，可进入此店购买商品返利");
         dialog.show();
         try {
-            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(
-                    bean.scanCode + "," + ShapreUtils.getCustomerId(), 1000);
+//            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(
+//                    bean.scanCode + "," + ShapreUtils.getCustomerId(), 1000);
+            Bitmap qrCodeBitmap = EncodingHandler.createQRCode( bean.scanCode , 1000);
             dialog.setImgview(qrCodeBitmap);
-            shareCode = bean.scanCode + "," + ShapreUtils.getCustomerId();
+//            shareCode = bean.scanCode + "," + ShapreUtils.getCustomerId();
+            shareCode = bean.scanCode;
         } catch (WriterException e) {
             e.printStackTrace();
         }

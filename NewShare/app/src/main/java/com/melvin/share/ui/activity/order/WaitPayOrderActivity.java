@@ -565,7 +565,7 @@ public class WaitPayOrderActivity extends BaseActivity implements CompoundButton
     private void aliPay() {
         boolean rsa2 = (RSA2_PRIVATE.length() > 0);
 //        payTotalFee
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, "0.01", payOrderNumber, payTitle, payBody, DateUtil.getCurrDateTime());
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, payTotalFee, payOrderNumber, payTitle, payBody, DateUtil.getCurrDateTime());
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
         String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
         String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);

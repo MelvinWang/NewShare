@@ -3,6 +3,7 @@ package com.melvin.share.modelview.item;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -91,6 +92,25 @@ public class ShopCarItemViewModel extends BaseObservable {
         notifyChange();
     }
 
+    public boolean getIsShowProductCode() {
+        if (TextUtils.isEmpty(product.scanCode)) {//为空不显示
+            return false;
+        } else if (product.scanCode.split("_").length>=2) {//是店铺码
+            return false;
+        } else {//是商品码
+            return true;
+        }
+    }
+
+    public boolean getIsShowShopCode() {
+        if (TextUtils.isEmpty(product.scanCode)) {//为空不显示
+            return false;
+        } else if (product.scanCode.split("_").length>=2) {//是店铺码
+            return true;
+        } else {//是商品码
+            return false;
+        }
+    }
 
     public boolean getIsShowEdit() {
         return isShowEdit;

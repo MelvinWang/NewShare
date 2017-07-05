@@ -106,7 +106,10 @@ public class WalletUseFragment extends BaseFragment implements MyRecyclerView.Lo
         depositButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, DepositActivity.class));
+                String accountS = sumMoneyView.getText().toString();
+                Intent intent = new Intent(mContext, DepositActivity.class);
+                intent.putExtra("account", accountS);
+                startActivity(intent);
             }
         });
         recyclerView.addHeaderView(headerView);

@@ -147,8 +147,7 @@ public class NetworkUtil {
 
         //扫描店铺二维码
         @GET("/app/scanCode/scanUser")
-        Observable<CommonReturnModel<ShopBean>> scanUser(@Query("shareId") String shareId,
-                                                         @Query("customerId") String customerId,
+        Observable<CommonReturnModel<ShopBean>> scanUser(@Query("customerId") String customerId,
                                                          @Query("code") String code);
 
         //附近实体店查询接口,参数:longitude为经度,latitude为纬度

@@ -49,12 +49,15 @@ public class DepositActivity extends BaseActivity {
         mContext = this;
         initWindow();
         initToolbar(binding.toolbar);
+        ininData();
     }
 
     private void ininData() {
         cash = binding.cash;
         alipayNumber = binding.alipayNumber;
         realName = binding.realName;
+        String account = getIntent().getStringExtra("account");
+        cash.setHint("最大提现金额为："+account);
 //        phoneNumber = binding.phoneNumber;
 //        valiNumber = binding.valiNumber;
 
