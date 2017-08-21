@@ -17,12 +17,17 @@
             app:auto_play="true"
             app:canLoop="true"
             app:durtion="3000"
+            android:visibility="invisible"
             app:horizontal_transitionEffect="defaultEffect"
             app:indicator_position="bottom_mid"
             app:indicator_select="@drawable/page_indicator_select"
             app:indicator_unselect="@drawable/page_indicator_unselect"
             app:isVertical="false"
             app:scroll_duration="200" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:src="@mipmap/banner"
+            android:layout_height="180dp" />
 
         <RelativeLayout
             android:layout_width="350dp"

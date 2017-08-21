@@ -25,6 +25,7 @@ import com.melvin.share.model.BaseModel;
 import com.melvin.share.model.CategoryBean;
 import com.melvin.share.model.list.CommonList;
 import com.melvin.share.model.serverReturn.ShopBean;
+import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.ui.activity.SearchActivity;
@@ -143,11 +144,8 @@ public class RecommendActivity extends BaseActivity implements MyRecyclerView.Lo
      * 轮播图
      */
     private void requestAD() {
-        String url = "http://h.hiphotos.baidu.com/image/h%3D300/sign=ff62800b073b5bb5a1d726fe06d2d523/a6efce1b9d16fdfa7807474eb08f8c5494ee7b23.jpg";
+        String url = GlobalUrl.PICTURE_banner;
         networkImages.clear();
-        networkImages.add(url);
-        networkImages.add(url);
-        networkImages.add(url);
         networkImages.add(url);
         mLBanners.setAdapter(new UrlImgAdapter(mContext), networkImages);
     }
