@@ -1,20 +1,25 @@
 package com.melvin.share.ui.fragment.login;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.melvin.share.R;
 import com.melvin.share.Utils.CodeUtils;
+import com.melvin.share.Utils.LogUtils;
 import com.melvin.share.Utils.ShapreUtils;
 import com.melvin.share.Utils.Utils;
 import com.melvin.share.Utils.ViewUtils;
@@ -24,16 +29,25 @@ import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.model.serverReturn.SelfInformation;
 import com.melvin.share.rx.RxActivityHelper;
 import com.melvin.share.rx.RxFragmentHelper;
+import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.ForgetPasswordActivity;
+import com.melvin.share.ui.activity.common.LoginActivity;
 import com.melvin.share.ui.activity.common.MainActivity;
 import com.melvin.share.ui.activity.common.RegisterFirstActivity;
 import com.melvin.share.ui.fragment.main.BaseFragment;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.utils.Log;
+import com.umeng.socialize.utils.SocializeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.R.id.list;
 import static com.melvin.share.R.mipmap.phone;
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Author: Melvin
@@ -53,12 +67,13 @@ public class NormalLoginFragment extends BaseFragment implements View.OnClickLis
     private EditText phoneEt;
     private EditText passwordEt;
     private EditText cerificationCodeEt;
-
+    private ProgressDialog dialog;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_normal_login, container, false);
         if (root == null) {
             mContext = getActivity();
+            dialog = new ProgressDialog(mContext);
             initData();
             initClick();
             root = binding.getRoot();
@@ -118,13 +133,102 @@ public class NormalLoginFragment extends BaseFragment implements View.OnClickLis
                 loginByPassword();
                 break;
             case R.id.qq://qq登录
-                Utils.showToast(mContext, "qq登录");
+                UMShareAPI.get(mContext).doOauthVerify((LoginActivity)mContext, SHARE_MEDIA.QQ, authListener);
                 break;
             case R.id.wechat://微信登录
-                Utils.showToast(mContext, "微信登录");
+                UMShareAPI.get(mContext).doOauthVerify((LoginActivity)mContext, SHARE_MEDIA.WEIXIN, authListener);
                 break;
         }
     }
+
+    UMAuthListener authListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            SocializeUtils.safeShowDialog(dialog);
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            SocializeUtils.safeCloseDialog(dialog);
+            LogUtils.i(data.toString()+"成功了");
+            if (platform.equals(SHARE_MEDIA.WEIXIN)){
+                loginByWechat(data);
+            }else{
+                loginByQQ(data);
+            }
+//
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            SocializeUtils.safeCloseDialog(dialog);
+            Toast.makeText(mContext, "失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+            LogUtils.i(t.getMessage());
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            SocializeUtils.safeCloseDialog(dialog);
+            Toast.makeText(mContext, "取消了", Toast.LENGTH_LONG).show();
+        }
+    };
+
+
+    /**
+     * 微信登录
+     * @param data
+     */
+    private void loginByWechat(Map<String, String> data) {
+        Map map = new HashMap();
+        map.put("openIdWechat", data.get("openid"));
+        map.put("accessToken",data.get("access_token"));
+        fromNetwork.loginByWechat(map)
+                .compose(new RxFragmentHelper<SelfInformation.CustomerBean>().ioMain(mContext, NormalLoginFragment.this, true))
+                .subscribe(new RxModelSubscribe<SelfInformation.CustomerBean>(mContext, true) {
+                    @Override
+                    protected void myNext(SelfInformation.CustomerBean commonReturnModel) {
+                        ShapreUtils.setCustomerId(commonReturnModel.id);
+                        ShapreUtils.setUserName(commonReturnModel.userName);
+                        ShapreUtils.setPicture(commonReturnModel.picture);
+                        mContext.startActivity(new Intent(mContext, MainActivity.class));
+                        getActivity().finish();
+                    }
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message+"12");
+                    }
+                });
+
+    }
+
+
+    /**
+     * QQ登录
+     * @param data
+     */
+    private void loginByQQ(Map<String, String> data) {
+        Map map = new HashMap();
+        map.put("openIdQQ", data.get("openid"));
+        map.put("openKey",data.get("access_token"));
+        fromNetwork.loginByQQ(map)
+                .compose(new RxFragmentHelper<SelfInformation.CustomerBean>().ioMain(mContext, NormalLoginFragment.this, true))
+                .subscribe(new RxModelSubscribe<SelfInformation.CustomerBean>(mContext, true) {
+                    @Override
+                    protected void myNext(SelfInformation.CustomerBean commonReturnModel) {
+                        ShapreUtils.setCustomerId(commonReturnModel.id);
+                        ShapreUtils.setUserName(commonReturnModel.userName);
+                        ShapreUtils.setPicture(commonReturnModel.picture);
+                        mContext.startActivity(new Intent(mContext, MainActivity.class));
+                        getActivity().finish();
+                    }
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message+"12");
+                    }
+                });
+
+    }
+
 
     private void loginByPassword() {
         if (TextUtils.isEmpty(phoneEt.getText().toString())) {

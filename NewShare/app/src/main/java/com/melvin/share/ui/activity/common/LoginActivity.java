@@ -3,6 +3,7 @@ package com.melvin.share.ui.activity.common;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.melvin.share.adapter.LoginAdapter;
 import com.melvin.share.adapter.QrcodeAdapter;
 import com.melvin.share.databinding.ActivityLoginBinding;
 import com.melvin.share.ui.activity.common.BaseActivity;
+import com.umeng.socialize.UMShareAPI;
 
 
 /**
@@ -84,6 +86,24 @@ public class LoginActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UMShareAPI.get(this).release();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        UMShareAPI.get(this).onSaveInstanceState(outState);
     }
 
 

@@ -89,6 +89,18 @@ public class NetworkUtil {
 
                                                                         @Query("code") String password);
 
+        //QQ登录
+        @FormUrlEncoded
+        @POST("/app/customer/login-by-QQ")
+        Observable<SelfInformation.CustomerBean> loginByQQ(@FieldMap Map<String, String> map);
+        //微信登录
+        @FormUrlEncoded
+        @POST("/app/customer/login-by-wechat")
+        Observable<SelfInformation.CustomerBean> loginByWechat(@FieldMap Map<String, String> map);
+
+
+
+
         //忘记密码
         @FormUrlEncoded
         @POST("/app/customer/forgetPassword")

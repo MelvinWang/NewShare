@@ -268,12 +268,16 @@ public class SettingActivity extends BaseActivity {
      * 保存
      */
     private void updateCutomerById() {
+        if (TextUtils.isEmpty(mCustomer.nickName)){
+            mCustomer.nickName=mCustomer.userName;
+        }
         mCustomer.customerId = mCustomer.id;
         mCustomer.picture = resultPicturePath;
-        ShapreUtils.setUserName(mCustomer.nickName);
+        ShapreUtils.setUserName(mCustomer.userName);
         ShapreUtils.setPicture(GlobalUrl.SERVICE_URL+mCustomer.picture);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse((new Gson().toJson(mCustomer)));
+        LogUtils.i(jsonObject.toString());
 
         fromNetwork.updateCutomerById(jsonObject)
                 .compose(new RxActivityHelper<CommonReturnModel>().ioMain(SettingActivity.this, false))
