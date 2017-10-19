@@ -1,12 +1,15 @@
 package com.melvin.share.ui.activity.selfcenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -15,6 +18,7 @@ import com.google.gson.JsonParser;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.melvin.share.R;
 import com.melvin.share.Utils.LogUtils;
+import com.melvin.share.model.serverReturn.SelfInformation;
 import com.melvin.share.network.GlobalUrl;
 import com.melvin.share.rx.RxCommonBus;
 import com.melvin.share.Utils.ShapreUtils;
@@ -24,14 +28,28 @@ import com.melvin.share.model.customer.Customer;
 import com.melvin.share.model.serverReturn.CommonReturnModel;
 import com.melvin.share.popwindow.SexPopupWindow;
 import com.melvin.share.rx.RxActivityHelper;
+import com.melvin.share.rx.RxFragmentHelper;
 import com.melvin.share.rx.RxModelSubscribe;
 import com.melvin.share.rx.RxSubscribe;
 import com.melvin.share.ui.activity.common.AmendPasswordActivity;
+import com.melvin.share.ui.activity.common.AmendPhoneActivity;
 import com.melvin.share.ui.activity.common.BaseActivity;
 import com.melvin.share.ui.activity.common.CityTransparentActivity;
 import com.melvin.share.ui.activity.common.LoginActivity;
+import com.melvin.share.ui.activity.common.MainActivity;
 import com.melvin.share.ui.activity.common.PictureActivity;
+import com.melvin.share.ui.activity.common.RegisterFirstActivity;
+import com.melvin.share.ui.fragment.login.NormalLoginFragment;
 import com.melvin.share.view.SelectTimeopupWindow;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.utils.SocializeUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Author: Melvin
@@ -48,11 +66,12 @@ public class SettingActivity extends BaseActivity {
     private String sex;
     private String resultPicturePath;
     private Customer mCustomer;
-
+    private ProgressDialog dialog;
     @Override
     protected void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
         mContext = this;
+        dialog = new ProgressDialog(mContext);
         sexPopupWindow = new SexPopupWindow(this, itemsOnClick);
         selectTimeopupWindow = new SelectTimeopupWindow(mContext);
         initWindow();
@@ -88,6 +107,16 @@ public class SettingActivity extends BaseActivity {
                         }
                         LogUtils.i(mCustomer.toString());
                         binding.setModel(mCustomer);
+                        if(TextUtils.isEmpty(mCustomer.openIdQQ)){
+                            binding.tvQq.setText("未绑定");
+                        }else{
+                            binding.tvQq.setText("已绑定");
+                        }
+                        if(TextUtils.isEmpty(mCustomer.openIdWechat)){
+                            binding.tvWechat.setText("未绑定");
+                        }else{
+                            binding.tvWechat.setText("已绑定");
+                        }
                     }
 
                     @Override
@@ -194,6 +223,16 @@ public class SettingActivity extends BaseActivity {
     public void amendPassword(View v) {
         startActivity(new Intent(mContext, AmendPasswordActivity.class));
     }
+    /**
+     * 修改手机号
+     *
+     * @param v
+     */
+    public void amendPhone(View v) {
+        Intent intent = new Intent();
+        intent.setClass(mContext, AmendPhoneActivity.class);
+        startActivityForResult(intent, 30);
+    }
 
     /**
      * 退出当前账号
@@ -208,39 +247,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RxCommonBus.get().unregister(this);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10) {
-            if (data != null) {
-                String result = data.getExtras().getString("result");
-                String[] split = result.split("-");
-                if (split.length >= 3) {
-
-                    binding.tvAddress.setText(split[0] + split[1] + split[2]);
-                }
-            }
-        } else if (requestCode == 20) {
-            if (data != null) {
-                String result = data.getExtras().getString("result");
-
-                if (!TextUtils.isEmpty(result)) {
-                    Glide.with(mContext)
-                            .load((GlobalUrl.SERVICE_URL + result))
-                            .placeholder(R.mipmap.logo)
-                            .centerCrop()
-                            .into(binding.avatarPic);
-                }
-                resultPicturePath = result;
-            }
-        }
-    }
 
     /**
      * toolbar上菜单的选择事件
@@ -254,6 +261,118 @@ public class SettingActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void amendWechat(View view) {
+        if(TextUtils.isEmpty(mCustomer.openIdWechat)){
+            UMShareAPI.get(mContext).doOauthVerify(SettingActivity.this, SHARE_MEDIA.WEIXIN, authListener);
+        }else{
+            Utils.showToast(mContext, "已绑定");
+        }
+    }
+
+    public void amendQQ(View view) {
+        if(TextUtils.isEmpty(mCustomer.openIdQQ)){
+            UMShareAPI.get(mContext).doOauthVerify(SettingActivity.this, SHARE_MEDIA.QQ, authListener);
+        }else{
+            Utils.showToast(mContext, "已绑定");
+        }
+    }
+
+
+    UMAuthListener authListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            SocializeUtils.safeShowDialog(dialog);
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            SocializeUtils.safeCloseDialog(dialog);
+            LogUtils.i(data.toString()+"成功了");
+            if (platform.equals(SHARE_MEDIA.WEIXIN)){
+                bingdingWechat(data);
+            }else{
+                bingdingQQ(data);
+            }
+//
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            SocializeUtils.safeCloseDialog(dialog);
+            Toast.makeText(mContext, "失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+            LogUtils.i(t.getMessage());
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            SocializeUtils.safeCloseDialog(dialog);
+            Toast.makeText(mContext, "取消了", Toast.LENGTH_LONG).show();
+        }
+    };
+
+    /**
+     * 微信绑定
+     * @param data
+     */
+    private void bingdingWechat(final Map<String, String> data) {
+        Map map = new HashMap();
+        map.put("openIdWechat", data.get("openid"));
+        map.put("accessToken",data.get("access_token"));
+        map.put("customerId",mCustomer.id);
+        fromNetwork.bingdingWechat(map)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(SettingActivity.this,true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        mCustomer.openIdWechat=data.get("openid");
+                        Utils.showToast(mContext, commonReturnModel.message);
+                        binding.tvWechat.setText("已绑定");
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+    }
+
+
+    /**
+     * QQ绑定
+     * @param data
+     */
+    private void bingdingQQ(final Map<String, String> data) {
+        Map map = new HashMap();
+        map.put("openIdQQ", data.get("openid"));
+        map.put("openKey",data.get("access_token"));
+        map.put("customerId",mCustomer.id);
+        fromNetwork.bingdingQQ(map)
+                .compose(new RxActivityHelper<CommonReturnModel>().ioMain(SettingActivity.this,true))
+                .subscribe(new RxSubscribe<CommonReturnModel>(mContext, true) {
+                    @Override
+                    protected void myNext(CommonReturnModel commonReturnModel) {
+                        mCustomer.openIdQQ=data.get("openid");
+                        Utils.showToast(mContext, commonReturnModel.message);
+                        binding.tvQq.setText("已绑定");
+                    }
+
+
+                    @Override
+                    protected void myError(String message) {
+                        Utils.showToast(mContext, message);
+                    }
+                });
+
+    }
+
+
+
+
+
+
 
 
     /**
@@ -293,5 +412,58 @@ public class SettingActivity extends BaseActivity {
                     }
                 });
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxCommonBus.get().unregister(this);
+        UMShareAPI.get(this).release();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10) {
+            if (data != null) {
+                String result = data.getExtras().getString("result");
+                String[] split = result.split("-");
+                if (split.length >= 3) {
+
+                    binding.tvAddress.setText(split[0] + split[1] + split[2]);
+                }
+            }
+        } else if (requestCode == 20) {
+            if (data != null) {
+                String result = data.getExtras().getString("result");
+
+                if (!TextUtils.isEmpty(result)) {
+                    Glide.with(mContext)
+                            .load((GlobalUrl.SERVICE_URL + result))
+                            .placeholder(R.mipmap.logo)
+                            .centerCrop()
+                            .into(binding.avatarPic);
+                }
+                resultPicturePath = result;
+            }
+        }else if (requestCode == 30) {
+            if (data != null) {
+                String result = data.getExtras().getString("result");
+                if (!TextUtils.isEmpty(result)) {
+                    binding.tvPhone.setText(result);
+                    mCustomer.phone=result;
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        UMShareAPI.get(this).onSaveInstanceState(outState);
+    }
+
+
 
 }

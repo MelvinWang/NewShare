@@ -98,6 +98,16 @@ public class NetworkUtil {
         @POST("/app/customer/login-by-wechat")
         Observable<SelfInformation.CustomerBean> loginByWechat(@FieldMap Map<String, String> map);
 
+        //微信绑定
+        @FormUrlEncoded
+        @POST("/app/customer/bingding-wechat")
+        Observable<CommonReturnModel> bingdingWechat(@FieldMap Map<String, String> map);
+
+        //QQ绑定
+        @FormUrlEncoded
+        @POST("/app/customer/bingding-QQ")
+        Observable<CommonReturnModel> bingdingQQ(@FieldMap Map<String, String> map);
+
 
 
 
@@ -105,6 +115,12 @@ public class NetworkUtil {
         @FormUrlEncoded
         @POST("/app/customer/forgetPassword")
         Observable<CommonReturnModel> forgetPassword(@FieldMap Map<String, Object> map);
+
+        //通过customerId修改手机号
+        @FormUrlEncoded
+        @POST("/app/customer/updatePhone")
+        Observable<CommonReturnModel> updatePhone(@FieldMap Map<String, Object> map);
+
 
         //获取个人基本信息
         @GET("/app/customer/findCustomerById")

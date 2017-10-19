@@ -18,6 +18,8 @@ public class Customer{
     public String sex;
     public String birthday;
     public String domicile;
+    public String openIdQQ;
+    public String openIdWechat;
 
     @Override
     public String toString() {
@@ -32,6 +34,8 @@ public class Customer{
                 ", sex='" + sex + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", domicile='" + domicile + '\'' +
+                ", openIdQQ='" + openIdQQ + '\'' +
+                ", openIdWechat='" + openIdWechat + '\'' +
                 '}';
     }
 }

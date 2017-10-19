@@ -242,6 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_rectangle_normal"
+            android:onClick="amendPhone"
             android:padding="12dp">
 
             <TextView
@@ -259,13 +260,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/self_center_back"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:id="@+id/tv_phone"
                 android:text="@={model.phone}" />
         </RelativeLayout>
 
@@ -295,6 +298,77 @@
                 android:src="@mipmap/self_center_back" />
         </RelativeLayout>
 
+
+        <TextView
+            style="@style/CommonLine"
+            android:layout_marginTop="0dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rectangle_normal"
+            android:onClick="amendQQ"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="QQ"
+                android:textSize="18sp" />
+
+
+            <ImageView
+                android:id="@+id/qq_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/self_center_back" />
+
+            <TextView
+                android:id="@+id/tv_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/qq_back"
+                 />
+        </RelativeLayout>
+        <TextView
+            style="@style/CommonLine"
+            android:layout_marginTop="0dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rectangle_normal"
+            android:onClick="amendWechat"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="微信"
+                android:textSize="18sp" />
+
+
+            <ImageView
+                android:id="@+id/wechat_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/self_center_back" />
+
+            <TextView
+                android:id="@+id/tv_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/wechat_back"
+                />
+        </RelativeLayout>
         <TextView
             style="@style/CommonLine"
             android:layout_marginTop="0dp" />
