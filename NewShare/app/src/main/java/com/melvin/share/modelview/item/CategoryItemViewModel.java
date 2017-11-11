@@ -3,6 +3,7 @@ package com.melvin.share.modelview.item;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.melvin.share.Utils.LogUtils;
@@ -47,6 +48,9 @@ public class CategoryItemViewModel extends BaseObservable {
     }
 
     public String getName() {
+        if ((!TextUtils.isEmpty(bean.name))&& bean.name.length()>7){
+            return bean.name.substring(0,6)+"...";
+        }
         return bean.name;
     }
 

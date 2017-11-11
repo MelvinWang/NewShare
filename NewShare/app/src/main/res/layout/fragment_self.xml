@@ -20,8 +20,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/self_center_bg">
+                android:layout_height="200dp"
+                android:background="@color/title_red">
 
                 <ImageButton
                     android:id="@+id/message"

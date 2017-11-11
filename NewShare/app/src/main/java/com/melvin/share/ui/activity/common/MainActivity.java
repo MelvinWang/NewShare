@@ -54,9 +54,9 @@ public class MainActivity extends BaseActivity {
     /**
      * 沉浸式状态栏
      */
-    protected void initWindow() {
-        StatusBarUtils.setColor(this, getResources().getColor(R.color.gray_light));
-    }
+//    protected void initWindow() {
+//        StatusBarUtils.setColor(this, getResources().getColor(R.color.gray_light));
+//    }
 
 
     //1代表微信  2代表朋友圈  3代表QQ ，4代表空间

@@ -4,10 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <!--沉浸式-->
-    <color name="status_bar">#ffffff</color>
+    <color name="status_bar">#E6566D</color>
     <color name="navpage">#FFE1E8EB</color>
     <!--主题颜色-->
     <color name="app_common_red">#ee2a3e</color>
+    <color name="title_red">#E6566D</color>
 
     <!--编辑框背景-->
     <color name="DCDCE6">#DCDCE6</color>

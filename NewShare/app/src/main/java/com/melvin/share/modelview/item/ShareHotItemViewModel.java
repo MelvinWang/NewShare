@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.melvin.share.Utils.LogUtils;
@@ -49,7 +50,9 @@ public class ShareHotItemViewModel extends BaseObservable {
     }
 
     public String getName() {
-
+        if ((!TextUtils.isEmpty(model.productName))&& model.productName.length()>11){
+            return model.productName.substring(0,10)+"...";
+        }
         return model.productName;
     }
 

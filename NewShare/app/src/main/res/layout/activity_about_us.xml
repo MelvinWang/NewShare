@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="V1.0" />
+                android:text="V1.5" />
         </RelativeLayout>
 
         <TextView
@@ -110,6 +110,7 @@
         </RelativeLayout>
 
         <Button
+            android:visibility="gone"
             android:id="@+id/login"
             style="@style/CircularBtnStyle"
             android:layout_marginLeft="15dp"

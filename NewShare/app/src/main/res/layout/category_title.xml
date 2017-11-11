@@ -17,18 +17,19 @@
             app:auto_play="true"
             app:canLoop="true"
             app:durtion="3000"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:horizontal_transitionEffect="defaultEffect"
             app:indicator_position="bottom_mid"
             app:indicator_select="@drawable/page_indicator_select"
             app:indicator_unselect="@drawable/page_indicator_unselect"
             app:isVertical="false"
             app:scroll_duration="200" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:src="@mipmap/banner"
-            android:layout_height="180dp" />
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@mipmap/banner"
+            android:layout_height="180dp"></RelativeLayout>
         <RelativeLayout
             android:layout_width="350dp"
             android:layout_height="wrap_content"
@@ -38,8 +39,8 @@
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:src="@mipmap/cicrle_back" />
 
             <RelativeLayout
@@ -47,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_toRightOf="@id/back"
                 android:background="@drawable/edit_redline_background"
                 android:padding="8dp">
@@ -56,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableLeft="@mipmap/search"
-                    android:drawablePadding="10dp"
+
                     android:hint="关键字" />
             </RelativeLayout>
         </RelativeLayout>
